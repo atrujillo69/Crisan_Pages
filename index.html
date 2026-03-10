@@ -1,1094 +1,2391 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<title>Pediatría · MR1</title>
-<style>
-/* ── Reset & Base ── */
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-html,body{height:100%;font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Helvetica,Arial,sans-serif;color:#1d1d1f;overflow-x:hidden;}
-body{background:#0a1628;min-height:100vh;padding-bottom:env(safe-area-inset-bottom);}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Pediatría · MR1</title>
+  <style>
+    /* ── Reset & Base ── */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-/* ── CSS Variables ── */
-:root{
-  --c-blue:0,122,255;    --c-purple:88,86,214;
-  --c-green:52,199,89;   --c-red:255,59,48;
-  --c-orange:255,149,0;  --c-teal:0,198,255;
-  --c-white:255,255,255;
-  --glass-bg:rgba(var(--c-white),0.06);
-  --glass-border:1px solid rgba(var(--c-white),0.1);
-  --dark-panel:rgba(10,22,40,0.96);
-  --label-style:font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:rgba(var(--c-white),0.35);
-  --pill-base:border-radius:50px;border:none;cursor:pointer;font-weight:700;
-}
+    html,
+    body {
+      height: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica, Arial, sans-serif;
+      color: #1d1d1f;
+      overflow-x: hidden;
+    }
 
-/* ── Utility classes ── */
-.flex{display:flex;}
-.flex-col{display:flex;flex-direction:column;}
-.flex-center{display:flex;align-items:center;justify-content:center;}
-.flex-col-center{display:flex;flex-direction:column;align-items:center;}
-.w-full{width:100%;}
-.text-white{color:#fff;}
-.fw7{font-weight:700;}
-.fw8{font-weight:800;}
-/* Shared label style */
-.lbl{font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:rgba(var(--c-white),0.35);}
-/* Shared info box */
-.info-box{background:rgba(var(--c-white),0.05);border:1px solid rgba(var(--c-white),0.09);border-radius:14px;padding:11px 14px;font-size:0.79rem;color:rgba(var(--c-white),0.5);line-height:1.5;}
-.info-box strong{color:rgba(var(--c-white),0.75);}
-/* Shared pill reset button */
-.pill-reset{padding:13px;border-radius:50px;border:1px solid rgba(var(--c-white),0.12);background:rgba(var(--c-white),0.08);color:rgba(var(--c-white),0.65);font-size:0.9rem;font-weight:700;cursor:pointer;width:100%;}
-/* Shared section label */
-.sec-lbl{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:rgba(var(--c-white),0.3);width:100%;margin-bottom:9px;}
+    body {
+      background: #0a1628;
+      min-height: 100vh;
+      padding-bottom: env(safe-area-inset-bottom);
+    }
 
-/* ══════════════════════════════════════
+    /* ── CSS Variables ── */
+    :root {
+      --c-blue: 0, 122, 255;
+      --c-purple: 88, 86, 214;
+      --c-green: 52, 199, 89;
+      --c-red: 255, 59, 48;
+      --c-orange: 255, 149, 0;
+      --c-teal: 0, 198, 255;
+      --c-white: 255, 255, 255;
+      --glass-bg: rgba(var(--c-white), 0.06);
+      --glass-border: 1px solid rgba(var(--c-white), 0.1);
+      --dark-panel: rgba(10, 22, 40, 0.96);
+      --label-style: font-size:0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(var(--c-white), 0.35);
+      --pill-base: border-radius:50px;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    /* ── Utility classes ── */
+    .flex {
+      display: flex;
+    }
+
+    .flex-col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .flex-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .flex-col-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .w-full {
+      width: 100%;
+    }
+
+    .text-white {
+      color: #fff;
+    }
+
+    .fw7 {
+      font-weight: 700;
+    }
+
+    .fw8 {
+      font-weight: 800;
+    }
+
+    /* Shared label style */
+    .lbl {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(var(--c-white), 0.35);
+    }
+
+    /* Shared info box */
+    .info-box {
+      background: rgba(var(--c-white), 0.05);
+      border: 1px solid rgba(var(--c-white), 0.09);
+      border-radius: 14px;
+      padding: 11px 14px;
+      font-size: 0.79rem;
+      color: rgba(var(--c-white), 0.5);
+      line-height: 1.5;
+    }
+
+    .info-box strong {
+      color: rgba(var(--c-white), 0.75);
+    }
+
+    /* Shared pill reset button */
+    .pill-reset {
+      padding: 13px;
+      border-radius: 50px;
+      border: 1px solid rgba(var(--c-white), 0.12);
+      background: rgba(var(--c-white), 0.08);
+      color: rgba(var(--c-white), 0.65);
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    /* Shared section label */
+    .sec-lbl {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: rgba(var(--c-white), 0.3);
+      width: 100%;
+      margin-bottom: 9px;
+    }
+
+    /* ══════════════════════════════════════
    MENÚ PRINCIPAL
 ══════════════════════════════════════ */
-#screen-menu{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  min-height:100vh;padding:40px 24px;
-  padding-top:calc(50px + env(safe-area-inset-top));
-  background:linear-gradient(160deg,#0d2137 0%,#0a1628 50%,#111827 100%);
-  position:relative;overflow:hidden;
-}
-#screen-menu::before{
-  content:'';position:absolute;width:420px;height:420px;border-radius:50%;
-  background:radial-gradient(circle,rgba(var(--c-blue),0.15),transparent 70%);
-  top:-100px;right:-100px;pointer-events:none;
-}
-#screen-menu::after{
-  content:'';position:absolute;width:320px;height:320px;border-radius:50%;
-  background:radial-gradient(circle,rgba(var(--c-green),0.1),transparent 70%);
-  bottom:20px;left:-80px;pointer-events:none;
-}
+    #screen-menu {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px 24px;
+      padding-top: calc(50px + env(safe-area-inset-top));
+      background: linear-gradient(160deg, #0d2137 0%, #0a1628 50%, #111827 100%);
+      position: relative;
+      overflow: hidden;
+    }
 
-.menu-badge{font-size:0.7rem;font-weight:700;letter-spacing:3px;text-transform:uppercase;color:rgba(var(--c-white),0.35);margin-bottom:10px;}
-.menu-title{font-size:2rem;font-weight:800;color:#fff;text-align:center;line-height:1.2;margin-bottom:5px;}
-.menu-sub{font-size:0.88rem;color:rgba(var(--c-white),0.4);text-align:center;margin-bottom:10px;}
+    #screen-menu::before {
+      content: '';
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(var(--c-blue), 0.15), transparent 70%);
+      top: -100px;
+      right: -100px;
+      pointer-events: none;
+    }
 
-.menu-tabs{
-  display:flex;gap:8px;margin-bottom:22px;
-  background:rgba(var(--c-white),0.06);border:var(--glass-border);
-  border-radius:50px;padding:4px;position:relative;z-index:1;
-}
-.menu-tab{
-  padding:7px 18px;border-radius:50px;border:none;
-  font-size:0.78rem;font-weight:700;cursor:pointer;
-  background:none;color:rgba(var(--c-white),0.4);transition:all 0.2s;
-}
-.menu-tab.active{background:rgba(var(--c-white),0.12);color:#fff;}
+    #screen-menu::after {
+      content: '';
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(var(--c-green), 0.1), transparent 70%);
+      bottom: 20px;
+      left: -80px;
+      pointer-events: none;
+    }
 
-.menu-panel{display:none;width:100%;max-width:380px;position:relative;z-index:1;}
-.menu-panel.active{display:flex;flex-direction:column;gap:12px;}
+    .menu-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: rgba(var(--c-white), 0.35);
+      margin-bottom: 10px;
+    }
 
-.menu-block-label{font-size:0.65rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:rgba(var(--c-white),0.25);padding:0 4px;margin-top:4px;}
+    .menu-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #fff;
+      text-align: center;
+      line-height: 1.2;
+      margin-bottom: 5px;
+    }
 
-.menu-card{
-  display:flex;align-items:center;gap:16px;
-  padding:18px 20px;border-radius:20px;border:var(--glass-border);
-  cursor:pointer;transition:transform 0.15s;text-align:left;width:100%;background:none;
-}
-.menu-card:active{transform:scale(0.97);}
+    .menu-sub {
+      font-size: 0.88rem;
+      color: rgba(var(--c-white), 0.4);
+      text-align: center;
+      margin-bottom: 10px;
+    }
 
-/* 3 color variants instead of 7 identical pairs */
-.mc-blue  {background:linear-gradient(135deg,rgba(var(--c-blue),0.22),rgba(var(--c-teal),0.08));}
-.mc-purple{background:linear-gradient(135deg,rgba(var(--c-purple),0.22),rgba(175,82,222,0.08));}
-.mc-green {background:linear-gradient(135deg,rgba(var(--c-green),0.22),rgba(90,200,250,0.08));}
-.mc-red   {background:linear-gradient(135deg,rgba(var(--c-red),0.22),rgba(var(--c-orange),0.08));}
+    .menu-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 22px;
+      background: rgba(var(--c-white), 0.06);
+      border: var(--glass-border);
+      border-radius: 50px;
+      padding: 4px;
+      position: relative;
+      z-index: 1;
+    }
 
-.mc-icon{
-  font-size:2rem;flex-shrink:0;width:50px;height:50px;
-  display:flex;align-items:center;justify-content:center;border-radius:14px;
-}
-.mc-blue   .mc-icon{background:rgba(var(--c-blue),0.2);}
-.mc-purple .mc-icon{background:rgba(var(--c-purple),0.2);}
-.mc-green  .mc-icon{background:rgba(var(--c-green),0.2);}
-.mc-red    .mc-icon{background:rgba(var(--c-red),0.2);}
+    .menu-tab {
+      padding: 7px 18px;
+      border-radius: 50px;
+      border: none;
+      font-size: 0.78rem;
+      font-weight: 700;
+      cursor: pointer;
+      background: none;
+      color: rgba(var(--c-white), 0.4);
+      transition: all 0.2s;
+    }
 
-.mc-info{flex:1;}
-.mc-name{font-size:1rem;font-weight:700;color:#fff;margin-bottom:2px;}
-.mc-desc{font-size:0.75rem;color:rgba(var(--c-white),0.4);line-height:1.3;}
-.mc-arrow{color:rgba(var(--c-white),0.22);font-size:1.2rem;}
+    .menu-tab.active {
+      background: rgba(var(--c-white), 0.12);
+      color: #fff;
+    }
 
-.menu-score{
-  margin-top:22px;display:flex;align-items:center;gap:10px;
-  background:rgba(var(--c-white),0.06);border:var(--glass-border);
-  border-radius:50px;padding:9px 22px;position:relative;z-index:1;
-}
-.menu-score-label{font-size:0.7rem;color:rgba(var(--c-white),0.35);font-weight:600;letter-spacing:1px;text-transform:uppercase;}
-.menu-score-val{font-size:1.05rem;font-weight:800;color:#ffd60a;}
-.menu-footer{margin-top:16px;font-size:0.7rem;color:rgba(var(--c-white),0.18);text-align:center;position:relative;z-index:1;}
+    .menu-panel {
+      display: none;
+      width: 100%;
+      max-width: 380px;
+      position: relative;
+      z-index: 1;
+    }
 
-/* ══════════════════════════════════════
+    .menu-panel.active {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .menu-block-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: rgba(var(--c-white), 0.25);
+      padding: 0 4px;
+      margin-top: 4px;
+    }
+
+    .menu-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 20px;
+      border-radius: 20px;
+      border: var(--glass-border);
+      cursor: pointer;
+      transition: transform 0.15s;
+      text-align: left;
+      width: 100%;
+      background: none;
+    }
+
+    .menu-card:active {
+      transform: scale(0.97);
+    }
+
+    /* 3 color variants instead of 7 identical pairs */
+    .mc-blue {
+      background: linear-gradient(135deg, rgba(var(--c-blue), 0.22), rgba(var(--c-teal), 0.08));
+    }
+
+    .mc-purple {
+      background: linear-gradient(135deg, rgba(var(--c-purple), 0.22), rgba(175, 82, 222, 0.08));
+    }
+
+    .mc-green {
+      background: linear-gradient(135deg, rgba(var(--c-green), 0.22), rgba(90, 200, 250, 0.08));
+    }
+
+    .mc-red {
+      background: linear-gradient(135deg, rgba(var(--c-red), 0.22), rgba(var(--c-orange), 0.08));
+    }
+
+    .mc-icon {
+      font-size: 2rem;
+      flex-shrink: 0;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+    }
+
+    .mc-blue .mc-icon {
+      background: rgba(var(--c-blue), 0.2);
+    }
+
+    .mc-purple .mc-icon {
+      background: rgba(var(--c-purple), 0.2);
+    }
+
+    .mc-green .mc-icon {
+      background: rgba(var(--c-green), 0.2);
+    }
+
+    .mc-red .mc-icon {
+      background: rgba(var(--c-red), 0.2);
+    }
+
+    .mc-info {
+      flex: 1;
+    }
+
+    .mc-name {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+
+    .mc-desc {
+      font-size: 0.75rem;
+      color: rgba(var(--c-white), 0.4);
+      line-height: 1.3;
+    }
+
+    .mc-arrow {
+      color: rgba(var(--c-white), 0.22);
+      font-size: 1.2rem;
+    }
+
+    .menu-score {
+      margin-top: 22px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(var(--c-white), 0.06);
+      border: var(--glass-border);
+      border-radius: 50px;
+      padding: 9px 22px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .menu-score-label {
+      font-size: 0.7rem;
+      color: rgba(var(--c-white), 0.35);
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .menu-score-val {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: #ffd60a;
+    }
+
+    .menu-footer {
+      margin-top: 16px;
+      font-size: 0.7rem;
+      color: rgba(var(--c-white), 0.18);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ══════════════════════════════════════
    PANTALLAS GENÉRICAS
 ══════════════════════════════════════ */
-.screen{display:none;flex-direction:column;min-height:100vh;}
-.screen.active{display:flex;}
+    .screen {
+      display: none;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-.topbar{
-  display:flex;align-items:center;gap:12px;
-  padding:14px 20px;padding-top:calc(14px + env(safe-area-inset-top));
-  background:var(--dark-panel);border-bottom:1px solid rgba(var(--c-white),0.07);
-  position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);
-}
-.back-btn{
-  background:rgba(var(--c-white),0.08);border:none;color:#fff;
-  width:36px;height:36px;border-radius:50%;font-size:1.1rem;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-.topbar-title{font-size:1rem;font-weight:700;color:#fff;flex:1;}
-.topbar-badge{font-size:0.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:20px;color:#fff;}
-.badge-blue  {background:rgba(var(--c-blue),0.4);}
-.badge-purple{background:rgba(var(--c-purple),0.4);}
-.badge-green {background:rgba(var(--c-green),0.4);}
-.badge-red   {background:rgba(var(--c-red),0.4);}
+    .screen.active {
+      display: flex;
+    }
 
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-.screen.active > *{animation:fadeUp 0.3s ease both;}
+    .topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 20px;
+      padding-top: calc(14px + env(safe-area-inset-top));
+      background: var(--dark-panel);
+      border-bottom: 1px solid rgba(var(--c-white), 0.07);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+    }
 
-/* ══════════════════════════════════════
+    .back-btn {
+      background: rgba(var(--c-white), 0.08);
+      border: none;
+      color: #fff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .topbar-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      flex: 1;
+    }
+
+    .topbar-badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 20px;
+      color: #fff;
+    }
+
+    .badge-blue {
+      background: rgba(var(--c-blue), 0.4);
+    }
+
+    .badge-purple {
+      background: rgba(var(--c-purple), 0.4);
+    }
+
+    .badge-green {
+      background: rgba(var(--c-green), 0.4);
+    }
+
+    .badge-red {
+      background: rgba(var(--c-red), 0.4);
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .screen.active>* {
+      animation: fadeUp 0.3s ease both;
+    }
+
+    /* ══════════════════════════════════════
    MÓDULO 1: FLASHCARDS
 ══════════════════════════════════════ */
-#screen-flash{background:linear-gradient(160deg,#0d2137,#0a1628 60%,#111827);}
-.flash-body{flex:1;display:flex;flex-direction:column;align-items:center;padding:28px 20px 32px;}
+    #screen-flash {
+      background: linear-gradient(160deg, #0d2137, #0a1628 60%, #111827);
+    }
 
-.flash-card{
-  width:100%;max-width:360px;min-height:380px;border-radius:30px;
-  border:var(--glass-border);display:flex;flex-direction:column;
-  justify-content:center;align-items:center;padding:40px 28px;text-align:center;
-  cursor:pointer;background:var(--glass-bg);box-shadow:0 20px 60px rgba(0,0,0,0.4);
-  position:relative;overflow:hidden;-webkit-user-select:none;user-select:none;
-}
-.flash-card::before{
-  content:'';position:absolute;top:0;left:10%;width:80%;height:50%;
-  background:linear-gradient(to bottom,rgba(var(--c-white),0.07),transparent);
-  border-radius:0 0 50px 50px;pointer-events:none;
-}
-.flash-card.ans{background:rgba(var(--c-white),0.95);}
-.flash-card.ans .fc-label{color:#007AFF;}
-.flash-card.ans .fc-text{color:#1d1d1f;font-weight:500;font-size:1.05rem;}
-.flash-card.ans .fc-hint{color:rgba(0,0,0,0.3);}
-.fc-label{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:2.5px;color:#5ac8fa;margin-bottom:16px;}
-.fc-text{font-size:1.15rem;font-weight:700;color:#fff;line-height:1.45;}
-.fc-hint{margin-top:24px;font-size:0.75rem;color:rgba(var(--c-white),0.25);}
+    .flash-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 28px 20px 32px;
+    }
 
-.flash-controls{display:flex;align-items:center;gap:12px;margin-top:24px;width:100%;max-width:360px;}
-.flash-btn{flex:1;padding:15px 10px;border-radius:50px;border:var(--glass-border);background:rgba(var(--c-white),0.08);color:#007AFF;font-size:1rem;font-weight:700;cursor:pointer;}
-.flash-btn:active{background:rgba(var(--c-white),0.18);}
-.flash-prog{color:rgba(var(--c-white),0.5);font-weight:600;font-size:0.9rem;min-width:52px;text-align:center;flex-shrink:0;}
+    .flash-card {
+      width: 100%;
+      max-width: 360px;
+      min-height: 380px;
+      border-radius: 30px;
+      border: var(--glass-border);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 28px;
+      text-align: center;
+      cursor: pointer;
+      background: var(--glass-bg);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+      -webkit-user-select: none;
+      user-select: none;
+    }
 
-/* ══════════════════════════════════════
+    .flash-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      width: 80%;
+      height: 50%;
+      background: linear-gradient(to bottom, rgba(var(--c-white), 0.07), transparent);
+      border-radius: 0 0 50px 50px;
+      pointer-events: none;
+    }
+
+    .flash-card.ans {
+      background: rgba(var(--c-white), 0.95);
+    }
+
+    .flash-card.ans .fc-label {
+      color: #007AFF;
+    }
+
+    .flash-card.ans .fc-text {
+      color: #1d1d1f;
+      font-weight: 500;
+      font-size: 1.05rem;
+    }
+
+    .flash-card.ans .fc-hint {
+      color: rgba(0, 0, 0, 0.3);
+    }
+
+    .fc-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: #5ac8fa;
+      margin-bottom: 16px;
+    }
+
+    .fc-text {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.45;
+    }
+
+    .fc-hint {
+      margin-top: 24px;
+      font-size: 0.75rem;
+      color: rgba(var(--c-white), 0.25);
+    }
+
+    .flash-controls {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 24px;
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .flash-btn {
+      flex: 1;
+      padding: 15px 10px;
+      border-radius: 50px;
+      border: var(--glass-border);
+      background: rgba(var(--c-white), 0.08);
+      color: #007AFF;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .flash-btn:active {
+      background: rgba(var(--c-white), 0.18);
+    }
+
+    .flash-prog {
+      color: rgba(var(--c-white), 0.5);
+      font-weight: 600;
+      font-size: 0.9rem;
+      min-width: 52px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════════
    MÓDULO 2: SIMULADOR
 ══════════════════════════════════════ */
-#screen-sim{background:#f0f2f5;}
-.topbar-light{background:rgba(240,242,245,0.96) !important;border-bottom-color:#d1d1d6 !important;}
-.topbar-light .back-btn{background:rgba(0,0,0,0.07);color:#1d1d1f;}
-.topbar-light .topbar-title{color:#1d1d1f;}
+    #screen-sim {
+      background: #f0f2f5;
+    }
 
-.sim-body{flex:1;padding:20px;max-width:500px;margin:0 auto;width:100%;}
-.sim-panel{background:linear-gradient(135deg,#007AFF,#00C6FF);padding:26px;border-radius:28px;color:#fff;box-shadow:0 10px 30px rgba(var(--c-blue),0.3);margin-bottom:20px;}
-.sim-age-label{font-weight:600;opacity:0.85;font-size:0.9rem;}
-.sim-age-val{font-size:2.4rem;font-weight:800;margin:4px 0;}
-.sim-slider{width:100%;accent-color:#fff;margin:12px 0;}
-.sim-period{font-size:0.82rem;opacity:0.75;}
-.sim-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:16px;}
-.sim-card{background:#fff;padding:14px;border-radius:18px;border:1px solid #e5e5ea;}
-.sim-card h4{margin:0 0 6px;font-size:0.7rem;text-transform:uppercase;letter-spacing:0.5px;}
-.sim-card p{margin:0;font-size:0.84rem;line-height:1.35;color:#3a3a3c;}
-.sc-motor{border-top:4px solid #007AFF;}
-.sc-cog  {border-top:4px solid #5856D6;}
-.sc-lang {border-top:4px solid #FF9500;}
-.sc-soc  {border-top:4px solid #34C759;}
-.sim-stats{background:#fff;padding:16px;border-radius:20px;box-shadow:0 2px 10px rgba(0,0,0,0.05);}
-.stat-row{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #f2f2f7;font-size:0.88rem;}
-.stat-row:last-child{border-bottom:none;}
+    .topbar-light {
+      background: rgba(240, 242, 245, 0.96) !important;
+      border-bottom-color: #d1d1d6 !important;
+    }
 
-/* ══════════════════════════════════════
+    .topbar-light .back-btn {
+      background: rgba(0, 0, 0, 0.07);
+      color: #1d1d1f;
+    }
+
+    .topbar-light .topbar-title {
+      color: #1d1d1f;
+    }
+
+    .sim-body {
+      flex: 1;
+      padding: 20px;
+      max-width: 500px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .sim-panel {
+      background: linear-gradient(135deg, #007AFF, #00C6FF);
+      padding: 26px;
+      border-radius: 28px;
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(var(--c-blue), 0.3);
+      margin-bottom: 20px;
+    }
+
+    .sim-age-label {
+      font-weight: 600;
+      opacity: 0.85;
+      font-size: 0.9rem;
+    }
+
+    .sim-age-val {
+      font-size: 2.4rem;
+      font-weight: 800;
+      margin: 4px 0;
+    }
+
+    .sim-slider {
+      width: 100%;
+      accent-color: #fff;
+      margin: 12px 0;
+    }
+
+    .sim-period {
+      font-size: 0.82rem;
+      opacity: 0.75;
+    }
+
+    .sim-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 11px;
+      margin-bottom: 16px;
+    }
+
+    .sim-card {
+      background: #fff;
+      padding: 14px;
+      border-radius: 18px;
+      border: 1px solid #e5e5ea;
+    }
+
+    .sim-card h4 {
+      margin: 0 0 6px;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .sim-card p {
+      margin: 0;
+      font-size: 0.84rem;
+      line-height: 1.35;
+      color: #3a3a3c;
+    }
+
+    .sc-motor {
+      border-top: 4px solid #007AFF;
+    }
+
+    .sc-cog {
+      border-top: 4px solid #5856D6;
+    }
+
+    .sc-lang {
+      border-top: 4px solid #FF9500;
+    }
+
+    .sc-soc {
+      border-top: 4px solid #34C759;
+    }
+
+    .sim-stats {
+      background: #fff;
+      padding: 16px;
+      border-radius: 20px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 9px 0;
+      border-bottom: 1px solid #f2f2f7;
+      font-size: 0.88rem;
+    }
+
+    .stat-row:last-child {
+      border-bottom: none;
+    }
+
+    /* ══════════════════════════════════════
    MÓDULO 3: CONSULTA RÁPIDA
 ══════════════════════════════════════ */
-#screen-game{background:linear-gradient(160deg,#0b2e1a,#082714 50%,#071c1a);}
-.game-body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 20px;}
-.game-score-bar{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:360px;margin-bottom:20px;}
-.game-score-label{font-size:0.75rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(var(--c-white),0.35);}
-.game-score-val{font-size:1.6rem;font-weight:800;color:#34C759;}
-.game-card{
-  width:100%;max-width:360px;background:rgba(var(--c-white),0.95);
-  border-radius:28px;padding:28px 24px;box-shadow:0 20px 60px rgba(0,0,0,0.4);
-  text-align:center;margin-bottom:20px;min-height:200px;
-  display:flex;flex-direction:column;justify-content:center;
-}
-.game-age{font-size:2rem;font-weight:800;color:#007AFF;margin-bottom:12px;}
-.game-cond{font-size:1rem;line-height:1.45;color:#1d1d1f;font-weight:500;}
-.game-q{margin-top:14px;font-size:0.78rem;color:#8e8e93;}
-.game-btns{display:flex;flex-direction:column;gap:12px;width:100%;max-width:360px;}
-.gbtn{border:none;padding:16px;border-radius:16px;font-size:1rem;font-weight:700;cursor:pointer;-webkit-appearance:none;}
-.gbtn:active{opacity:0.85;transform:scale(0.97);}
-.gbtn-ok {background:#34C759;color:#fff;}
-.gbtn-bad{background:#FF3B30;color:#fff;}
-#game-feedback{position:fixed;top:0;left:0;width:100%;height:100%;display:none;align-items:center;justify-content:center;font-size:6rem;z-index:200;pointer-events:none;background:rgba(0,0,0,0.15);}
-#game-feedback.show{display:flex;}
+    #screen-game {
+      background: linear-gradient(160deg, #0b2e1a, #082714 50%, #071c1a);
+    }
 
-/* ══════════════════════════════════════
+    .game-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 20px;
+    }
+
+    .game-score-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 360px;
+      margin-bottom: 20px;
+    }
+
+    .game-score-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(var(--c-white), 0.35);
+    }
+
+    .game-score-val {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #34C759;
+    }
+
+    .game-card {
+      width: 100%;
+      max-width: 360px;
+      background: rgba(var(--c-white), 0.95);
+      border-radius: 28px;
+      padding: 28px 24px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      text-align: center;
+      margin-bottom: 20px;
+      min-height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .game-age {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #007AFF;
+      margin-bottom: 12px;
+    }
+
+    .game-cond {
+      font-size: 1rem;
+      line-height: 1.45;
+      color: #1d1d1f;
+      font-weight: 500;
+    }
+
+    .game-q {
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: #8e8e93;
+    }
+
+    .game-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .gbtn {
+      border: none;
+      padding: 16px;
+      border-radius: 16px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      -webkit-appearance: none;
+    }
+
+    .gbtn:active {
+      opacity: 0.85;
+      transform: scale(0.97);
+    }
+
+    .gbtn-ok {
+      background: #34C759;
+      color: #fff;
+    }
+
+    .gbtn-bad {
+      background: #FF3B30;
+      color: #fff;
+    }
+
+    #game-feedback {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 6rem;
+      z-index: 200;
+      pointer-events: none;
+      background: rgba(0, 0, 0, 0.15);
+    }
+
+    #game-feedback.show {
+      display: flex;
+    }
+
+    /* ══════════════════════════════════════
    MÓDULO 4: QUIZ
 ══════════════════════════════════════ */
-#screen-quiz{background:linear-gradient(160deg,#0d2137,#0a1628 60%,#111827);}
-.quiz-body{flex:1;display:flex;flex-direction:column;align-items:center;padding:22px 20px 32px;}
-.quiz-meta{width:100%;max-width:400px;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
-.quiz-meta-label{font-size:0.65rem;text-transform:uppercase;letter-spacing:1.5px;color:rgba(var(--c-white),0.35);font-weight:600;}
-.quiz-meta-val{font-size:1.1rem;font-weight:800;color:#fff;text-align:center;}
-.quiz-progress-track{width:100%;max-width:400px;height:4px;background:rgba(var(--c-white),0.1);border-radius:2px;margin-bottom:18px;overflow:hidden;}
-.quiz-progress-fill{height:100%;background:linear-gradient(90deg,#007AFF,#5ac8fa);border-radius:2px;transition:width 0.4s ease;}
-.quiz-card{
-  width:100%;max-width:400px;border-radius:26px;border:var(--glass-border);
-  padding:26px 22px;background:var(--glass-bg);box-shadow:0 20px 60px rgba(0,0,0,0.4);
-  position:relative;overflow:hidden;margin-bottom:16px;
-}
-.quiz-card::before{
-  content:'';position:absolute;top:0;left:10%;width:80%;height:40%;
-  background:linear-gradient(to bottom,rgba(var(--c-white),0.05),transparent);
-  border-radius:0 0 40px 40px;pointer-events:none;
-}
-.quiz-q-label{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:2.5px;color:#5ac8fa;margin-bottom:10px;}
-.quiz-question{font-size:1.05rem;font-weight:700;color:#fff;line-height:1.5;}
-.quiz-options{width:100%;max-width:400px;display:flex;flex-direction:column;gap:9px;}
-.quiz-opt{
-  width:100%;padding:13px 16px;border-radius:13px;
-  background:rgba(var(--c-white),0.07);border:var(--glass-border);
-  color:#fff;font-size:0.9rem;font-weight:500;text-align:left;cursor:pointer;
-  transition:background 0.15s;-webkit-appearance:none;
-}
-.quiz-opt:active{background:rgba(var(--c-white),0.15);}
-.quiz-opt.correct{background:rgba(var(--c-green),0.28);border-color:#34C759;color:#a8ffb8;}
-.quiz-opt.wrong  {background:rgba(var(--c-red),0.28);border-color:#FF3B30;color:#ffb3af;}
-.quiz-opt:disabled{cursor:default;}
-/* Shared feedback style */
-.feedback{width:100%;max-width:400px;padding:13px 16px;border-radius:13px;margin-top:10px;font-size:0.84rem;line-height:1.45;font-weight:500;display:none;}
-.feedback.show{display:block;}
-.feedback.ok {background:rgba(var(--c-green),0.14);border:1px solid rgba(var(--c-green),0.3);color:#a8ffb8;}
-.feedback.err{background:rgba(var(--c-red),0.14);border:1px solid rgba(var(--c-red),0.3);color:#ffb3af;}
-.feedback.warn{background:rgba(var(--c-orange),0.14);border:1px solid rgba(var(--c-orange),0.3);color:#ffd080;}
-.quiz-next{
-  margin-top:16px;width:100%;max-width:400px;
-  padding:15px;border-radius:50px;border:none;
-  background:linear-gradient(90deg,#007AFF,#5ac8fa);
-  color:#fff;font-size:1rem;font-weight:700;cursor:pointer;display:none;
-}
-.quiz-next.show{display:block;}
+    #screen-quiz {
+      background: linear-gradient(160deg, #0d2137, #0a1628 60%, #111827);
+    }
 
-/* ══════════════════════════════════════
+    .quiz-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 22px 20px 32px;
+    }
+
+    .quiz-meta {
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .quiz-meta-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(var(--c-white), 0.35);
+      font-weight: 600;
+    }
+
+    .quiz-meta-val {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fff;
+      text-align: center;
+    }
+
+    .quiz-progress-track {
+      width: 100%;
+      max-width: 400px;
+      height: 4px;
+      background: rgba(var(--c-white), 0.1);
+      border-radius: 2px;
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .quiz-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #007AFF, #5ac8fa);
+      border-radius: 2px;
+      transition: width 0.4s ease;
+    }
+
+    .quiz-card {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 26px;
+      border: var(--glass-border);
+      padding: 26px 22px;
+      background: var(--glass-bg);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+
+    .quiz-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      width: 80%;
+      height: 40%;
+      background: linear-gradient(to bottom, rgba(var(--c-white), 0.05), transparent);
+      border-radius: 0 0 40px 40px;
+      pointer-events: none;
+    }
+
+    .quiz-q-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: #5ac8fa;
+      margin-bottom: 10px;
+    }
+
+    .quiz-question {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.5;
+    }
+
+    .quiz-options {
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .quiz-opt {
+      width: 100%;
+      padding: 13px 16px;
+      border-radius: 13px;
+      background: rgba(var(--c-white), 0.07);
+      border: var(--glass-border);
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.15s;
+      -webkit-appearance: none;
+    }
+
+    .quiz-opt:active {
+      background: rgba(var(--c-white), 0.15);
+    }
+
+    .quiz-opt.correct {
+      background: rgba(var(--c-green), 0.28);
+      border-color: #34C759;
+      color: #a8ffb8;
+    }
+
+    .quiz-opt.wrong {
+      background: rgba(var(--c-red), 0.28);
+      border-color: #FF3B30;
+      color: #ffb3af;
+    }
+
+    .quiz-opt:disabled {
+      cursor: default;
+    }
+
+    /* Shared feedback style */
+    .feedback {
+      width: 100%;
+      max-width: 400px;
+      padding: 13px 16px;
+      border-radius: 13px;
+      margin-top: 10px;
+      font-size: 0.84rem;
+      line-height: 1.45;
+      font-weight: 500;
+      display: none;
+    }
+
+    .feedback.show {
+      display: block;
+    }
+
+    .feedback.ok {
+      background: rgba(var(--c-green), 0.14);
+      border: 1px solid rgba(var(--c-green), 0.3);
+      color: #a8ffb8;
+    }
+
+    .feedback.err {
+      background: rgba(var(--c-red), 0.14);
+      border: 1px solid rgba(var(--c-red), 0.3);
+      color: #ffb3af;
+    }
+
+    .feedback.warn {
+      background: rgba(var(--c-orange), 0.14);
+      border: 1px solid rgba(var(--c-orange), 0.3);
+      color: #ffd080;
+    }
+
+    .quiz-next {
+      margin-top: 16px;
+      width: 100%;
+      max-width: 400px;
+      padding: 15px;
+      border-radius: 50px;
+      border: none;
+      background: linear-gradient(90deg, #007AFF, #5ac8fa);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: none;
+    }
+
+    .quiz-next.show {
+      display: block;
+    }
+
+    /* ══════════════════════════════════════
    MÓDULO 5: MEMORIA
 ══════════════════════════════════════ */
-#screen-memory{background:linear-gradient(160deg,#1a0d37,#0f0a28 60%,#111827);}
-.memory-body{flex:1;display:flex;flex-direction:column;align-items:center;padding:18px 14px 28px;}
-.memory-stats{width:100%;max-width:480px;display:flex;justify-content:space-between;margin-bottom:6px;}
-.memory-stat-label{font-size:0.62rem;text-transform:uppercase;letter-spacing:1.5px;color:rgba(var(--c-white),0.35);font-weight:600;}
-.memory-stat-val{font-size:1.1rem;font-weight:800;color:#fff;text-align:center;}
-.memory-timer{font-size:1.8rem;font-weight:800;color:#ffd60a;text-align:center;margin-bottom:14px;letter-spacing:2px;font-variant-numeric:tabular-nums;}
-.memory-board{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;width:100%;max-width:480px;margin-bottom:18px;}
-.mem-card{aspect-ratio:1;border-radius:13px;cursor:pointer;position:relative;transform-style:preserve-3d;transition:transform 0.5s;-webkit-user-select:none;user-select:none;}
-.mem-card.flipped{transform:rotateY(180deg);}
-.mem-card-front,.mem-card-back{position:absolute;width:100%;height:100%;border-radius:13px;backface-visibility:hidden;display:flex;align-items:center;justify-content:center;padding:5px;}
-.mem-card-front{background:linear-gradient(135deg,rgba(var(--c-purple),0.5),rgba(175,82,222,0.3));border:1px solid rgba(175,82,222,0.3);font-size:1.3rem;}
-.mem-card-back{transform:rotateY(180deg);background:rgba(var(--c-white),0.93);color:#1d1d1f;font-size:0.7rem;font-weight:600;text-align:center;line-height:1.3;border:2px solid rgba(var(--c-purple),0.3);}
-.mem-card.matched .mem-card-back{background:rgba(var(--c-green),0.18);border-color:#34C759;color:#a8ffb8;}
+    #screen-memory {
+      background: linear-gradient(160deg, #1a0d37, #0f0a28 60%, #111827);
+    }
 
-/* ══════════════════════════════════════
+    .memory-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 18px 14px 28px;
+    }
+
+    .memory-stats {
+      width: 100%;
+      max-width: 480px;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .memory-stat-label {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(var(--c-white), 0.35);
+      font-weight: 600;
+    }
+
+    .memory-stat-val {
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: #fff;
+      text-align: center;
+    }
+
+    .memory-timer {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #ffd60a;
+      text-align: center;
+      margin-bottom: 14px;
+      letter-spacing: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .memory-board {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 9px;
+      width: 100%;
+      max-width: 480px;
+      margin-bottom: 18px;
+    }
+
+    .mem-card {
+      aspect-ratio: 1;
+      border-radius: 13px;
+      cursor: pointer;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.5s;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .mem-card.flipped {
+      transform: rotateY(180deg);
+    }
+
+    .mem-card-front,
+    .mem-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 13px;
+      backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5px;
+    }
+
+    .mem-card-front {
+      background: linear-gradient(135deg, rgba(var(--c-purple), 0.5), rgba(175, 82, 222, 0.3));
+      border: 1px solid rgba(175, 82, 222, 0.3);
+      font-size: 1.3rem;
+    }
+
+    .mem-card-back {
+      transform: rotateY(180deg);
+      background: rgba(var(--c-white), 0.93);
+      color: #1d1d1f;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-align: center;
+      line-height: 1.3;
+      border: 2px solid rgba(var(--c-purple), 0.3);
+    }
+
+    .mem-card.matched .mem-card-back {
+      background: rgba(var(--c-green), 0.18);
+      border-color: #34C759;
+      color: #a8ffb8;
+    }
+
+    /* ══════════════════════════════════════
    MÓDULO 6: LÍNEA DE TIEMPO
 ══════════════════════════════════════ */
-#screen-timeline{background:linear-gradient(160deg,#0b2e1a,#082714 50%,#071c1a);}
-.timeline-body{flex:1;padding:18px 14px 28px;display:flex;flex-direction:column;align-items:center;}
-.tl-zones{display:grid;grid-template-columns:1fr 1fr;gap:9px;width:100%;max-width:480px;margin-bottom:16px;}
-.tl-zone{
-  border-radius:14px;padding:10px;min-height:75px;
-  border:2px dashed rgba(var(--c-white),0.13);background:rgba(var(--c-white),0.04);
-  display:flex;align-items:center;justify-content:center;
-  transition:border-color 0.2s,background 0.2s;position:relative;
-}
-.tl-zone-num{position:absolute;top:7px;left:9px;font-size:0.58rem;font-weight:700;letter-spacing:1px;color:rgba(var(--c-white),0.22);text-transform:uppercase;}
-.tl-zone.drag-over{border-color:#34C759;background:rgba(var(--c-green),0.08);}
-.tl-zone-hint{font-size:0.73rem;color:rgba(var(--c-white),0.2);}
-.tl-items{display:grid;grid-template-columns:1fr 1fr;gap:9px;width:100%;max-width:480px;margin-bottom:14px;}
-.tl-item{border-radius:13px;padding:11px 13px;background:rgba(var(--c-green),0.13);border:1px solid rgba(var(--c-green),0.22);cursor:grab;}
-.tl-item:active{cursor:grabbing;opacity:0.7;}
-.tl-item.dragging{opacity:0.4;}
-.tl-item-phase{font-size:0.82rem;font-weight:700;color:#34C759;}
-.tl-item-desc{font-size:0.7rem;color:rgba(var(--c-white),0.5);margin-top:2px;line-height:1.3;}
-.tl-placed{width:100%;border-radius:10px;padding:9px 11px;background:rgba(var(--c-green),0.13);border:1px solid rgba(var(--c-green),0.2);}
-.tl-placed-phase{font-size:0.78rem;font-weight:700;color:#34C759;}
-.tl-placed-desc{font-size:0.66rem;color:rgba(var(--c-white),0.45);margin-top:2px;}
-.tl-feedback{max-width:480px;}
-.tl-btns{display:flex;gap:10px;width:100%;max-width:480px;}
-.tl-btn{flex:1;padding:13px;border-radius:50px;border:none;font-size:0.9rem;font-weight:700;cursor:pointer;}
-.tl-btn-check{background:linear-gradient(90deg,#34C759,#30d158);color:#fff;}
-.tl-btn-reset{background:rgba(var(--c-white),0.08);border:1px solid rgba(var(--c-white),0.12);color:rgba(var(--c-white),0.65);}
+    #screen-timeline {
+      background: linear-gradient(160deg, #0b2e1a, #082714 50%, #071c1a);
+    }
 
-/* ══════════════════════════════════════
+    .timeline-body {
+      flex: 1;
+      padding: 18px 14px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .tl-zones {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      width: 100%;
+      max-width: 480px;
+      margin-bottom: 16px;
+    }
+
+    .tl-zone {
+      border-radius: 14px;
+      padding: 10px;
+      min-height: 75px;
+      border: 2px dashed rgba(var(--c-white), 0.13);
+      background: rgba(var(--c-white), 0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+
+    .tl-zone-num {
+      position: absolute;
+      top: 7px;
+      left: 9px;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: rgba(var(--c-white), 0.22);
+      text-transform: uppercase;
+    }
+
+    .tl-zone.drag-over {
+      border-color: #34C759;
+      background: rgba(var(--c-green), 0.08);
+    }
+
+    .tl-zone-hint {
+      font-size: 0.73rem;
+      color: rgba(var(--c-white), 0.2);
+    }
+
+    .tl-items {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      width: 100%;
+      max-width: 480px;
+      margin-bottom: 14px;
+    }
+
+    .tl-item {
+      border-radius: 13px;
+      padding: 11px 13px;
+      background: rgba(var(--c-green), 0.13);
+      border: 1px solid rgba(var(--c-green), 0.22);
+      cursor: grab;
+    }
+
+    .tl-item:active {
+      cursor: grabbing;
+      opacity: 0.7;
+    }
+
+    .tl-item.dragging {
+      opacity: 0.4;
+    }
+
+    .tl-item-phase {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #34C759;
+    }
+
+    .tl-item-desc {
+      font-size: 0.7rem;
+      color: rgba(var(--c-white), 0.5);
+      margin-top: 2px;
+      line-height: 1.3;
+    }
+
+    .tl-placed {
+      width: 100%;
+      border-radius: 10px;
+      padding: 9px 11px;
+      background: rgba(var(--c-green), 0.13);
+      border: 1px solid rgba(var(--c-green), 0.2);
+    }
+
+    .tl-placed-phase {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #34C759;
+    }
+
+    .tl-placed-desc {
+      font-size: 0.66rem;
+      color: rgba(var(--c-white), 0.45);
+      margin-top: 2px;
+    }
+
+    .tl-feedback {
+      max-width: 480px;
+    }
+
+    .tl-btns {
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .tl-btn {
+      flex: 1;
+      padding: 13px;
+      border-radius: 50px;
+      border: none;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .tl-btn-check {
+      background: linear-gradient(90deg, #34C759, #30d158);
+      color: #fff;
+    }
+
+    .tl-btn-reset {
+      background: rgba(var(--c-white), 0.08);
+      border: 1px solid rgba(var(--c-white), 0.12);
+      color: rgba(var(--c-white), 0.65);
+    }
+
+    /* ══════════════════════════════════════
    MÓDULO 7: RIESGOS
 ══════════════════════════════════════ */
-#screen-risk{background:linear-gradient(160deg,#2e0d0d,#1a0808 50%,#111015);}
-.risk-body{flex:1;padding:18px 14px 28px;display:flex;flex-direction:column;align-items:center;}
-.risk-feedback{max-width:520px;}
-.risk-cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;width:100%;max-width:520px;margin-bottom:16px;}
-.risk-col{border-radius:16px;padding:12px 9px;min-height:100px;border:1px solid rgba(var(--c-white),0.07);}
-.risk-col-low {background:rgba(var(--c-green),0.07);}
-.risk-col-mid {background:rgba(var(--c-orange),0.07);}
-.risk-col-high{background:rgba(var(--c-red),0.07);}
-.risk-col-title{font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;text-align:center;margin-bottom:8px;}
-.risk-col-low  .risk-col-title{color:#34C759;}
-.risk-col-mid  .risk-col-title{color:#FF9500;}
-.risk-col-high .risk-col-title{color:#FF3B30;}
-.risk-col-drop-zone{min-height:50px;display:flex;flex-direction:column;gap:5px;border-radius:9px;padding:4px;border:1.5px dashed rgba(var(--c-white),0.09);transition:border-color 0.2s,background 0.2s;}
-.risk-col-drop-zone.drag-over{border-color:#fff;background:rgba(var(--c-white),0.05);}
-.risk-placed-tag{border-radius:7px;padding:4px 7px;font-size:0.68rem;font-weight:600;text-align:center;}
-.risk-placed-low {background:rgba(var(--c-green),0.2);color:#7fff88;}
-.risk-placed-mid {background:rgba(var(--c-orange),0.2);color:#ffd080;}
-.risk-placed-high{background:rgba(var(--c-red),0.2);color:#ff8a85;}
-.risk-pool{width:100%;max-width:520px;display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:14px;}
-.risk-tag{padding:7px 13px;border-radius:50px;background:rgba(var(--c-white),0.08);border:var(--glass-border);color:#fff;font-size:0.78rem;font-weight:600;cursor:grab;transition:background 0.15s;}
-.risk-tag:active{cursor:grabbing;}
-.risk-tag.dragging{opacity:0.4;}
+    #screen-risk {
+      background: linear-gradient(160deg, #2e0d0d, #1a0808 50%, #111015);
+    }
 
-/* ══════════════════════════════════════
+    .risk-body {
+      flex: 1;
+      padding: 18px 14px 28px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .risk-feedback {
+      max-width: 520px;
+    }
+
+    .risk-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 9px;
+      width: 100%;
+      max-width: 520px;
+      margin-bottom: 16px;
+    }
+
+    .risk-col {
+      border-radius: 16px;
+      padding: 12px 9px;
+      min-height: 100px;
+      border: 1px solid rgba(var(--c-white), 0.07);
+    }
+
+    .risk-col-low {
+      background: rgba(var(--c-green), 0.07);
+    }
+
+    .risk-col-mid {
+      background: rgba(var(--c-orange), 0.07);
+    }
+
+    .risk-col-high {
+      background: rgba(var(--c-red), 0.07);
+    }
+
+    .risk-col-title {
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .risk-col-low .risk-col-title {
+      color: #34C759;
+    }
+
+    .risk-col-mid .risk-col-title {
+      color: #FF9500;
+    }
+
+    .risk-col-high .risk-col-title {
+      color: #FF3B30;
+    }
+
+    .risk-col-drop-zone {
+      min-height: 50px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      border-radius: 9px;
+      padding: 4px;
+      border: 1.5px dashed rgba(var(--c-white), 0.09);
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .risk-col-drop-zone.drag-over {
+      border-color: #fff;
+      background: rgba(var(--c-white), 0.05);
+    }
+
+    .risk-placed-tag {
+      border-radius: 7px;
+      padding: 4px 7px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .risk-placed-low {
+      background: rgba(var(--c-green), 0.2);
+      color: #7fff88;
+    }
+
+    .risk-placed-mid {
+      background: rgba(var(--c-orange), 0.2);
+      color: #ffd080;
+    }
+
+    .risk-placed-high {
+      background: rgba(var(--c-red), 0.2);
+      color: #ff8a85;
+    }
+
+    .risk-pool {
+      width: 100%;
+      max-width: 520px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .risk-tag {
+      padding: 7px 13px;
+      border-radius: 50px;
+      background: rgba(var(--c-white), 0.08);
+      border: var(--glass-border);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: grab;
+      transition: background 0.15s;
+    }
+
+    .risk-tag:active {
+      cursor: grabbing;
+    }
+
+    .risk-tag.dragging {
+      opacity: 0.4;
+    }
+
+    /* ══════════════════════════════════════
    MODAL RESULTADOS
 ══════════════════════════════════════ */
-#modal-results{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);}
-#modal-results.show{display:flex;}
-.results-box{background:#0d1f35;border:var(--glass-border);border-radius:30px;padding:34px 26px;max-width:320px;width:90%;text-align:center;animation:bounceIn 0.5s ease;}
-@keyframes bounceIn{0%{transform:scale(0.5);opacity:0;}60%{transform:scale(1.05);}100%{transform:scale(1);opacity:1;}}
-.result-emoji{font-size:3.5rem;margin-bottom:10px;}
-.result-title{font-size:1.4rem;font-weight:800;color:#fff;margin-bottom:3px;}
-.result-sub{font-size:0.82rem;color:rgba(var(--c-white),0.4);margin-bottom:20px;}
-.result-stars{font-size:1.4rem;margin-bottom:16px;letter-spacing:3px;}
-.result-stats{display:flex;gap:14px;margin-bottom:22px;}
-.result-stat{flex:1;background:rgba(var(--c-white),0.07);border-radius:14px;padding:12px 6px;}
-.result-stat-label{font-size:0.62rem;text-transform:uppercase;letter-spacing:1.5px;color:rgba(var(--c-white),0.35);font-weight:600;margin-bottom:3px;}
-.result-stat-val{font-size:1.25rem;font-weight:800;color:#fff;}
-.result-btns{display:flex;gap:9px;}
-.result-btn{flex:1;padding:13px;border-radius:50px;border:none;font-size:0.9rem;font-weight:700;cursor:pointer;}
-.result-btn-home{background:rgba(var(--c-white),0.1);color:rgba(var(--c-white),0.7);}
-.result-btn-play{background:linear-gradient(90deg,#007AFF,#5ac8fa);color:#fff;}
+    #modal-results {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+    }
 
-/* ── Logro ── */
-#achievement-notif{position:fixed;top:calc(70px + env(safe-area-inset-top));right:14px;z-index:300;background:linear-gradient(135deg,#FF9500,#FF3B30);border-radius:16px;padding:11px 16px;display:none;align-items:center;gap:9px;animation:slideInRight 0.4s ease;box-shadow:0 10px 30px rgba(var(--c-red),0.28);}
-#achievement-notif.show{display:flex;}
-@keyframes slideInRight{from{opacity:0;transform:translateX(80px);}to{opacity:1;transform:translateX(0);}}
-.achievement-name{font-size:0.78rem;font-weight:700;color:#fff;}
-.achievement-sub{font-size:0.68rem;color:rgba(255,255,255,0.8);}
+    #modal-results.show {
+      display: flex;
+    }
 
-/* ── Confetti ── */
-.cp{position:fixed;width:7px;height:7px;animation:cf 2.5s linear forwards;pointer-events:none;z-index:400;}
-@keyframes cf{0%{transform:translateY(-10vh) rotate(0deg);opacity:1;}100%{transform:translateY(110vh) rotate(720deg);opacity:0;}}
-</style>
+    .results-box {
+      background: #0d1f35;
+      border: var(--glass-border);
+      border-radius: 30px;
+      padding: 34px 26px;
+      max-width: 320px;
+      width: 90%;
+      text-align: center;
+      animation: bounceIn 0.5s ease;
+    }
+
+    @keyframes bounceIn {
+      0% {
+        transform: scale(0.5);
+        opacity: 0;
+      }
+
+      60% {
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .result-emoji {
+      font-size: 3.5rem;
+      margin-bottom: 10px;
+    }
+
+    .result-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 3px;
+    }
+
+    .result-sub {
+      font-size: 0.82rem;
+      color: rgba(var(--c-white), 0.4);
+      margin-bottom: 20px;
+    }
+
+    .result-stars {
+      font-size: 1.4rem;
+      margin-bottom: 16px;
+      letter-spacing: 3px;
+    }
+
+    .result-stats {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .result-stat {
+      flex: 1;
+      background: rgba(var(--c-white), 0.07);
+      border-radius: 14px;
+      padding: 12px 6px;
+    }
+
+    .result-stat-label {
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: rgba(var(--c-white), 0.35);
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .result-stat-val {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .result-btns {
+      display: flex;
+      gap: 9px;
+    }
+
+    .result-btn {
+      flex: 1;
+      padding: 13px;
+      border-radius: 50px;
+      border: none;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .result-btn-home {
+      background: rgba(var(--c-white), 0.1);
+      color: rgba(var(--c-white), 0.7);
+    }
+
+    .result-btn-play {
+      background: linear-gradient(90deg, #007AFF, #5ac8fa);
+      color: #fff;
+    }
+
+    /* ── Logro ── */
+    #achievement-notif {
+      position: fixed;
+      top: calc(70px + env(safe-area-inset-top));
+      right: 14px;
+      z-index: 300;
+      background: linear-gradient(135deg, #FF9500, #FF3B30);
+      border-radius: 16px;
+      padding: 11px 16px;
+      display: none;
+      align-items: center;
+      gap: 9px;
+      animation: slideInRight 0.4s ease;
+      box-shadow: 0 10px 30px rgba(var(--c-red), 0.28);
+    }
+
+    #achievement-notif.show {
+      display: flex;
+    }
+
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(80px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .achievement-name {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .achievement-sub {
+      font-size: 0.68rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* ── Confetti ── */
+    .cp {
+      position: fixed;
+      width: 7px;
+      height: 7px;
+      animation: cf 2.5s linear forwards;
+      pointer-events: none;
+      z-index: 400;
+    }
+
+    @keyframes cf {
+      0% {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- ══════════ MENÚ ══════════ -->
-<div id="screen-menu">
-  <div class="menu-badge">Medicina Familiar · MR1</div>
-  <h1 class="menu-title">Pediatría</h1>
-  <p class="menu-sub">Selecciona un módulo de estudio</p>
+  <!-- ══════════ MENÚ ══════════ -->
+  <div id="screen-menu">
+    <div class="menu-badge">Medicina Familiar · MR1</div>
+    <h1 class="menu-title">Pediatría</h1>
+    <p class="menu-sub">Selecciona un módulo de estudio</p>
 
-  <div class="menu-tabs">
-    <button class="menu-tab active" onclick="switchTab('infancia',this)">🧒 Infancia</button>
-    <button class="menu-tab" onclick="switchTab('bronquiolitis',this)">🫁 Bronquiolitis</button>
+    <div class="menu-tabs">
+      <button class="menu-tab active" onclick="switchTab('infancia',this)">🧒 Infancia</button>
+      <button class="menu-tab" onclick="switchTab('bronquiolitis',this)">🫁 Bronquiolitis</button>
+    </div>
+
+    <div class="menu-panel active" id="panel-infancia">
+      <div class="menu-block-label">Desarrollo Infantil · 0–12 años</div>
+      <button class="menu-card mc-blue" onclick="go('flash')">
+        <div class="mc-icon">🃏</div>
+        <div class="mc-info">
+          <div class="mc-name">Flashcards</div>
+          <div class="mc-desc">50 tarjetas · Repaso de conceptos clave</div>
+        </div>
+        <div class="mc-arrow">›</div>
+      </button>
+      <button class="menu-card mc-purple" onclick="go('sim')">
+        <div class="mc-icon">📊</div>
+        <div class="mc-info">
+          <div class="mc-name">Simulador de Desarrollo</div>
+          <div class="mc-desc">Cronología interactiva 0–24 meses</div>
+        </div>
+        <div class="mc-arrow">›</div>
+      </button>
+      <button class="menu-card mc-green" onclick="go('game')">
+        <div class="mc-icon">🏥</div>
+        <div class="mc-info">
+          <div class="mc-name">Consulta Rápida</div>
+          <div class="mc-desc">Juego clínico · ¿Normal o alerta roja?</div>
+        </div>
+        <div class="mc-arrow">›</div>
+      </button>
+    </div>
+
+    <div class="menu-panel" id="panel-bronquiolitis">
+      <div class="menu-block-label">Bronquiolitis · Guías AAP · SEUP 2024</div>
+      <button class="menu-card mc-blue" onclick="go('quiz')">
+        <div class="mc-icon">❓</div>
+        <div class="mc-info">
+          <div class="mc-name">Quiz Médico</div>
+          <div class="mc-desc">10 preguntas · Diagnóstico y tratamiento</div>
+        </div>
+        <div class="mc-arrow">›</div>
+      </button>
+      <button class="menu-card mc-purple" onclick="go('memory')">
+        <div class="mc-icon">🧠</div>
+        <div class="mc-info">
+          <div class="mc-name">Memoria de Síntomas</div>
+          <div class="mc-desc">16 cartas · Empareja síntoma con descripción</div>
+        </div>
+        <div class="mc-arrow">›</div>
+      </button>
+      <button class="menu-card mc-green" onclick="go('timeline')">
+        <div class="mc-icon">📅</div>
+        <div class="mc-info">
+          <div class="mc-name">Línea de Tiempo Clínica</div>
+          <div class="mc-desc">Ordena las fases del curso clínico</div>
+        </div>
+        <div class="mc-arrow">›</div>
+      </button>
+      <button class="menu-card mc-red" onclick="go('risk')">
+        <div class="mc-icon">⚠️</div>
+        <div class="mc-info">
+          <div class="mc-name">Clasifica Riesgos</div>
+          <div class="mc-desc">12 factores · Bajo, medio y alto riesgo</div>
+        </div>
+        <div class="mc-arrow">›</div>
+      </button>
+    </div>
+
+    <div class="menu-score">
+      <div class="menu-score-label">Puntos</div>
+      <div class="menu-score-val" id="menu-score-val">0</div>
+    </div>
+    <div class="menu-footer">Primer Año · Infancia Media · Bronquiolitis</div>
   </div>
 
-  <div class="menu-panel active" id="panel-infancia">
-    <div class="menu-block-label">Desarrollo Infantil · 0–12 años</div>
-    <button class="menu-card mc-blue" onclick="go('flash')">
-      <div class="mc-icon">🃏</div>
-      <div class="mc-info"><div class="mc-name">Flashcards</div><div class="mc-desc">50 tarjetas · Repaso de conceptos clave</div></div>
-      <div class="mc-arrow">›</div>
-    </button>
-    <button class="menu-card mc-purple" onclick="go('sim')">
-      <div class="mc-icon">📊</div>
-      <div class="mc-info"><div class="mc-name">Simulador de Desarrollo</div><div class="mc-desc">Cronología interactiva 0–24 meses</div></div>
-      <div class="mc-arrow">›</div>
-    </button>
-    <button class="menu-card mc-green" onclick="go('game')">
-      <div class="mc-icon">🏥</div>
-      <div class="mc-info"><div class="mc-name">Consulta Rápida</div><div class="mc-desc">Juego clínico · ¿Normal o alerta roja?</div></div>
-      <div class="mc-arrow">›</div>
-    </button>
-  </div>
-
-  <div class="menu-panel" id="panel-bronquiolitis">
-    <div class="menu-block-label">Bronquiolitis · Guías AAP · SEUP 2024</div>
-    <button class="menu-card mc-blue" onclick="go('quiz')">
-      <div class="mc-icon">❓</div>
-      <div class="mc-info"><div class="mc-name">Quiz Médico</div><div class="mc-desc">10 preguntas · Diagnóstico y tratamiento</div></div>
-      <div class="mc-arrow">›</div>
-    </button>
-    <button class="menu-card mc-purple" onclick="go('memory')">
-      <div class="mc-icon">🧠</div>
-      <div class="mc-info"><div class="mc-name">Memoria de Síntomas</div><div class="mc-desc">16 cartas · Empareja síntoma con descripción</div></div>
-      <div class="mc-arrow">›</div>
-    </button>
-    <button class="menu-card mc-green" onclick="go('timeline')">
-      <div class="mc-icon">📅</div>
-      <div class="mc-info"><div class="mc-name">Línea de Tiempo Clínica</div><div class="mc-desc">Ordena las fases del curso clínico</div></div>
-      <div class="mc-arrow">›</div>
-    </button>
-    <button class="menu-card mc-red" onclick="go('risk')">
-      <div class="mc-icon">⚠️</div>
-      <div class="mc-info"><div class="mc-name">Clasifica Riesgos</div><div class="mc-desc">12 factores · Bajo, medio y alto riesgo</div></div>
-      <div class="mc-arrow">›</div>
-    </button>
-  </div>
-
-  <div class="menu-score">
-    <div class="menu-score-label">Puntos</div>
-    <div class="menu-score-val" id="menu-score-val">0</div>
-  </div>
-  <div class="menu-footer">Primer Año · Infancia Media · Bronquiolitis</div>
-</div>
-
-<!-- ══════════ MÓDULO 1: FLASHCARDS ══════════ -->
-<div id="screen-flash" class="screen">
-  <div class="topbar">
-    <button class="back-btn" onclick="go('menu')">‹</button>
-    <div class="topbar-title">Flashcards</div>
-    <div class="topbar-badge badge-blue">50 cartas</div>
-  </div>
-  <div class="flash-body">
-    <div class="flash-card" id="fc" onclick="fcFlip()">
-      <div class="fc-label" id="fc-label">Categoría</div>
-      <div class="fc-text" id="fc-text">–</div>
-      <div class="fc-hint" id="fc-hint">Toca para ver respuesta</div>
+  <!-- ══════════ MÓDULO 1: FLASHCARDS ══════════ -->
+  <div id="screen-flash" class="screen">
+    <div class="topbar">
+      <button class="back-btn" onclick="go('menu')">‹</button>
+      <div class="topbar-title">Flashcards</div>
+      <div class="topbar-badge badge-blue">50 cartas</div>
     </div>
-    <div class="flash-controls">
-      <button class="flash-btn" onclick="fcPrev()">← Anterior</button>
-      <div class="flash-prog" id="fc-prog">1 / 50</div>
-      <button class="flash-btn" onclick="fcNext()">Siguiente →</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════ MÓDULO 2: SIMULADOR ══════════ -->
-<div id="screen-sim" class="screen">
-  <div class="topbar topbar-light">
-    <button class="back-btn" onclick="go('menu')">‹</button>
-    <div class="topbar-title">Simulador de Desarrollo</div>
-    <div class="topbar-badge badge-purple">0–24 m</div>
-  </div>
-  <div class="sim-body">
-    <div class="sim-panel">
-      <div class="sim-age-label">Edad Seleccionada</div>
-      <div class="sim-age-val" id="sim-age-txt">0 meses</div>
-      <input type="range" class="sim-slider" id="sim-slider" min="0" max="24" value="0" oninput="simSync()">
-      <div class="sim-period" id="sim-period">Periodo Neonatal</div>
-    </div>
-    <div class="sim-grid">
-      <div class="sim-card sc-motor"><h4 style="color:#007AFF">Motor</h4><p id="sm-motor">–</p></div>
-      <div class="sim-card sc-cog">  <h4 style="color:#5856D6">Cognitivo</h4><p id="sm-cog">–</p></div>
-      <div class="sim-card sc-lang"> <h4 style="color:#FF9500">Lenguaje</h4><p id="sm-lang">–</p></div>
-      <div class="sim-card sc-soc">  <h4 style="color:#34C759">Social</h4><p id="sm-soc">–</p></div>
-    </div>
-    <div class="sim-stats">
-      <div class="stat-row"><span>Volumen Cerebral</span><strong id="sm-brain">–</strong></div>
-      <div class="stat-row"><span>Peso Est.</span><strong id="sm-weight">–</strong></div>
-      <div class="stat-row"><span>Hito Crítico</span><strong id="sm-crit" style="color:#007AFF;font-size:0.82rem;">–</strong></div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════ MÓDULO 3: CONSULTA RÁPIDA ══════════ -->
-<div id="screen-game" class="screen">
-  <div id="game-feedback"></div>
-  <div class="topbar">
-    <button class="back-btn" onclick="go('menu')">‹</button>
-    <div class="topbar-title">Consulta Rápida</div>
-    <div class="topbar-badge badge-green">Juego</div>
-  </div>
-  <div class="game-body">
-    <div class="game-score-bar">
-      <div class="game-score-label">Correctas</div>
-      <div class="game-score-val" id="g-score">0</div>
-    </div>
-    <div class="game-card">
-      <div class="game-age" id="g-age">–</div>
-      <div class="game-cond" id="g-cond">–</div>
-      <div class="game-q">¿Es un desarrollo normal?</div>
-    </div>
-    <div class="game-btns">
-      <button class="gbtn gbtn-ok"  onclick="gCheck(true)">✅ Desarrollo Normal</button>
-      <button class="gbtn gbtn-bad" onclick="gCheck(false)">🚨 Alerta Roja</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════ MÓDULO 4: QUIZ ══════════ -->
-<div id="screen-quiz" class="screen">
-  <div class="topbar">
-    <button class="back-btn" onclick="go('menu')">‹</button>
-    <div class="topbar-title">Quiz Bronquiolitis</div>
-    <div class="topbar-badge badge-blue">+100 pts</div>
-  </div>
-  <div class="quiz-body">
-    <div class="quiz-meta">
-      <div><div class="quiz-meta-label">Pregunta</div><div class="quiz-meta-val"><span id="q-cur">1</span>/<span id="q-tot">10</span></div></div>
-      <div><div class="quiz-meta-label">Puntos</div><div class="quiz-meta-val" id="q-score">0</div></div>
-    </div>
-    <div class="quiz-progress-track"><div class="quiz-progress-fill" id="q-progress" style="width:0%"></div></div>
-    <div class="quiz-card">
-      <div class="quiz-q-label">Pregunta</div>
-      <div class="quiz-question" id="q-text">–</div>
-    </div>
-    <div class="quiz-options" id="q-opts"></div>
-    <div class="feedback" id="q-feedback"></div>
-    <button class="quiz-next" id="q-next" onclick="qNext()">Siguiente pregunta →</button>
-  </div>
-</div>
-
-<!-- ══════════ MÓDULO 5: MEMORIA ══════════ -->
-<div id="screen-memory" class="screen">
-  <div class="topbar">
-    <button class="back-btn" onclick="go('menu')">‹</button>
-    <div class="topbar-title">Memoria de Síntomas</div>
-    <div class="topbar-badge badge-purple">+150 pts</div>
-  </div>
-  <div class="memory-body">
-    <div class="memory-stats">
-      <div><div class="memory-stat-label">Movimientos</div><div class="memory-stat-val" id="m-moves">0</div></div>
-      <div><div class="memory-stat-label">Parejas</div><div class="memory-stat-val"><span id="m-matches">0</span>/8</div></div>
-      <div><div class="memory-stat-label">Puntos</div><div class="memory-stat-val" id="m-score">0</div></div>
-    </div>
-    <div class="memory-timer" id="m-timer">00:00</div>
-    <div class="memory-board" id="m-board"></div>
-    <button class="pill-reset" onclick="memInit()">↺ Reiniciar</button>
-  </div>
-</div>
-
-<!-- ══════════ MÓDULO 6: LÍNEA DE TIEMPO ══════════ -->
-<div id="screen-timeline" class="screen">
-  <div class="topbar">
-    <button class="back-btn" onclick="go('menu')">‹</button>
-    <div class="topbar-title">Línea de Tiempo</div>
-    <div class="topbar-badge badge-green">+200 pts</div>
-  </div>
-  <div class="timeline-body">
-    <div class="info-box w-full" style="max-width:480px;margin-bottom:16px;"><strong>Instrucciones:</strong> Arrastra las fases al orden correcto del curso clínico (posición 1 → 4).</div>
-    <div class="sec-lbl">Orden Correcto</div>
-    <div class="tl-zones" id="tl-zones"></div>
-    <div class="sec-lbl">Fases disponibles</div>
-    <div class="tl-items" id="tl-items"></div>
-    <div class="feedback tl-feedback" id="tl-feedback"></div>
-    <div class="tl-btns">
-      <button class="tl-btn tl-btn-check" onclick="tlCheck()">✅ Verificar</button>
-      <button class="tl-btn tl-btn-reset" onclick="tlInit()">↺ Reiniciar</button>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════ MÓDULO 7: RIESGOS ══════════ -->
-<div id="screen-risk" class="screen">
-  <div class="topbar">
-    <button class="back-btn" onclick="go('menu')">‹</button>
-    <div class="topbar-title">Clasifica Riesgos</div>
-    <div class="topbar-badge badge-red">+250 pts</div>
-  </div>
-  <div class="risk-body">
-    <div class="info-box w-full" style="max-width:520px;margin-bottom:16px;"><strong>Instrucciones:</strong> Arrastra cada factor de riesgo a su categoría de gravedad.</div>
-    <div class="risk-cols">
-      <div class="risk-col risk-col-low">
-        <div class="risk-col-title">🟢 Bajo</div>
-        <div class="risk-col-drop-zone" id="zone-bajo" data-cat="bajo" ondragover="dOver(event)" ondragleave="dLeave(event)" ondrop="riskDrop(event)"></div>
+    <div class="flash-body">
+      <div class="flash-card" id="fc" onclick="fcFlip()">
+        <div class="fc-label" id="fc-label">Categoría</div>
+        <div class="fc-text" id="fc-text">–</div>
+        <div class="fc-hint" id="fc-hint">Toca para ver respuesta</div>
       </div>
-      <div class="risk-col risk-col-mid">
-        <div class="risk-col-title">🟡 Medio</div>
-        <div class="risk-col-drop-zone" id="zone-medio" data-cat="medio" ondragover="dOver(event)" ondragleave="dLeave(event)" ondrop="riskDrop(event)"></div>
-      </div>
-      <div class="risk-col risk-col-high">
-        <div class="risk-col-title">🔴 Alto</div>
-        <div class="risk-col-drop-zone" id="zone-alto" data-cat="alto" ondragover="dOver(event)" ondragleave="dLeave(event)" ondrop="riskDrop(event)"></div>
+      <div class="flash-controls">
+        <button class="flash-btn" onclick="fcPrev()">← Anterior</button>
+        <div class="flash-prog" id="fc-prog">1 / 50</div>
+        <button class="flash-btn" onclick="fcNext()">Siguiente →</button>
       </div>
     </div>
-    <div class="sec-lbl">Factores para clasificar</div>
-    <div class="risk-pool" id="risk-pool"></div>
-    <div class="feedback risk-feedback" id="risk-feedback"></div>
-    <button class="pill-reset" style="max-width:520px;" onclick="riskInit()">↺ Reiniciar</button>
   </div>
-</div>
 
-<!-- ══════════ MODAL RESULTADOS ══════════ -->
-<div id="modal-results">
-  <div class="results-box">
-    <div class="result-emoji" id="r-emoji">🏆</div>
-    <div class="result-title" id="r-title">¡Excelente!</div>
-    <div class="result-sub">Juego completado</div>
-    <div class="result-stars" id="r-stars">☆☆☆☆☆</div>
-    <div class="result-stats">
-      <div class="result-stat"><div class="result-stat-label">Puntos</div><div class="result-stat-val" id="r-score">0</div></div>
-      <div class="result-stat"><div class="result-stat-label">Precisión</div><div class="result-stat-val" id="r-acc">0%</div></div>
+  <!-- ══════════ MÓDULO 2: SIMULADOR ══════════ -->
+  <div id="screen-sim" class="screen">
+    <div class="topbar topbar-light">
+      <button class="back-btn" onclick="go('menu')">‹</button>
+      <div class="topbar-title">Simulador de Desarrollo</div>
+      <div class="topbar-badge badge-purple">0–24 m</div>
     </div>
-    <div class="result-btns">
-      <button class="result-btn result-btn-home" onclick="closeResults()">Inicio</button>
-      <button class="result-btn result-btn-play" onclick="replayGame()">↺ Repetir</button>
+    <div class="sim-body">
+      <div class="sim-panel">
+        <div class="sim-age-label">Edad Seleccionada</div>
+        <div class="sim-age-val" id="sim-age-txt">0 meses</div>
+        <input type="range" class="sim-slider" id="sim-slider" min="0" max="24" value="0" oninput="simSync()">
+        <div class="sim-period" id="sim-period">Periodo Neonatal</div>
+      </div>
+      <div class="sim-grid">
+        <div class="sim-card sc-motor">
+          <h4 style="color:#007AFF">Motor</h4>
+          <p id="sm-motor">–</p>
+        </div>
+        <div class="sim-card sc-cog">
+          <h4 style="color:#5856D6">Cognitivo</h4>
+          <p id="sm-cog">–</p>
+        </div>
+        <div class="sim-card sc-lang">
+          <h4 style="color:#FF9500">Lenguaje</h4>
+          <p id="sm-lang">–</p>
+        </div>
+        <div class="sim-card sc-soc">
+          <h4 style="color:#34C759">Social</h4>
+          <p id="sm-soc">–</p>
+        </div>
+      </div>
+      <div class="sim-stats">
+        <div class="stat-row"><span>Volumen Cerebral</span><strong id="sm-brain">–</strong></div>
+        <div class="stat-row"><span>Peso Est.</span><strong id="sm-weight">–</strong></div>
+        <div class="stat-row"><span>Hito Crítico</span><strong id="sm-crit"
+            style="color:#007AFF;font-size:0.82rem;">–</strong></div>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- ══════════ LOGRO ══════════ -->
-<div id="achievement-notif">
-  <span style="font-size:1.4rem">🏅</span>
-  <div>
-    <div class="achievement-name">¡Logro desbloqueado!</div>
-    <div class="achievement-sub" id="a-name">Experto</div>
+  <!-- ══════════ MÓDULO 3: CONSULTA RÁPIDA ══════════ -->
+  <div id="screen-game" class="screen">
+    <div id="game-feedback"></div>
+    <div class="topbar">
+      <button class="back-btn" onclick="go('menu')">‹</button>
+      <div class="topbar-title">Consulta Rápida</div>
+      <div class="topbar-badge badge-green">Juego</div>
+    </div>
+    <div class="game-body">
+      <div class="game-score-bar">
+        <div class="game-score-label">Correctas</div>
+        <div class="game-score-val" id="g-score">0</div>
+      </div>
+      <div class="game-card">
+        <div class="game-age" id="g-age">–</div>
+        <div class="game-cond" id="g-cond">–</div>
+        <div class="game-q">¿Es un desarrollo normal?</div>
+      </div>
+      <div class="game-btns">
+        <button class="gbtn gbtn-ok" onclick="gCheck(true)">✅ Desarrollo Normal</button>
+        <button class="gbtn gbtn-bad" onclick="gCheck(false)">🚨 Alerta Roja</button>
+      </div>
+    </div>
   </div>
-</div>
 
-<script>
-/* ─────────────────────────────────────
-   NAVEGACIÓN
-───────────────────────────────────── */
-var gs={totalScore:0,currentGame:null};
-var SCREENS=['flash','sim','game','quiz','memory','timeline','risk'];
+  <!-- ══════════ MÓDULO 4: QUIZ ══════════ -->
+  <div id="screen-quiz" class="screen">
+    <div class="topbar">
+      <button class="back-btn" onclick="go('menu')">‹</button>
+      <div class="topbar-title">Quiz Bronquiolitis</div>
+      <div class="topbar-badge badge-blue">+100 pts</div>
+    </div>
+    <div class="quiz-body">
+      <div class="quiz-meta">
+        <div>
+          <div class="quiz-meta-label">Pregunta</div>
+          <div class="quiz-meta-val"><span id="q-cur">1</span>/<span id="q-tot">10</span></div>
+        </div>
+        <div>
+          <div class="quiz-meta-label">Puntos</div>
+          <div class="quiz-meta-val" id="q-score">0</div>
+        </div>
+      </div>
+      <div class="quiz-progress-track">
+        <div class="quiz-progress-fill" id="q-progress" style="width:0%"></div>
+      </div>
+      <div class="quiz-card">
+        <div class="quiz-q-label">Pregunta</div>
+        <div class="quiz-question" id="q-text">–</div>
+      </div>
+      <div class="quiz-options" id="q-opts"></div>
+      <div class="feedback" id="q-feedback"></div>
+      <button class="quiz-next" id="q-next" onclick="qNext()">Siguiente pregunta →</button>
+    </div>
+  </div>
 
-function go(id){
-  document.getElementById('screen-menu').style.display='none';
-  SCREENS.forEach(function(s){
-    var el=document.getElementById('screen-'+s);
-    el.classList.remove('active');el.style.display='';
-  });
-  if(id==='menu'){
-    document.getElementById('screen-menu').style.display='flex';
-    if(memState.interval){clearInterval(memState.interval);memState.interval=null;}
-  } else {
-    var el=document.getElementById('screen-'+id);
-    el.style.display='flex';el.classList.add('active');
-    gs.currentGame=id;
-    ({sim:simSync,game:gLoad,quiz:qInit,memory:memInit,timeline:tlInit,risk:riskInit}[id]||function(){})();
-  }
-}
+  <!-- ══════════ MÓDULO 5: MEMORIA ══════════ -->
+  <div id="screen-memory" class="screen">
+    <div class="topbar">
+      <button class="back-btn" onclick="go('menu')">‹</button>
+      <div class="topbar-title">Memoria de Síntomas</div>
+      <div class="topbar-badge badge-purple">+150 pts</div>
+    </div>
+    <div class="memory-body">
+      <div class="memory-stats">
+        <div>
+          <div class="memory-stat-label">Movimientos</div>
+          <div class="memory-stat-val" id="m-moves">0</div>
+        </div>
+        <div>
+          <div class="memory-stat-label">Parejas</div>
+          <div class="memory-stat-val"><span id="m-matches">0</span>/8</div>
+        </div>
+        <div>
+          <div class="memory-stat-label">Puntos</div>
+          <div class="memory-stat-val" id="m-score">0</div>
+        </div>
+      </div>
+      <div class="memory-timer" id="m-timer">00:00</div>
+      <div class="memory-board" id="m-board"></div>
+      <button class="pill-reset" onclick="memInit()">↺ Reiniciar</button>
+    </div>
+  </div>
 
-function switchTab(tab,btn){
-  document.querySelectorAll('.menu-tab').forEach(function(t){t.classList.remove('active');});
-  document.querySelectorAll('.menu-panel').forEach(function(p){p.classList.remove('active');});
-  btn.classList.add('active');
-  document.getElementById('panel-'+tab).classList.add('active');
-}
+  <!-- ══════════ MÓDULO 6: LÍNEA DE TIEMPO ══════════ -->
+  <div id="screen-timeline" class="screen">
+    <div class="topbar">
+      <button class="back-btn" onclick="go('menu')">‹</button>
+      <div class="topbar-title">Línea de Tiempo</div>
+      <div class="topbar-badge badge-green">+200 pts</div>
+    </div>
+    <div class="timeline-body">
+      <div class="info-box w-full" style="max-width:480px;margin-bottom:16px;"><strong>Instrucciones:</strong> Arrastra
+        las fases al orden correcto del curso clínico (posición 1 → 4).</div>
+      <div class="sec-lbl">Orden Correcto</div>
+      <div class="tl-zones" id="tl-zones"></div>
+      <div class="sec-lbl">Fases disponibles</div>
+      <div class="tl-items" id="tl-items"></div>
+      <div class="feedback tl-feedback" id="tl-feedback"></div>
+      <div class="tl-btns">
+        <button class="tl-btn tl-btn-check" onclick="tlCheck()">✅ Verificar</button>
+        <button class="tl-btn tl-btn-reset" onclick="tlInit()">↺ Reiniciar</button>
+      </div>
+    </div>
+  </div>
 
-function addScore(pts){
-  gs.totalScore+=pts;
-  document.getElementById('menu-score-val').textContent=gs.totalScore;
-}
+  <!-- ══════════ MÓDULO 7: RIESGOS ══════════ -->
+  <div id="screen-risk" class="screen">
+    <div class="topbar">
+      <button class="back-btn" onclick="go('menu')">‹</button>
+      <div class="topbar-title">Clasifica Riesgos</div>
+      <div class="topbar-badge badge-red">+250 pts</div>
+    </div>
+    <div class="risk-body">
+      <div class="info-box w-full" style="max-width:520px;margin-bottom:16px;"><strong>Instrucciones:</strong> Arrastra
+        cada factor de riesgo a su categoría de gravedad.</div>
+      <div class="risk-cols">
+        <div class="risk-col risk-col-low">
+          <div class="risk-col-title">🟢 Bajo</div>
+          <div class="risk-col-drop-zone" id="zone-bajo" data-cat="bajo" ondragover="dOver(event)"
+            ondragleave="dLeave(event)" ondrop="riskDrop(event)"></div>
+        </div>
+        <div class="risk-col risk-col-mid">
+          <div class="risk-col-title">🟡 Medio</div>
+          <div class="risk-col-drop-zone" id="zone-medio" data-cat="medio" ondragover="dOver(event)"
+            ondragleave="dLeave(event)" ondrop="riskDrop(event)"></div>
+        </div>
+        <div class="risk-col risk-col-high">
+          <div class="risk-col-title">🔴 Alto</div>
+          <div class="risk-col-drop-zone" id="zone-alto" data-cat="alto" ondragover="dOver(event)"
+            ondragleave="dLeave(event)" ondrop="riskDrop(event)"></div>
+        </div>
+      </div>
+      <div class="sec-lbl">Factores para clasificar</div>
+      <div class="risk-pool" id="risk-pool"></div>
+      <div class="feedback risk-feedback" id="risk-feedback"></div>
+      <button class="pill-reset" style="max-width:520px;" onclick="riskInit()">↺ Reiniciar</button>
+    </div>
+  </div>
 
-/* ─────────────────────────────────────
-   DRAG & DROP HELPERS (compartido)
-───────────────────────────────────── */
-var dragId=null;
-function dOver(e){e.preventDefault();e.currentTarget.classList.add('drag-over');}
-function dLeave(e){e.currentTarget.classList.remove('drag-over');}
+  <!-- ══════════ MODAL RESULTADOS ══════════ -->
+  <div id="modal-results">
+    <div class="results-box">
+      <div class="result-emoji" id="r-emoji">🏆</div>
+      <div class="result-title" id="r-title">¡Excelente!</div>
+      <div class="result-sub">Juego completado</div>
+      <div class="result-stars" id="r-stars">☆☆☆☆☆</div>
+      <div class="result-stats">
+        <div class="result-stat">
+          <div class="result-stat-label">Puntos</div>
+          <div class="result-stat-val" id="r-score">0</div>
+        </div>
+        <div class="result-stat">
+          <div class="result-stat-label">Precisión</div>
+          <div class="result-stat-val" id="r-acc">0%</div>
+        </div>
+      </div>
+      <div class="result-btns">
+        <button class="result-btn result-btn-home" onclick="closeResults()">Inicio</button>
+        <button class="result-btn result-btn-play" onclick="replayGame()">↺ Repetir</button>
+      </div>
+    </div>
+  </div>
 
-/* ─────────────────────────────────────
-   MÓDULO 1: FLASHCARDS
-───────────────────────────────────── */
-var FD=[
-  {c:"Cerebro",q:"¿Qué porcentaje del volumen adulto tiene el cerebro al nacer?",a:"Aproximadamente el 36% del volumen adulto."},
-  {c:"Cerebro",q:"¿En cuánto aumenta el volumen cerebral durante el primer año?",a:"Se duplica, alcanzando aproximadamente el 72% del volumen adulto."},
-  {c:"Mielinización",q:"¿Cuál es la progresión de la mielinización?",a:"De posterior a anterior: primero vías sensoriales, luego motoras asociativas."},
-  {c:"Lenguaje",q:"¿Qué capacidad pierden los lactantes a los 9 meses?",a:"Pierden la capacidad de distinguir sonidos que no son de su lengua nativa."},
-  {c:"Motor Grueso",q:"¿A qué edad se sostiene la cabeza sentado sin soporte?",a:"A los 2 meses."},
-  {c:"Motor Grueso",q:"¿A qué edad desaparece el reflejo tónico cervical asimétrico?",a:"A los 4 meses."},
-  {c:"Motor Grueso",q:"¿A qué edad camina un niño con apoyo?",a:"A los 12 meses."},
-  {c:"Motor Fino",q:"¿A qué edad se adquiere la pinza pulgar-índice?",a:"Entre los 8 y 10 meses."},
-  {c:"Lenguaje",q:"¿Cuándo se pronuncia la primera palabra con sentido?",a:"A los 12 meses."},
-  {c:"Cognitivo",q:"¿Cuándo se inicia la búsqueda de un objeto desaparecido?",a:"A los 8 meses (permanencia del objeto)."},
-  {c:"Crecimiento",q:"¿Cuánto peso pierde un RN por parto vaginal?",a:"Aproximadamente un 10% en la primera semana."},
-  {c:"Crecimiento",q:"¿A qué edad se duplica el peso al nacer?",a:"A los 4 meses."},
-  {c:"Sueño",q:"¿Cuántas horas de sueño requiere un lactante de 2-6 meses?",a:"Entre 14 y 16 horas (9-10 nocturnas + 2 siestas)."},
-  {c:"Psicosocial",q:"¿Cuál es la primera fase psicosocial según Erikson?",a:"Confianza básica vs. desconfianza."},
-  {c:"Salud Materna",q:"¿Qué porcentaje de puérperas sufre depresión posparto?",a:"Entre el 10% y 15%."},
-  {c:"Emocional",q:"¿Qué indica el llanto ante el llanto de otro lactante?",a:"Un signo temprano de empatía."},
-  {c:"Cólicos",q:"¿Cuál es la regla del 3 para diagnosticar cólicos?",a:"Llantos de más de 3 h/día, más de 3 días/semana por más de 3 semanas."},
-  {c:"Motor",q:"¿A qué edad se sientan los niños sin soporte?",a:"Entre los 6 y 7 meses."},
-  {c:"Crecimiento",q:"¿Cuándo se triplica el peso al nacer?",a:"Al cumplir el primer año (12 meses)."},
-  {c:"Cognitivo",q:"¿Qué es el juego simbólico y cuándo emerge?",a:"Fingir acciones (ej. alimentar muñeca), emerge entre los 17-24 meses."},
-  {c:"Motor",q:"¿A qué edad se corre solo?",a:"A los 16 meses."},
-  {c:"Físico",q:"¿Cuánto mide un niño a los 24 meses respecto a su talla adulta?",a:"Aproximadamente la mitad de su talla adulta final."},
-  {c:"Cognitivo",q:"¿Qué marca el fin del periodo sensorio-motor de Piaget?",a:"El uso de símbolos para expresar ideas y resolver problemas (24 meses)."},
-  {c:"Lenguaje",q:"¿Cuántas palabras tiene el vocabulario a los 24 meses?",a:"Entre 50 y 100 palabras."},
-  {c:"Preescolar",q:"¿A qué edad se establece la lateralidad?",a:"En el tercer año de vida."},
-  {c:"Preescolar",q:"¿Cuándo se completa la dentición primaria (20 dientes)?",a:"A los 3 años."},
-  {c:"Cognitivo",q:"¿Qué es el pensamiento mágico en preescolares?",a:"Confusión entre coincidencia y causalidad; animismo y omnipotencia de deseos."},
-  {c:"Social",q:"¿Qué es el egocentrismo en la etapa preescolar?",a:"Dificultad para adoptar el punto de vista de los demás."},
-  {c:"Disciplina",q:"¿Cuál es la recomendación de tiempo muerto por edad?",a:"1 minuto por cada año de edad."},
-  {c:"Media",q:"¿A qué edad se pierden los primeros dientes de leche?",a:"A los 6 años."},
-  {c:"Cognitivo",q:"¿Qué son las operaciones concretas de Piaget?",a:"Pensamiento basado en reglas observables y leyes físicas (6-11 años)."},
-  {c:"Salud",q:"¿Cuál es el tiempo máximo de TV para niños de 2-5 años?",a:"1 hora al día de contenido de calidad."},
-  {c:"Mielinización",q:"¿Hasta cuándo continúa la mielinización?",a:"Hasta la adolescencia y juventud."},
-  {c:"Neuro",q:"¿Qué nutrientes son críticos para el cerebro en el 1er año?",a:"Hierro y colesterol (para la mielina)."},
-  {c:"Lenguaje",q:"¿A qué edad se forman frases de 2 palabras?",a:"Entre los 18 y 24 meses."},
-  {c:"Motor Fino",q:"¿A qué edad se pasan páginas de un libro?",a:"A los 12 meses."},
-  {c:"Social",q:"¿Cuándo aparece la sonrisa social en respuesta a caras?",a:"Entre 1.5 y 2 meses."},
-  {c:"Cognitivo",q:"¿A qué edad se usa un instrumento para alcanzar un juguete?",a:"A los 17 meses."},
-  {c:"Físico",q:"¿Cuánto aumenta el perímetro craneal en el primer año?",a:"Aproximadamente 10 cm."},
-  {c:"Físico",q:"¿Qué dientes inician la dentición?",a:"Los incisivos centrales inferiores."},
-  {c:"Emocional",q:"¿A qué edad aparece la ansiedad ante extraños?",a:"Aproximadamente a los 9 meses."},
-  {c:"Social",q:"¿Qué es un objeto transicional?",a:"Un juguete o manta que simboliza al padre ausente (ayuda en la separación)."},
-  {c:"Media",q:"¿Cuándo ocurre el pico de materia gris cerebral?",a:"Entre los 12 y 14 años."},
-  {c:"Físico",q:"¿Qué tejidos presentan hipertrofia máxima en la infancia media?",a:"Los tejidos linfoides (amígdalas y adenoides)."},
-  {c:"Social",q:"¿Cuál es la principal fuente de influencia en la infancia media?",a:"Primero la familia, luego el grupo de iguales (compañeros)."},
-  {c:"Moral",q:"¿Qué define la moral a los 10-11 años?",a:"La reciprocidad (tratar a otros como quieres ser tratado) y presión de iguales."},
-  {c:"Escolar",q:"¿Cuáles son las 5 R de la AAP para el éxito escolar?",a:"Reading, Rhyming, Routines, Rewards, Relationships."},
-  {c:"Físico",q:"¿Cuánta actividad física diaria se recomienda en escolares?",a:"Al menos 1 hora diaria."},
-  {c:"Media",q:"¿A qué edad se comprende el concepto de conservación?",a:"Alrededor de los 7 años."},
-  {c:"General",q:"¿Cuál es la característica principal del 2do año de vida?",a:"La lucha entre autonomía vs. dependencia y la reorganización por el lenguaje."}
-];
+  <!-- ══════════ LOGRO ══════════ -->
+  <div id="achievement-notif">
+    <span style="font-size:1.4rem">🏅</span>
+    <div>
+      <div class="achievement-name">¡Logro desbloqueado!</div>
+      <div class="achievement-sub" id="a-name">Experto</div>
+    </div>
+  </div>
 
-var fi=0,fans=false;
-function fcRender(){
-  document.getElementById('fc-label').innerHTML=fans?'Respuesta':FD[fi].c;
-  document.getElementById('fc-text').innerHTML=fans?FD[fi].a:FD[fi].q;
-  document.getElementById('fc-hint').innerHTML=fans?'Toca para volver a la pregunta':'Toca para ver respuesta';
-  document.getElementById('fc-prog').innerHTML=(fi+1)+' / '+FD.length;
-  document.getElementById('fc').className=fans?'flash-card ans':'flash-card';
-}
-function fcFlip(){fans=!fans;fcRender();}
-function fcNext(){if(fi<FD.length-1){fi++;fans=false;fcRender();}}
-function fcPrev(){if(fi>0){fi--;fans=false;fcRender();}}
+  <script>
+    /* ─────────────────────────────────────
+       NAVEGACIÓN
+    ───────────────────────────────────── */
+    var gs = { totalScore: 0, currentGame: null };
+    var SCREENS = ['flash', 'sim', 'game', 'quiz', 'memory', 'timeline', 'risk'];
 
-// Swipe
-var ftx=0,fmv=false,fty=0;
-var fcard=document.getElementById('fc');
-fcard.addEventListener('touchstart',function(e){ftx=e.touches[0].clientX;fty=e.touches[0].clientY;fmv=false;},{passive:true});
-fcard.addEventListener('touchmove',function(e){var dx=Math.abs(e.touches[0].clientX-ftx),dy=Math.abs(e.touches[0].clientY-fty);if(dx>8||dy>8)fmv=true;if(dx>dy&&dx>8)e.preventDefault();},{passive:false});
-fcard.addEventListener('touchend',function(e){
-  if(!fmv)return;
-  var dx=e.changedTouches[0].clientX-ftx;
-  if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(e.changedTouches[0].clientY-fty)){dx<0?fcNext():fcPrev();}
-},{passive:true});
-fcRender();
-
-/* ─────────────────────────────────────
-   MÓDULO 2: SIMULADOR
-───────────────────────────────────── */
-var SDB={
-  0:{motor:"Tono flexor. Reflejo de marcha y búsqueda.",cog:"Memoria de reconocimiento básica.",lang:"Segmentación de palabras latente.",soc:"Sonrisa social involuntaria.",crit:"Peso baja 10% (vaginal) / 12% (cesárea)"},
-  2:{motor:"Sostiene cabeza sentado. Levanta pecho en prono.",cog:"Reconoce voz materna. Sonrisa social voluntaria.",lang:"Arrullos (cooing) y sonidos vocálicos.",soc:"Confianza básica vs Desconfianza (Erikson).",crit:"Recupera peso al nacer (semana 2)"},
-  4:{motor:"Desaparece reflejo tónico cervical. Manos a línea media.",cog:"Interés por el mundo exterior. Emparejamiento afectivo.",lang:"Balbuceo polisilábico.",soc:"Risas fuertes. Inicia juego con personas.",crit:"Duplica peso al nacer"},
-  6:{motor:"Se sienta sin soporte. Pasa objetos de mano a mano.",cog:"Atención conjunta iniciándose.",lang:"Imita sonidos. Balbuceo más complejo.",soc:"Prefiere cuidadores conocidos.",crit:"Introduce sólidos (Ablactación)"},
-  9:{motor:"Gateo. Pinza fina (8-10 m).",cog:"Permanencia del objeto. Sigue comandos simples.",lang:"Entiende 'No'. Combina sílabas (ba-ba).",soc:"Ansiedad ante extraños. Ansiedad de separación.",crit:"Exploración activa"},
-  12:{motor:"Camina con apoyo. Pasa páginas de libro.",cog:"Imita gestos. Encuentra objetos ocultos.",lang:"Primera palabra con sentido.",soc:"Señala para pedir (protoimperativo).",crit:"Triplica peso al nacer"},
-  15:{motor:"Camina solo bien. Garabatea espontáneamente.",cog:"Usa objetos correctamente (taza, peine).",lang:"4-6 palabras. Sigue instrucciones de un paso.",soc:"Muestra afecto. Rabietas iniciales.",crit:"Autonomía vs Vergüenza"},
-  18:{motor:"Sube escaleras de la mano. Corre con rigidez.",cog:"Juego simbólico inicial.",lang:"10-25 palabras. Nombra partes del cuerpo.",soc:"Fase de Acercamiento (miedo a alejarse).",crit:"Uso de instrumentos"},
-  24:{motor:"Sube y baja escaleras solo. Salta con dos pies.",cog:"Fin del periodo sensorio-motor (Piaget).",lang:"50-100 palabras. Frases de 2 palabras.",soc:"Juego paralelo con otros niños.",crit:"83% Volumen Cerebral"}
-};
-function simSync(){
-  var age=parseInt(document.getElementById('sim-slider').value);
-  document.getElementById('sim-age-txt').innerHTML=age+(age===1?' mes':' meses');
-  document.getElementById('sim-period').innerHTML=age<12?'Lactante Menor':'Lactante Mayor / Infancia Temprana';
-  var k=0;Object.keys(SDB).forEach(function(n){if(age>=n)k=n;});
-  var d=SDB[k];
-  document.getElementById('sm-motor').innerHTML=d.motor;
-  document.getElementById('sm-cog').innerHTML=d.cog;
-  document.getElementById('sm-lang').innerHTML=d.lang;
-  document.getElementById('sm-soc').innerHTML=d.soc;
-  document.getElementById('sm-crit').innerHTML=d.crit;
-  document.getElementById('sm-brain').innerHTML=(age<=12?36+age*3:72+(age-12)*0.9).toFixed(0)+'%';
-  document.getElementById('sm-weight').innerHTML=(age<=4?3.4+age*0.85:age<=12?6.8+(age-4)*0.45:10.5+(age-12)*0.25).toFixed(1)+' kg';
-}
-
-/* ─────────────────────────────────────
-   MÓDULO 3: CONSULTA RÁPIDA
-───────────────────────────────────── */
-var GD=[
-  {age:"2 meses",cond:"Presenta sonrisa social voluntaria y reconoce la voz de su madre.",normal:true},
-  {age:"4 meses",cond:"Aún tiene el reflejo tónico cervical asimétrico muy marcado.",normal:false},
-  {age:"8 meses",cond:"Llora desesperadamente cuando lo carga un extraño.",normal:true},
-  {age:"12 meses",cond:"Ya camina con apoyo pero aún no dice su primera palabra.",normal:false},
-  {age:"6 meses",cond:"Se mantiene sentado sin soporte y pasa objetos de una mano a otra.",normal:true},
-  {age:"18 meses",cond:"Sube escaleras de la mano pero no hace juego simbólico (fingir).",normal:false},
-  {age:"24 meses",cond:"Dice frases de dos palabras y su cerebro mide el 83% del adulto.",normal:true},
-  {age:"9 meses",cond:"No busca un juguete que escondí debajo de una manta.",normal:false},
-  {age:"15 meses",cond:"Hace garabatos espontáneos y camina solo sin ayuda.",normal:true},
-  {age:"3 años",cond:"Tiene 20 dientes temporales y presenta pensamiento mágico.",normal:true}
-];
-var gi=0,gscore=0;
-function gLoad(){
-  document.getElementById('g-age').innerHTML=GD[gi].age;
-  document.getElementById('g-cond').innerHTML='"'+GD[gi].cond+'"';
-}
-function gCheck(v){
-  var fb=document.getElementById('game-feedback');
-  if(v===GD[gi].normal){gscore++;fb.innerHTML='✅';}else{fb.innerHTML='❌';}
-  document.getElementById('g-score').innerHTML=gscore;
-  fb.className='show';
-  setTimeout(function(){fb.className='';gi=(gi+1)%GD.length;gLoad();},700);
-}
-
-/* ─────────────────────────────────────
-   MÓDULO 4: QUIZ
-───────────────────────────────────── */
-var QD=[
-  {q:"¿Cuál es el agente etiológico principal de la bronquiolitis?",opts:["Rinovirus","Virus Respiratorio Sincitial (VRS)","Influenza","Adenovirus"],ok:1,ex:"El VRS causa >50-70% de los casos de bronquiolitis."},
-  {q:"¿Qué grupo de edad es más afectado?",opts:["Niños 5-10 años","Adultos mayores","Lactantes < 2 años","Adolescentes"],ok:2,ex:"Afecta principalmente a niños < 2 años, especialmente < 12 meses."},
-  {q:"¿Cuál es el signo inicial más característico?",opts:["Fiebre alta","Taquipnea","Dolor torácico","Vómitos"],ok:1,ex:"La taquipnea (FR >60-70 rpm) es el signo inicial y principal."},
-  {q:"¿Cuánto reducen las hospitalizaciones el nirsevimab?",opts:["20-30%","40-50%","70-80%","90-100%"],ok:2,ex:"El nirsevimab reduce ~70-80% las hospitalizaciones por VRS."},
-  {q:"¿Cuál es el tratamiento principal?",opts:["Antibióticos","Corticoides","Soporte (O₂, hidratación)","Broncodilatadores"],ok:2,ex:"El tratamiento es solo de soporte: oxígeno, hidratación, aspiración nasal."},
-  {q:"¿Cuándo está indicada la hospitalización?",opts:["Siempre","Nunca","SpO₂ < 92%, apnea, edad < 12 semanas","Solo con fiebre alta"],ok:2,ex:"SpO₂ < 92%, apnea documentada, edad < 12 sem o comorbilidades graves."},
-  {q:"¿Qué NO se recomienda de rutina?",opts:["Oxígeno","Aspiración nasal","Broncodilatadores","Hidratación"],ok:2,ex:"Los broncodilatadores no se recomiendan de rutina."},
-  {q:"¿Cuál es la duración media de los síntomas?",opts:["3-5 días","7-14 días","21-30 días","Más de 1 mes"],ok:1,ex:"Duración media ~14 días; 10% puede tener síntomas > 3 semanas."},
-  {q:"¿Qué medida de prevención es MÁS eficaz?",opts:["Vacunas anuales","Higiene de manos","Aislamiento total","Antibióticos profilácticos"],ok:1,ex:"La higiene de manos meticulosa es la mejor medida no farmacológica."},
-  {q:"¿Cuál es la mortalidad en países desarrollados?",opts:["< 1%","5-10%","15-20%","> 25%"],ok:0,ex:"Mortalidad < 1%, casi exclusiva en pacientes con comorbilidades graves."}
-];
-var qState={cur:0,score:0};
-function qInit(){
-  qState={cur:0,score:0};
-  document.getElementById('q-tot').textContent=QD.length;
-  document.getElementById('q-score').textContent='0';
-  document.getElementById('q-progress').style.width='0%';
-  document.getElementById('q-next').classList.remove('show');
-  document.getElementById('q-feedback').className='feedback';
-  qRender();
-}
-function qRender(){
-  var q=QD[qState.cur];
-  document.getElementById('q-cur').textContent=qState.cur+1;
-  document.getElementById('q-text').textContent=q.q;
-  var opts=document.getElementById('q-opts');
-  opts.innerHTML='';
-  q.opts.forEach(function(o,i){
-    var b=document.createElement('button');
-    b.className='quiz-opt';b.textContent=o;
-    b.onclick=function(){qSelect(i,b);};
-    opts.appendChild(b);
-  });
-  document.getElementById('q-feedback').className='feedback';
-  document.getElementById('q-next').classList.remove('show');
-}
-function qSelect(idx,btn){
-  var q=QD[qState.cur];
-  document.querySelectorAll('.quiz-opt').forEach(function(b){b.disabled=true;});
-  document.querySelectorAll('.quiz-opt')[q.ok].classList.add('correct');
-  if(idx!==q.ok)btn.classList.add('wrong');
-  var fb=document.getElementById('q-feedback');
-  if(idx===q.ok){
-    qState.score+=100;
-    document.getElementById('q-score').textContent=qState.score;
-    fb.className='feedback show ok';fb.textContent='✅ ¡Correcto! '+q.ex;
-    confetti(5);
-  } else {
-    fb.className='feedback show err';fb.textContent='❌ Incorrecto. '+q.ex;
-  }
-  document.getElementById('q-progress').style.width=((qState.cur+1)/QD.length*100)+'%';
-  if(qState.cur<QD.length-1){document.getElementById('q-next').classList.add('show');}
-  else{setTimeout(function(){showResults('Quiz Bronquiolitis',qState.score,Math.round(qState.score/1000*100),'quiz');},1500);}
-}
-function qNext(){qState.cur++;qRender();}
-
-/* ─────────────────────────────────────
-   MÓDULO 5: MEMORIA
-───────────────────────────────────── */
-var memPairs=[
-  {id:1,s:"Taquipnea",d:"FR > 60-70 rpm"},{id:2,s:"Sibilancias",d:"Sonido espiratorio musical"},
-  {id:3,s:"Crepitantes",d:"Finos, subcrepitantes"},{id:4,s:"Tiraje",d:"Intercostal / subcostal"},
-  {id:5,s:"Aleteo nasal",d:"Dilatación de narinas"},{id:6,s:"Hipoxemia",d:"SpO₂ < 92-94%"},
-  {id:7,s:"Apnea",d:"1er signo en < 6-8 semanas"},{id:8,s:"VRS",d:"> 50-70% de casos"}
-];
-var memState={cards:[],flipped:[],matched:[],moves:0,score:0,timer:0,interval:null};
-function memInit(){
-  if(memState.interval)clearInterval(memState.interval);
-  memState={cards:[],flipped:[],matched:[],moves:0,score:0,timer:0,interval:null};
-  ['m-moves','m-matches','m-score'].forEach(function(id){document.getElementById(id).textContent='0';});
-  document.getElementById('m-timer').textContent='00:00';
-  var cards=[];
-  memPairs.forEach(function(p){cards.push({id:p.id,txt:p.s,type:'s'});cards.push({id:p.id,txt:p.d,type:'d'});});
-  cards.sort(function(){return Math.random()-0.5;});
-  memState.cards=cards;
-  var board=document.getElementById('m-board');board.innerHTML='';
-  cards.forEach(function(c,i){
-    var el=document.createElement('div');el.className='mem-card';el.dataset.idx=i;
-    el.innerHTML='<div class="mem-card-front">🫁</div><div class="mem-card-back">'+c.txt+'</div>';
-    el.onclick=function(){memFlip(i);};board.appendChild(el);
-  });
-  memState.interval=setInterval(function(){
-    memState.timer++;
-    document.getElementById('m-timer').textContent=
-      String(Math.floor(memState.timer/60)).padStart(2,'0')+':'+String(memState.timer%60).padStart(2,'0');
-  },1000);
-}
-function memFlip(i){
-  if(memState.flipped.length>=2||memState.flipped.includes(i)||memState.matched.includes(i))return;
-  document.querySelector('[data-idx="'+i+'"]').classList.add('flipped');
-  memState.flipped.push(i);
-  if(memState.flipped.length===2){
-    memState.moves++;
-    document.getElementById('m-moves').textContent=memState.moves;
-    var i1=memState.flipped[0],i2=memState.flipped[1];
-    var c1=memState.cards[i1],c2=memState.cards[i2];
-    if(c1.id===c2.id&&c1.type!==c2.type){
-      setTimeout(function(){
-        memState.matched.push(i1,i2);
-        [i1,i2].forEach(function(n){document.querySelector('[data-idx="'+n+'"]').classList.add('matched');});
-        memState.score+=50;
-        document.getElementById('m-score').textContent=memState.score;
-        document.getElementById('m-matches').textContent=memState.matched.length/2;
-        confetti(6);
-        if(memState.matched.length===memState.cards.length){
-          clearInterval(memState.interval);memState.interval=null;
-          var fin=Math.max(0,150+Math.max(0,60-memState.timer)-Math.max(0,(memState.moves-16)*5));
-          setTimeout(function(){showResults('Memoria',fin,Math.min(100,Math.round(16/memState.moves*100)),'memory');},800);
-        }
-      },400);
-    } else {
-      setTimeout(function(){
-        [i1,i2].forEach(function(n){document.querySelector('[data-idx="'+n+'"]').classList.remove('flipped');});
-      },900);
+    function go(id) {
+      document.getElementById('screen-menu').style.display = 'none';
+      SCREENS.forEach(function (s) {
+        var el = document.getElementById('screen-' + s);
+        el.classList.remove('active'); el.style.display = '';
+      });
+      if (id === 'menu') {
+        document.getElementById('screen-menu').style.display = 'flex';
+        if (memState.interval) { clearInterval(memState.interval); memState.interval = null; }
+      } else {
+        var el = document.getElementById('screen-' + id);
+        el.style.display = 'flex'; el.classList.add('active');
+        gs.currentGame = id;
+        ({ sim: simSync, game: gLoad, quiz: qInit, memory: memInit, timeline: tlInit, risk: riskInit }[id] || function () { })();
+      }
     }
-    setTimeout(function(){memState.flipped=[];},1000);
-  }
-}
 
-/* ─────────────────────────────────────
-   MÓDULO 6: LÍNEA DE TIEMPO
-───────────────────────────────────── */
-var TL_DATA=[
-  {id:1,phase:"Días 0-3",desc:"Pródromo de vías superiores",order:0},
-  {id:2,phase:"Días 3-8",desc:"Pico de síntomas",order:1},
-  {id:3,phase:"Días 6-12",desc:"Meseta e inicio de descenso",order:2},
-  {id:4,phase:"Días 12-22",desc:"Resolución gradual",order:3}
-];
-var tlState={items:[],attempts:0,score:0};
-function tlInit(){
-  tlState={items:TL_DATA.map(function(i){return{id:i.id,phase:i.phase,desc:i.desc,order:i.order,placed:null};}),attempts:0,score:0};
-  document.getElementById('tl-feedback').className='feedback tl-feedback';
-  tlRender();
-}
-function tlRender(){
-  var zones=document.getElementById('tl-zones');zones.innerHTML='';
-  for(var i=0;i<4;i++){
-    (function(pos){
-      var z=document.createElement('div');z.className='tl-zone';z.dataset.pos=pos;
-      z.innerHTML='<span class="tl-zone-num">Fase '+(pos+1)+'</span>';
-      var pl=tlState.items.find(function(it){return it.placed===pos;});
-      z.innerHTML+=pl
-        ?'<div class="tl-placed"><div class="tl-placed-phase">'+pl.phase+'</div><div class="tl-placed-desc">'+pl.desc+'</div></div>'
-        :'<span class="tl-zone-hint">Arrastra aquí</span>';
-      z.ondragover=dOver;z.ondragleave=dLeave;z.ondrop=tlDrop;
-      zones.appendChild(z);
-    })(i);
-  }
-  var items=document.getElementById('tl-items');items.innerHTML='';
-  tlState.items.forEach(function(it){
-    if(it.placed!==null)return;
-    var el=document.createElement('div');el.className='tl-item';el.draggable=true;el.dataset.id=it.id;
-    el.innerHTML='<div class="tl-item-phase">'+it.phase+'</div><div class="tl-item-desc">'+it.desc+'</div>';
-    el.ondragstart=function(){dragId=it.id;el.classList.add('dragging');};
-    el.ondragend=function(){el.classList.remove('dragging');};
-    items.appendChild(el);
-  });
-}
-function tlDrop(e){
-  e.preventDefault();e.currentTarget.classList.remove('drag-over');
-  if(!dragId)return;
-  var pos=parseInt(e.currentTarget.dataset.pos);
-  tlState.items.forEach(function(it){if(it.placed===pos)it.placed=null;});
-  var item=tlState.items.find(function(it){return it.id===dragId;});
-  if(item)item.placed=pos;
-  dragId=null;tlRender();
-}
-function tlCheck(){
-  tlState.attempts++;
-  var correct=tlState.items.filter(function(it){return it.placed===it.order;}).length;
-  var fb=document.getElementById('tl-feedback');
-  if(correct===4){
-    tlState.score=200*Math.max(1,4-tlState.attempts);
-    fb.className='feedback tl-feedback show ok';
-    fb.textContent='✅ ¡Perfecto! 4/4 correctos en '+tlState.attempts+' intento(s)';
-    confetti(18);
-    setTimeout(function(){showResults('Línea de Tiempo',tlState.score,100,'timeline');},2000);
-  } else {
-    fb.className='feedback tl-feedback show warn';
-    fb.textContent='⚠️ '+correct+'/4 correctos. Sigue intentando.';
-  }
-}
+    function switchTab(tab, btn) {
+      document.querySelectorAll('.menu-tab').forEach(function (t) { t.classList.remove('active'); });
+      document.querySelectorAll('.menu-panel').forEach(function (p) { p.classList.remove('active'); });
+      btn.classList.add('active');
+      document.getElementById('panel-' + tab).classList.add('active');
+    }
 
-/* ─────────────────────────────────────
-   MÓDULO 7: RIESGOS
-───────────────────────────────────── */
-var RISK_DATA=[
-  {id:1,name:"Hacinamiento",cat:"bajo"},{id:2,name:"Hermanos mayores",cat:"bajo"},{id:3,name:"Guardería",cat:"bajo"},
-  {id:4,name:"Sin lactancia materna",cat:"medio"},{id:5,name:"Tabaquismo prenatal",cat:"medio"},{id:6,name:"Edad 3-6 meses",cat:"medio"},
-  {id:7,name:"Prematuridad",cat:"alto"},{id:8,name:"Edad < 12 semanas",cat:"alto"},{id:9,name:"Cardiopatía congénita",cat:"alto"},
-  {id:10,name:"Displasia broncopulmonar",cat:"alto"},{id:11,name:"Inmunodeficiencia",cat:"alto"},{id:12,name:"Apnea documentada",cat:"alto"}
-];
-var riskPlaced=[],riskScore=0;
-function riskInit(){
-  riskPlaced=[];riskScore=0;
-  ['zone-bajo','zone-medio','zone-alto'].forEach(function(id){document.getElementById(id).innerHTML='';});
-  document.getElementById('risk-feedback').className='feedback risk-feedback';
-  var pool=document.getElementById('risk-pool');pool.innerHTML='';
-  [...RISK_DATA].sort(function(){return Math.random()-0.5;}).forEach(function(item){
-    var t=document.createElement('div');t.className='risk-tag';t.draggable=true;t.dataset.id=item.id;t.dataset.cat=item.cat;
-    t.textContent=item.name;
-    t.ondragstart=function(){dragId=item.id;t.classList.add('dragging');};
-    t.ondragend=function(){t.classList.remove('dragging');};
-    pool.appendChild(t);
-  });
-}
-function riskDrop(e){
-  e.preventDefault();e.currentTarget.classList.remove('drag-over');
-  if(!dragId)return;
-  var cat=e.currentTarget.dataset.cat;
-  var item=RISK_DATA.find(function(i){return i.id===dragId;});
-  dragId=null;
-  if(!item||riskPlaced.includes(item.id))return;
-  if(cat===item.cat){
-    riskPlaced.push(item.id);riskScore+=25;
-    var tag=document.querySelector('[data-id="'+item.id+'"]');if(tag)tag.remove();
-    var el=document.createElement('div');el.className='risk-placed-tag risk-placed-'+cat;el.textContent=item.name;
-    e.currentTarget.appendChild(el);
-    confetti(3);
-    if(riskPlaced.length===RISK_DATA.length)setTimeout(function(){showResults('Clasifica Riesgos',riskScore,100,'risk');},800);
-  } else {
-    var fb=document.getElementById('risk-feedback');
-    fb.className='feedback risk-feedback show err';
-    fb.textContent='❌ "'+item.name+'" no pertenece a riesgo '+cat+'. Intenta de nuevo.';
-    setTimeout(function(){fb.className='feedback risk-feedback';},2200);
-  }
-}
+    function addScore(pts) {
+      gs.totalScore += pts;
+      document.getElementById('menu-score-val').textContent = gs.totalScore;
+    }
 
-/* ─────────────────────────────────────
-   RESULTADOS / LOGROS
-───────────────────────────────────── */
-function showResults(title,score,acc,game){
-  addScore(score);
-  var idx=Math.min(4,Math.floor(acc/20));
-  document.getElementById('r-emoji').textContent=['😢','🙂','😊','😄','🏆'][idx];
-  document.getElementById('r-title').textContent=title;
-  document.getElementById('r-score').textContent=score;
-  document.getElementById('r-acc').textContent=acc+'%';
-  var s='',f=Math.ceil(acc/20);for(var i=0;i<5;i++)s+=i<f?'⭐':'☆';
-  document.getElementById('r-stars').textContent=s;
-  document.getElementById('modal-results').className='show';
-  if(acc>=80)showAchievement('Experto en '+title);
-}
-function closeResults(){document.getElementById('modal-results').className='';go('menu');}
-function replayGame(){document.getElementById('modal-results').className='';go(gs.currentGame);}
-function showAchievement(name){
-  document.getElementById('a-name').textContent=name;
-  var el=document.getElementById('achievement-notif');el.className='show';
-  setTimeout(function(){el.className='';},3000);
-}
+    /* ─────────────────────────────────────
+       DRAG & DROP HELPERS (compartido)
+    ───────────────────────────────────── */
+    var dragId = null;
+    function dOver(e) { e.preventDefault(); e.currentTarget.classList.add('drag-over'); }
+    function dLeave(e) { e.currentTarget.classList.remove('drag-over'); }
 
-/* ─────────────────────────────────────
-   CONFETTI
-───────────────────────────────────── */
-var COLORS=['#007AFF','#5ac8fa','#34C759','#ffd60a','#FF3B30','#bf5af2','#FF9500'];
-function confetti(n){
-  for(var i=0;i<n;i++){
-    var el=document.createElement('div');el.className='cp';
-    el.style.cssText='left:'+Math.random()*100+'vw;background:'+COLORS[i%COLORS.length]+';animation-delay:'+(Math.random()*0.5)+'s;border-radius:'+(Math.random()>.5?'50%':'2px');
-    document.body.appendChild(el);
-    setTimeout(function(e){if(e.parentNode)e.parentNode.removeChild(e);},3000,el);
-  }
-}
+    /* ─────────────────────────────────────
+       MÓDULO 1: FLASHCARDS
+    ───────────────────────────────────── */
+    var FD = [
+      { c: "Cerebro", q: "¿Qué porcentaje del volumen adulto tiene el cerebro al nacer?", a: "Aproximadamente el 36% del volumen adulto." },
+      { c: "Cerebro", q: "¿En cuánto aumenta el volumen cerebral durante el primer año?", a: "Se duplica, alcanzando aproximadamente el 72% del volumen adulto." },
+      { c: "Mielinización", q: "¿Cuál es la progresión de la mielinización?", a: "De posterior a anterior: primero vías sensoriales, luego motoras asociativas." },
+      { c: "Lenguaje", q: "¿Qué capacidad pierden los lactantes a los 9 meses?", a: "Pierden la capacidad de distinguir sonidos que no son de su lengua nativa." },
+      { c: "Motor Grueso", q: "¿A qué edad se sostiene la cabeza sentado sin soporte?", a: "A los 2 meses." },
+      { c: "Motor Grueso", q: "¿A qué edad desaparece el reflejo tónico cervical asimétrico?", a: "A los 4 meses." },
+      { c: "Motor Grueso", q: "¿A qué edad camina un niño con apoyo?", a: "A los 12 meses." },
+      { c: "Motor Fino", q: "¿A qué edad se adquiere la pinza pulgar-índice?", a: "Entre los 8 y 10 meses." },
+      { c: "Lenguaje", q: "¿Cuándo se pronuncia la primera palabra con sentido?", a: "A los 12 meses." },
+      { c: "Cognitivo", q: "¿Cuándo se inicia la búsqueda de un objeto desaparecido?", a: "A los 8 meses (permanencia del objeto)." },
+      { c: "Crecimiento", q: "¿Cuánto peso pierde un RN por parto vaginal?", a: "Aproximadamente un 10% en la primera semana." },
+      { c: "Crecimiento", q: "¿A qué edad se duplica el peso al nacer?", a: "A los 4 meses." },
+      { c: "Sueño", q: "¿Cuántas horas de sueño requiere un lactante de 2-6 meses?", a: "Entre 14 y 16 horas (9-10 nocturnas + 2 siestas)." },
+      { c: "Psicosocial", q: "¿Cuál es la primera fase psicosocial según Erikson?", a: "Confianza básica vs. desconfianza." },
+      { c: "Salud Materna", q: "¿Qué porcentaje de puérperas sufre depresión posparto?", a: "Entre el 10% y 15%." },
+      { c: "Emocional", q: "¿Qué indica el llanto ante el llanto de otro lactante?", a: "Un signo temprano de empatía." },
+      { c: "Cólicos", q: "¿Cuál es la regla del 3 para diagnosticar cólicos?", a: "Llantos de más de 3 h/día, más de 3 días/semana por más de 3 semanas." },
+      { c: "Motor", q: "¿A qué edad se sientan los niños sin soporte?", a: "Entre los 6 y 7 meses." },
+      { c: "Crecimiento", q: "¿Cuándo se triplica el peso al nacer?", a: "Al cumplir el primer año (12 meses)." },
+      { c: "Cognitivo", q: "¿Qué es el juego simbólico y cuándo emerge?", a: "Fingir acciones (ej. alimentar muñeca), emerge entre los 17-24 meses." },
+      { c: "Motor", q: "¿A qué edad se corre solo?", a: "A los 16 meses." },
+      { c: "Físico", q: "¿Cuánto mide un niño a los 24 meses respecto a su talla adulta?", a: "Aproximadamente la mitad de su talla adulta final." },
+      { c: "Cognitivo", q: "¿Qué marca el fin del periodo sensorio-motor de Piaget?", a: "El uso de símbolos para expresar ideas y resolver problemas (24 meses)." },
+      { c: "Lenguaje", q: "¿Cuántas palabras tiene el vocabulario a los 24 meses?", a: "Entre 50 y 100 palabras." },
+      { c: "Preescolar", q: "¿A qué edad se establece la lateralidad?", a: "En el tercer año de vida." },
+      { c: "Preescolar", q: "¿Cuándo se completa la dentición primaria (20 dientes)?", a: "A los 3 años." },
+      { c: "Cognitivo", q: "¿Qué es el pensamiento mágico en preescolares?", a: "Confusión entre coincidencia y causalidad; animismo y omnipotencia de deseos." },
+      { c: "Social", q: "¿Qué es el egocentrismo en la etapa preescolar?", a: "Dificultad para adoptar el punto de vista de los demás." },
+      { c: "Disciplina", q: "¿Cuál es la recomendación de tiempo muerto por edad?", a: "1 minuto por cada año de edad." },
+      { c: "Media", q: "¿A qué edad se pierden los primeros dientes de leche?", a: "A los 6 años." },
+      { c: "Cognitivo", q: "¿Qué son las operaciones concretas de Piaget?", a: "Pensamiento basado en reglas observables y leyes físicas (6-11 años)." },
+      { c: "Salud", q: "¿Cuál es el tiempo máximo de TV para niños de 2-5 años?", a: "1 hora al día de contenido de calidad." },
+      { c: "Mielinización", q: "¿Hasta cuándo continúa la mielinización?", a: "Hasta la adolescencia y juventud." },
+      { c: "Neuro", q: "¿Qué nutrientes son críticos para el cerebro en el 1er año?", a: "Hierro y colesterol (para la mielina)." },
+      { c: "Lenguaje", q: "¿A qué edad se forman frases de 2 palabras?", a: "Entre los 18 y 24 meses." },
+      { c: "Motor Fino", q: "¿A qué edad se pasan páginas de un libro?", a: "A los 12 meses." },
+      { c: "Social", q: "¿Cuándo aparece la sonrisa social en respuesta a caras?", a: "Entre 1.5 y 2 meses." },
+      { c: "Cognitivo", q: "¿A qué edad se usa un instrumento para alcanzar un juguete?", a: "A los 17 meses." },
+      { c: "Físico", q: "¿Cuánto aumenta el perímetro craneal en el primer año?", a: "Aproximadamente 10 cm." },
+      { c: "Físico", q: "¿Qué dientes inician la dentición?", a: "Los incisivos centrales inferiores." },
+      { c: "Emocional", q: "¿A qué edad aparece la ansiedad ante extraños?", a: "Aproximadamente a los 9 meses." },
+      { c: "Social", q: "¿Qué es un objeto transicional?", a: "Un juguete o manta que simboliza al padre ausente (ayuda en la separación)." },
+      { c: "Media", q: "¿Cuándo ocurre el pico de materia gris cerebral?", a: "Entre los 12 y 14 años." },
+      { c: "Físico", q: "¿Qué tejidos presentan hipertrofia máxima en la infancia media?", a: "Los tejidos linfoides (amígdalas y adenoides)." },
+      { c: "Social", q: "¿Cuál es la principal fuente de influencia en la infancia media?", a: "Primero la familia, luego el grupo de iguales (compañeros)." },
+      { c: "Moral", q: "¿Qué define la moral a los 10-11 años?", a: "La reciprocidad (tratar a otros como quieres ser tratado) y presión de iguales." },
+      { c: "Escolar", q: "¿Cuáles son las 5 R de la AAP para el éxito escolar?", a: "Reading, Rhyming, Routines, Rewards, Relationships." },
+      { c: "Físico", q: "¿Cuánta actividad física diaria se recomienda en escolares?", a: "Al menos 1 hora diaria." },
+      { c: "Media", q: "¿A qué edad se comprende el concepto de conservación?", a: "Alrededor de los 7 años." },
+      { c: "General", q: "¿Cuál es la característica principal del 2do año de vida?", a: "La lucha entre autonomía vs. dependencia y la reorganización por el lenguaje." }
+    ];
 
-document.getElementById('screen-menu').style.display='flex';
-</script>
+    var fi = 0, fans = false;
+    function fcRender() {
+      document.getElementById('fc-label').innerHTML = fans ? 'Respuesta' : FD[fi].c;
+      document.getElementById('fc-text').innerHTML = fans ? FD[fi].a : FD[fi].q;
+      document.getElementById('fc-hint').innerHTML = fans ? 'Toca para volver a la pregunta' : 'Toca para ver respuesta';
+      document.getElementById('fc-prog').innerHTML = (fi + 1) + ' / ' + FD.length;
+      document.getElementById('fc').className = fans ? 'flash-card ans' : 'flash-card';
+    }
+    function fcFlip() { fans = !fans; fcRender(); }
+    function fcNext() { if (fi < FD.length - 1) { fi++; fans = false; fcRender(); } }
+    function fcPrev() { if (fi > 0) { fi--; fans = false; fcRender(); } }
+
+    // Swipe
+    var ftx = 0, fmv = false, fty = 0;
+    var fcard = document.getElementById('fc');
+    fcard.addEventListener('touchstart', function (e) { ftx = e.touches[0].clientX; fty = e.touches[0].clientY; fmv = false; }, { passive: true });
+    fcard.addEventListener('touchmove', function (e) { var dx = Math.abs(e.touches[0].clientX - ftx), dy = Math.abs(e.touches[0].clientY - fty); if (dx > 8 || dy > 8) fmv = true; if (dx > dy && dx > 8) e.preventDefault(); }, { passive: false });
+    fcard.addEventListener('touchend', function (e) {
+      if (!fmv) return;
+      var dx = e.changedTouches[0].clientX - ftx;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(e.changedTouches[0].clientY - fty)) { dx < 0 ? fcNext() : fcPrev(); }
+    }, { passive: true });
+    fcRender();
+
+    /* ─────────────────────────────────────
+       MÓDULO 2: SIMULADOR
+    ───────────────────────────────────── */
+    var SDB = {
+      0: { motor: "Tono flexor. Reflejo de marcha y búsqueda.", cog: "Memoria de reconocimiento básica.", lang: "Segmentación de palabras latente.", soc: "Sonrisa social involuntaria.", crit: "Peso baja 10% (vaginal) / 12% (cesárea)" },
+      2: { motor: "Sostiene cabeza sentado. Levanta pecho en prono.", cog: "Reconoce voz materna. Sonrisa social voluntaria.", lang: "Arrullos (cooing) y sonidos vocálicos.", soc: "Confianza básica vs Desconfianza (Erikson).", crit: "Recupera peso al nacer (semana 2)" },
+      4: { motor: "Desaparece reflejo tónico cervical. Manos a línea media.", cog: "Interés por el mundo exterior. Emparejamiento afectivo.", lang: "Balbuceo polisilábico.", soc: "Risas fuertes. Inicia juego con personas.", crit: "Duplica peso al nacer" },
+      6: { motor: "Se sienta sin soporte. Pasa objetos de mano a mano.", cog: "Atención conjunta iniciándose.", lang: "Imita sonidos. Balbuceo más complejo.", soc: "Prefiere cuidadores conocidos.", crit: "Introduce sólidos (Ablactación)" },
+      9: { motor: "Gateo. Pinza fina (8-10 m).", cog: "Permanencia del objeto. Sigue comandos simples.", lang: "Entiende 'No'. Combina sílabas (ba-ba).", soc: "Ansiedad ante extraños. Ansiedad de separación.", crit: "Exploración activa" },
+      12: { motor: "Camina con apoyo. Pasa páginas de libro.", cog: "Imita gestos. Encuentra objetos ocultos.", lang: "Primera palabra con sentido.", soc: "Señala para pedir (protoimperativo).", crit: "Triplica peso al nacer" },
+      15: { motor: "Camina solo bien. Garabatea espontáneamente.", cog: "Usa objetos correctamente (taza, peine).", lang: "4-6 palabras. Sigue instrucciones de un paso.", soc: "Muestra afecto. Rabietas iniciales.", crit: "Autonomía vs Vergüenza" },
+      18: { motor: "Sube escaleras de la mano. Corre con rigidez.", cog: "Juego simbólico inicial.", lang: "10-25 palabras. Nombra partes del cuerpo.", soc: "Fase de Acercamiento (miedo a alejarse).", crit: "Uso de instrumentos" },
+      24: { motor: "Sube y baja escaleras solo. Salta con dos pies.", cog: "Fin del periodo sensorio-motor (Piaget).", lang: "50-100 palabras. Frases de 2 palabras.", soc: "Juego paralelo con otros niños.", crit: "83% Volumen Cerebral" }
+    };
+    function simSync() {
+      var age = parseInt(document.getElementById('sim-slider').value);
+      document.getElementById('sim-age-txt').innerHTML = age + (age === 1 ? ' mes' : ' meses');
+      document.getElementById('sim-period').innerHTML = age < 12 ? 'Lactante Menor' : 'Lactante Mayor / Infancia Temprana';
+      var k = 0; Object.keys(SDB).forEach(function (n) { if (age >= n) k = n; });
+      var d = SDB[k];
+      document.getElementById('sm-motor').innerHTML = d.motor;
+      document.getElementById('sm-cog').innerHTML = d.cog;
+      document.getElementById('sm-lang').innerHTML = d.lang;
+      document.getElementById('sm-soc').innerHTML = d.soc;
+      document.getElementById('sm-crit').innerHTML = d.crit;
+      document.getElementById('sm-brain').innerHTML = (age <= 12 ? 36 + age * 3 : 72 + (age - 12) * 0.9).toFixed(0) + '%';
+      document.getElementById('sm-weight').innerHTML = (age <= 4 ? 3.4 + age * 0.85 : age <= 12 ? 6.8 + (age - 4) * 0.45 : 10.5 + (age - 12) * 0.25).toFixed(1) + ' kg';
+    }
+
+    /* ─────────────────────────────────────
+       MÓDULO 3: CONSULTA RÁPIDA
+    ───────────────────────────────────── */
+    var GD = [
+      { age: "2 meses", cond: "Presenta sonrisa social voluntaria y reconoce la voz de su madre.", normal: true },
+      { age: "4 meses", cond: "Aún tiene el reflejo tónico cervical asimétrico muy marcado.", normal: false },
+      { age: "8 meses", cond: "Llora desesperadamente cuando lo carga un extraño.", normal: true },
+      { age: "12 meses", cond: "Ya camina con apoyo pero aún no dice su primera palabra.", normal: false },
+      { age: "6 meses", cond: "Se mantiene sentado sin soporte y pasa objetos de una mano a otra.", normal: true },
+      { age: "18 meses", cond: "Sube escaleras de la mano pero no hace juego simbólico (fingir).", normal: false },
+      { age: "24 meses", cond: "Dice frases de dos palabras y su cerebro mide el 83% del adulto.", normal: true },
+      { age: "9 meses", cond: "No busca un juguete que escondí debajo de una manta.", normal: false },
+      { age: "15 meses", cond: "Hace garabatos espontáneos y camina solo sin ayuda.", normal: true },
+      { age: "3 años", cond: "Tiene 20 dientes temporales y presenta pensamiento mágico.", normal: true }
+    ];
+    var gi = 0, gscore = 0;
+    function gLoad() {
+      document.getElementById('g-age').innerHTML = GD[gi].age;
+      document.getElementById('g-cond').innerHTML = '"' + GD[gi].cond + '"';
+    }
+    function gCheck(v) {
+      var fb = document.getElementById('game-feedback');
+      if (v === GD[gi].normal) { gscore++; fb.innerHTML = '✅'; } else { fb.innerHTML = '❌'; }
+      document.getElementById('g-score').innerHTML = gscore;
+      fb.className = 'show';
+      setTimeout(function () { fb.className = ''; gi = (gi + 1) % GD.length; gLoad(); }, 700);
+    }
+
+    /* ─────────────────────────────────────
+       MÓDULO 4: QUIZ
+    ───────────────────────────────────── */
+    var QD = [
+      { q: "¿Cuál es el agente etiológico principal de la bronquiolitis?", opts: ["Rinovirus", "Virus Respiratorio Sincitial (VRS)", "Influenza", "Adenovirus"], ok: 1, ex: "El VRS causa >50-70% de los casos de bronquiolitis." },
+      { q: "¿Qué grupo de edad es más afectado?", opts: ["Niños 5-10 años", "Adultos mayores", "Lactantes < 2 años", "Adolescentes"], ok: 2, ex: "Afecta principalmente a niños < 2 años, especialmente < 12 meses." },
+      { q: "¿Cuál es el signo inicial más característico?", opts: ["Fiebre alta", "Taquipnea", "Dolor torácico", "Vómitos"], ok: 1, ex: "La taquipnea (FR >60-70 rpm) es el signo inicial y principal." },
+      { q: "¿Cuánto reducen las hospitalizaciones el nirsevimab?", opts: ["20-30%", "40-50%", "70-80%", "90-100%"], ok: 2, ex: "El nirsevimab reduce ~70-80% las hospitalizaciones por VRS." },
+      { q: "¿Cuál es el tratamiento principal?", opts: ["Antibióticos", "Corticoides", "Soporte (O₂, hidratación)", "Broncodilatadores"], ok: 2, ex: "El tratamiento es solo de soporte: oxígeno, hidratación, aspiración nasal." },
+      { q: "¿Cuándo está indicada la hospitalización?", opts: ["Siempre", "Nunca", "SpO₂ < 92%, apnea, edad < 12 semanas", "Solo con fiebre alta"], ok: 2, ex: "SpO₂ < 92%, apnea documentada, edad < 12 sem o comorbilidades graves." },
+      { q: "¿Qué NO se recomienda de rutina?", opts: ["Oxígeno", "Aspiración nasal", "Broncodilatadores", "Hidratación"], ok: 2, ex: "Los broncodilatadores no se recomiendan de rutina." },
+      { q: "¿Cuál es la duración media de los síntomas?", opts: ["3-5 días", "7-14 días", "21-30 días", "Más de 1 mes"], ok: 1, ex: "Duración media ~14 días; 10% puede tener síntomas > 3 semanas." },
+      { q: "¿Qué medida de prevención es MÁS eficaz?", opts: ["Vacunas anuales", "Higiene de manos", "Aislamiento total", "Antibióticos profilácticos"], ok: 1, ex: "La higiene de manos meticulosa es la mejor medida no farmacológica." },
+      { q: "¿Cuál es la mortalidad en países desarrollados?", opts: ["< 1%", "5-10%", "15-20%", "> 25%"], ok: 0, ex: "Mortalidad < 1%, casi exclusiva en pacientes con comorbilidades graves." }
+    ];
+    var qState = { cur: 0, score: 0 };
+    function qInit() {
+      qState = { cur: 0, score: 0 };
+      document.getElementById('q-tot').textContent = QD.length;
+      document.getElementById('q-score').textContent = '0';
+      document.getElementById('q-progress').style.width = '0%';
+      document.getElementById('q-next').classList.remove('show');
+      document.getElementById('q-feedback').className = 'feedback';
+      qRender();
+    }
+    function qRender() {
+      var q = QD[qState.cur];
+      document.getElementById('q-cur').textContent = qState.cur + 1;
+      document.getElementById('q-text').textContent = q.q;
+      var opts = document.getElementById('q-opts');
+      opts.innerHTML = '';
+      q.opts.forEach(function (o, i) {
+        var b = document.createElement('button');
+        b.className = 'quiz-opt'; b.textContent = o;
+        b.onclick = function () { qSelect(i, b); };
+        opts.appendChild(b);
+      });
+      document.getElementById('q-feedback').className = 'feedback';
+      document.getElementById('q-next').classList.remove('show');
+    }
+    function qSelect(idx, btn) {
+      var q = QD[qState.cur];
+      document.querySelectorAll('.quiz-opt').forEach(function (b) { b.disabled = true; });
+      document.querySelectorAll('.quiz-opt')[q.ok].classList.add('correct');
+      if (idx !== q.ok) btn.classList.add('wrong');
+      var fb = document.getElementById('q-feedback');
+      if (idx === q.ok) {
+        qState.score += 100;
+        document.getElementById('q-score').textContent = qState.score;
+        fb.className = 'feedback show ok'; fb.textContent = '✅ ¡Correcto! ' + q.ex;
+        confetti(5);
+      } else {
+        fb.className = 'feedback show err'; fb.textContent = '❌ Incorrecto. ' + q.ex;
+      }
+      document.getElementById('q-progress').style.width = ((qState.cur + 1) / QD.length * 100) + '%';
+      if (qState.cur < QD.length - 1) { document.getElementById('q-next').classList.add('show'); }
+      else { setTimeout(function () { showResults('Quiz Bronquiolitis', qState.score, Math.round(qState.score / 1000 * 100), 'quiz'); }, 1500); }
+    }
+    function qNext() { qState.cur++; qRender(); }
+
+    /* ─────────────────────────────────────
+       MÓDULO 5: MEMORIA
+    ───────────────────────────────────── */
+    var memPairs = [
+      { id: 1, s: "Taquipnea", d: "FR > 60-70 rpm" }, { id: 2, s: "Sibilancias", d: "Sonido espiratorio musical" },
+      { id: 3, s: "Crepitantes", d: "Finos, subcrepitantes" }, { id: 4, s: "Tiraje", d: "Intercostal / subcostal" },
+      { id: 5, s: "Aleteo nasal", d: "Dilatación de narinas" }, { id: 6, s: "Hipoxemia", d: "SpO₂ < 92-94%" },
+      { id: 7, s: "Apnea", d: "1er signo en < 6-8 semanas" }, { id: 8, s: "VRS", d: "> 50-70% de casos" }
+    ];
+    var memState = { cards: [], flipped: [], matched: [], moves: 0, score: 0, timer: 0, interval: null };
+    function memInit() {
+      if (memState.interval) clearInterval(memState.interval);
+      memState = { cards: [], flipped: [], matched: [], moves: 0, score: 0, timer: 0, interval: null };
+      ['m-moves', 'm-matches', 'm-score'].forEach(function (id) { document.getElementById(id).textContent = '0'; });
+      document.getElementById('m-timer').textContent = '00:00';
+      var cards = [];
+      memPairs.forEach(function (p) { cards.push({ id: p.id, txt: p.s, type: 's' }); cards.push({ id: p.id, txt: p.d, type: 'd' }); });
+      cards.sort(function () { return Math.random() - 0.5; });
+      memState.cards = cards;
+      var board = document.getElementById('m-board'); board.innerHTML = '';
+      cards.forEach(function (c, i) {
+        var el = document.createElement('div'); el.className = 'mem-card'; el.dataset.idx = i;
+        el.innerHTML = '<div class="mem-card-front">🫁</div><div class="mem-card-back">' + c.txt + '</div>';
+        el.onclick = function () { memFlip(i); }; board.appendChild(el);
+      });
+      memState.interval = setInterval(function () {
+        memState.timer++;
+        document.getElementById('m-timer').textContent =
+          String(Math.floor(memState.timer / 60)).padStart(2, '0') + ':' + String(memState.timer % 60).padStart(2, '0');
+      }, 1000);
+    }
+    function memFlip(i) {
+      if (memState.flipped.length >= 2 || memState.flipped.includes(i) || memState.matched.includes(i)) return;
+      document.querySelector('[data-idx="' + i + '"]').classList.add('flipped');
+      memState.flipped.push(i);
+      if (memState.flipped.length === 2) {
+        memState.moves++;
+        document.getElementById('m-moves').textContent = memState.moves;
+        var i1 = memState.flipped[0], i2 = memState.flipped[1];
+        var c1 = memState.cards[i1], c2 = memState.cards[i2];
+        if (c1.id === c2.id && c1.type !== c2.type) {
+          setTimeout(function () {
+            memState.matched.push(i1, i2);
+            [i1, i2].forEach(function (n) { document.querySelector('[data-idx="' + n + '"]').classList.add('matched'); });
+            memState.score += 50;
+            document.getElementById('m-score').textContent = memState.score;
+            document.getElementById('m-matches').textContent = memState.matched.length / 2;
+            confetti(6);
+            if (memState.matched.length === memState.cards.length) {
+              clearInterval(memState.interval); memState.interval = null;
+              var fin = Math.max(0, 150 + Math.max(0, 60 - memState.timer) - Math.max(0, (memState.moves - 16) * 5));
+              setTimeout(function () { showResults('Memoria', fin, Math.min(100, Math.round(16 / memState.moves * 100)), 'memory'); }, 800);
+            }
+          }, 400);
+        } else {
+          setTimeout(function () {
+            [i1, i2].forEach(function (n) { document.querySelector('[data-idx="' + n + '"]').classList.remove('flipped'); });
+          }, 900);
+        }
+        setTimeout(function () { memState.flipped = []; }, 1000);
+      }
+    }
+
+    /* ─────────────────────────────────────
+       MÓDULO 6: LÍNEA DE TIEMPO
+    ───────────────────────────────────── */
+    var TL_DATA = [
+      { id: 1, phase: "Días 0-3", desc: "Pródromo de vías superiores", order: 0 },
+      { id: 2, phase: "Días 3-8", desc: "Pico de síntomas", order: 1 },
+      { id: 3, phase: "Días 6-12", desc: "Meseta e inicio de descenso", order: 2 },
+      { id: 4, phase: "Días 12-22", desc: "Resolución gradual", order: 3 }
+    ];
+    var tlState = { items: [], attempts: 0, score: 0 };
+    function tlInit() {
+      tlState = { items: TL_DATA.map(function (i) { return { id: i.id, phase: i.phase, desc: i.desc, order: i.order, placed: null }; }), attempts: 0, score: 0 };
+      document.getElementById('tl-feedback').className = 'feedback tl-feedback';
+      tlRender();
+    }
+    function tlRender() {
+      var zones = document.getElementById('tl-zones'); zones.innerHTML = '';
+      for (var i = 0; i < 4; i++) {
+        (function (pos) {
+          var z = document.createElement('div'); z.className = 'tl-zone'; z.dataset.pos = pos;
+          z.innerHTML = '<span class="tl-zone-num">Fase ' + (pos + 1) + '</span>';
+          var pl = tlState.items.find(function (it) { return it.placed === pos; });
+          z.innerHTML += pl
+            ? '<div class="tl-placed"><div class="tl-placed-phase">' + pl.phase + '</div><div class="tl-placed-desc">' + pl.desc + '</div></div>'
+            : '<span class="tl-zone-hint">Arrastra aquí</span>';
+          z.ondragover = dOver; z.ondragleave = dLeave; z.ondrop = tlDrop;
+          zones.appendChild(z);
+        })(i);
+      }
+      var items = document.getElementById('tl-items'); items.innerHTML = '';
+      tlState.items.forEach(function (it) {
+        if (it.placed !== null) return;
+        var el = document.createElement('div'); el.className = 'tl-item'; el.draggable = true; el.dataset.id = it.id;
+        el.innerHTML = '<div class="tl-item-phase">' + it.phase + '</div><div class="tl-item-desc">' + it.desc + '</div>';
+        el.ondragstart = function () { dragId = it.id; el.classList.add('dragging'); };
+        el.ondragend = function () { el.classList.remove('dragging'); };
+        items.appendChild(el);
+      });
+    }
+    function tlDrop(e) {
+      e.preventDefault(); e.currentTarget.classList.remove('drag-over');
+      if (!dragId) return;
+      var pos = parseInt(e.currentTarget.dataset.pos);
+      tlState.items.forEach(function (it) { if (it.placed === pos) it.placed = null; });
+      var item = tlState.items.find(function (it) { return it.id === dragId; });
+      if (item) item.placed = pos;
+      dragId = null; tlRender();
+    }
+    function tlCheck() {
+      tlState.attempts++;
+      var correct = tlState.items.filter(function (it) { return it.placed === it.order; }).length;
+      var fb = document.getElementById('tl-feedback');
+      if (correct === 4) {
+        tlState.score = 200 * Math.max(1, 4 - tlState.attempts);
+        fb.className = 'feedback tl-feedback show ok';
+        fb.textContent = '✅ ¡Perfecto! 4/4 correctos en ' + tlState.attempts + ' intento(s)';
+        confetti(18);
+        setTimeout(function () { showResults('Línea de Tiempo', tlState.score, 100, 'timeline'); }, 2000);
+      } else {
+        fb.className = 'feedback tl-feedback show warn';
+        fb.textContent = '⚠️ ' + correct + '/4 correctos. Sigue intentando.';
+      }
+    }
+
+    /* ─────────────────────────────────────
+       MÓDULO 7: RIESGOS
+    ───────────────────────────────────── */
+    var RISK_DATA = [
+      { id: 1, name: "Hacinamiento", cat: "bajo" }, { id: 2, name: "Hermanos mayores", cat: "bajo" }, { id: 3, name: "Guardería", cat: "bajo" },
+      { id: 4, name: "Sin lactancia materna", cat: "medio" }, { id: 5, name: "Tabaquismo prenatal", cat: "medio" }, { id: 6, name: "Edad 3-6 meses", cat: "medio" },
+      { id: 7, name: "Prematuridad", cat: "alto" }, { id: 8, name: "Edad < 12 semanas", cat: "alto" }, { id: 9, name: "Cardiopatía congénita", cat: "alto" },
+      { id: 10, name: "Displasia broncopulmonar", cat: "alto" }, { id: 11, name: "Inmunodeficiencia", cat: "alto" }, { id: 12, name: "Apnea documentada", cat: "alto" }
+    ];
+    var riskPlaced = [], riskScore = 0;
+    function riskInit() {
+      riskPlaced = []; riskScore = 0;
+      ['zone-bajo', 'zone-medio', 'zone-alto'].forEach(function (id) { document.getElementById(id).innerHTML = ''; });
+      document.getElementById('risk-feedback').className = 'feedback risk-feedback';
+      var pool = document.getElementById('risk-pool'); pool.innerHTML = '';
+      [...RISK_DATA].sort(function () { return Math.random() - 0.5; }).forEach(function (item) {
+        var t = document.createElement('div'); t.className = 'risk-tag'; t.draggable = true; t.dataset.id = item.id; t.dataset.cat = item.cat;
+        t.textContent = item.name;
+        t.ondragstart = function () { dragId = item.id; t.classList.add('dragging'); };
+        t.ondragend = function () { t.classList.remove('dragging'); };
+        pool.appendChild(t);
+      });
+    }
+    function riskDrop(e) {
+      e.preventDefault(); e.currentTarget.classList.remove('drag-over');
+      if (!dragId) return;
+      var cat = e.currentTarget.dataset.cat;
+      var item = RISK_DATA.find(function (i) { return i.id === dragId; });
+      dragId = null;
+      if (!item || riskPlaced.includes(item.id)) return;
+      if (cat === item.cat) {
+        riskPlaced.push(item.id); riskScore += 25;
+        var tag = document.querySelector('[data-id="' + item.id + '"]'); if (tag) tag.remove();
+        var el = document.createElement('div'); el.className = 'risk-placed-tag risk-placed-' + cat; el.textContent = item.name;
+        e.currentTarget.appendChild(el);
+        confetti(3);
+        if (riskPlaced.length === RISK_DATA.length) setTimeout(function () { showResults('Clasifica Riesgos', riskScore, 100, 'risk'); }, 800);
+      } else {
+        var fb = document.getElementById('risk-feedback');
+        fb.className = 'feedback risk-feedback show err';
+        fb.textContent = '❌ "' + item.name + '" no pertenece a riesgo ' + cat + '. Intenta de nuevo.';
+        setTimeout(function () { fb.className = 'feedback risk-feedback'; }, 2200);
+      }
+    }
+
+    /* ─────────────────────────────────────
+       RESULTADOS / LOGROS
+    ───────────────────────────────────── */
+    function showResults(title, score, acc, game) {
+      addScore(score);
+      var idx = Math.min(4, Math.floor(acc / 20));
+      document.getElementById('r-emoji').textContent = ['😢', '🙂', '😊', '😄', '🏆'][idx];
+      document.getElementById('r-title').textContent = title;
+      document.getElementById('r-score').textContent = score;
+      document.getElementById('r-acc').textContent = acc + '%';
+      var s = '', f = Math.ceil(acc / 20); for (var i = 0; i < 5; i++)s += i < f ? '⭐' : '☆';
+      document.getElementById('r-stars').textContent = s;
+      document.getElementById('modal-results').className = 'show';
+      if (acc >= 80) showAchievement('Experto en ' + title);
+    }
+    function closeResults() { document.getElementById('modal-results').className = ''; go('menu'); }
+    function replayGame() { document.getElementById('modal-results').className = ''; go(gs.currentGame); }
+    function showAchievement(name) {
+      document.getElementById('a-name').textContent = name;
+      var el = document.getElementById('achievement-notif'); el.className = 'show';
+      setTimeout(function () { el.className = ''; }, 3000);
+    }
+
+    /* ─────────────────────────────────────
+       CONFETTI
+    ───────────────────────────────────── */
+    var COLORS = ['#007AFF', '#5ac8fa', '#34C759', '#ffd60a', '#FF3B30', '#bf5af2', '#FF9500'];
+    function confetti(n) {
+      for (var i = 0; i < n; i++) {
+        var el = document.createElement('div'); el.className = 'cp';
+        el.style.cssText = 'left:' + Math.random() * 100 + 'vw;background:' + COLORS[i % COLORS.length] + ';animation-delay:' + (Math.random() * 0.5) + 's;border-radius:' + (Math.random() > .5 ? '50%' : '2px');
+        document.body.appendChild(el);
+        setTimeout(function (e) { if (e.parentNode) e.parentNode.removeChild(e); }, 3000, el);
+      }
+    }
+
+    document.getElementById('screen-menu').style.display = 'flex';
+  </script>
 </body>
+
 </html>
