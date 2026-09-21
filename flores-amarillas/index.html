@@ -330,6 +330,7 @@
   // Si no hay nada o falla, simplemente no aparece el botón de música.
   const MUSICA_YOUTUBE = 'yWkQbrfSvfs';   // Juanes - Para Tu Amor (video oficial)
   const MUSICA = '';
+  const MUSICA_INICIO = 20;               // segundo de la canción en el que empieza (y al repetirse)
 
   // Palabras que giran alrededor
   const PALABRAS = [
@@ -972,12 +973,15 @@
   // Opción 1: archivo de audio
   function motorArchivo(src) {
     const a = new Audio(src);
-    a.loop = true; a.preload = 'auto'; a.volume = 0;
+    a.preload = 'auto'; a.volume = 0;
+    const alInicio = () => { if (a.currentTime < MUSICA_INICIO) a.currentTime = MUSICA_INICIO; };
+    a.addEventListener('loadedmetadata', alInicio);
+    a.addEventListener('ended', () => { a.currentTime = MUSICA_INICIO; a.play().catch(() => {}); });   // bucle desde MUSICA_INICIO
     a.addEventListener('error', sinMusica);   // si el archivo no existe, no hay botón
     a.addEventListener('play', () => marcarBoton(true));
     a.addEventListener('pause', () => marcarBoton(false));
     return {
-      play: () => { subirVolumen((v) => { a.volume = v; }); return a.play().catch(() => marcarBoton(false)); },
+      play: () => { alInicio(); subirVolumen((v) => { a.volume = v; }); return a.play().catch(() => marcarBoton(false)); },
       pause: () => a.pause(),
       sonando: () => !a.paused,
     };
@@ -994,12 +998,13 @@
       yt = new YT.Player('ytplayer', {
         width: 200, height: 200, videoId: idVideo,
         playerVars: Object.assign(
-          { playsinline: 1, controls: 0, disablekb: 1, rel: 0, loop: 1, playlist: idVideo },
+          { playsinline: 1, controls: 0, disablekb: 1, rel: 0, start: MUSICA_INICIO },
           location.protocol.startsWith('http') ? { origin: location.origin } : {}
         ),
         events: {
           onReady: () => { listo = true; yt.setVolume(0); if (quiere) arrancar(); },
           onStateChange: (e) => {
+            if (e.data === 0) { yt.seekTo(MUSICA_INICIO, true); yt.playVideo(); return; }   // terminó: repite desde MUSICA_INICIO
             if (e.data === 1) marcarBoton(true);                                          // sonando
             else if (e.data === 2 || e.data === 5 || e.data === -1) marcarBoton(false);   // pausa o sin iniciar
           },
