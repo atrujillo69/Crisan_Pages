@@ -3,22 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#FFE9B8">
-<meta name="description" content="Un pequeño jardín de flores amarillas, tulipanes y lirios, con mensajes para usted.">
-<title>Para usted</title>
+<meta name="theme-color" content="#0b0708">
+<meta name="description" content="Un pequeño detalle de flores amarillas, tulipanes y lirios.">
+<title>Para mi doctora favorita</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%BC%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #5a3b10;
-    --oro: #b8780c;
+    --oro: #F2C24B;
+    --crema: #FFF1CC;
     --serif: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   html, body { height: 100%; }
 
   body {
@@ -26,76 +25,158 @@
     height: 100dvh;
     overflow: hidden;
     font-family: var(--serif);
-    color: var(--ink);
+    color: var(--crema);
     background:
-      radial-gradient(70vmax 70vmax at 85% -15%, #FFFBE6 0%, rgba(255, 251, 230, 0) 62%),
-      linear-gradient(180deg, #FFEFC4 0%, #FFE0B0 62%, #FFD3A0 100%);
-    background-color: #FFE0B0;
+      radial-gradient(ellipse 80% 70% at 50% 52%, #2b1c0c 0%, #140d09 48%, #08060a 100%);
+    background-color: #08060a;
     -webkit-tap-highlight-color: transparent;
     -webkit-user-select: none;
     user-select: none;
-    touch-action: manipulation;
   }
 
-  /* ── Sol ── */
-  .sol {
+  #galaxia {
     position: fixed;
-    top: -8vmin;
-    right: -6vmin;
-    width: 40vmin;
-    height: 40vmin;
-    border-radius: 50%;
-    background: radial-gradient(circle, #FFF8CF 0%, rgba(255, 232, 140, .55) 38%, rgba(255, 232, 140, 0) 70%);
-    animation: brillo 7s ease-in-out infinite alternate;
-    pointer-events: none;
-    z-index: 0;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    cursor: grab;
   }
-  @keyframes brillo { from { transform: scale(.94); opacity: .8; } to { transform: scale(1.06); opacity: 1; } }
+  #galaxia:active { cursor: grabbing; }
 
-  /* ── Cabecera y mensaje ── */
-  .cabecera {
+  /* ── Pantalla de inicio ── */
+  #intro {
     position: fixed;
-    inset: 0 0 auto 0;
-    z-index: 6;
+    inset: 0;
+    z-index: 20;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: clamp(.7rem, 2vh, 1.2rem);
-    padding: clamp(1rem, 4.5vh, 2.6rem) 1rem 0;
+    justify-content: center;
+    padding: 1.5rem;
     text-align: center;
-    pointer-events: none;
-    animation: aparecer 1.6s ease-out both;
+    background: radial-gradient(ellipse 70% 60% at 50% 45%, rgba(43, 28, 12, .55), rgba(6, 4, 8, .92) 78%);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    transition: opacity 1.6s ease, visibility 0s 1.6s;
   }
-  @keyframes aparecer { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: none; } }
+  #intro.fuera { opacity: 0; visibility: hidden; pointer-events: none; }
 
-  .cabecera h1 {
+  .intro-flor {
+    width: clamp(110px, 26vw, 160px);
+    margin-bottom: 1.3rem;
+    filter: drop-shadow(0 0 24px rgba(255, 200, 60, .42));
+    transition: transform 1.6s ease;
+    animation: brotar 2.8s cubic-bezier(.2, .9, .3, 1.08) backwards;
+  }
+  #intro.fuera .intro-flor { transform: scale(1.7); }
+  .intro-flor svg { display: block; width: 100%; height: auto; animation: girar 60s linear infinite; }
+  @keyframes brotar { from { transform: scale(.05) rotate(-120deg); opacity: 0; } 40% { opacity: 1; } }
+  @keyframes girar { to { transform: rotate(360deg); } }
+
+  .subir { animation: subir 1.6s ease-out var(--r, 0s) backwards; }
+  @keyframes subir { from { opacity: 0; transform: translateY(14px); } }
+
+  .fecha {
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .32em;
+    text-transform: uppercase;
+    color: var(--oro);
+    opacity: .85;
+  }
+
+  #intro h1 {
+    margin: .7rem 0 .6rem;
+    max-width: 14ch;
+    font-size: clamp(2.5rem, 9vw, 4.6rem);
     font-weight: 600;
     font-style: italic;
-    font-size: clamp(2.2rem, 6.2vw, 3.7rem);
-    line-height: 1.1;
-    color: #6a440c;
-    text-shadow: 0 2px 14px rgba(255, 250, 225, .9);
+    line-height: 1.05;
+    text-wrap: balance;
+    background: linear-gradient(180deg, #FFF6D2 10%, #F2C24B 95%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 2px 18px rgba(242, 194, 75, .25));
   }
+
+  .sub {
+    font-size: clamp(1.1rem, 3vw, 1.4rem);
+    font-style: italic;
+    opacity: .75;
+  }
+
+  #abrir {
+    margin-top: 2.2rem;
+    padding: .8rem 2.4rem;
+    border: 1px solid rgba(242, 194, 75, .55);
+    border-radius: 999px;
+    background: rgba(242, 194, 75, .06);
+    color: var(--crema);
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-size: .8rem;
+    font-weight: 600;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background .3s, box-shadow .3s, transform .3s;
+  }
+  #abrir:hover, #abrir:focus-visible {
+    outline: none;
+    background: rgba(242, 194, 75, .16);
+    box-shadow: 0 0 28px rgba(242, 194, 75, .35);
+    transform: translateY(-1px);
+  }
+
+  /* ── Sobre la galaxia ── */
+  .titulo {
+    position: fixed;
+    top: clamp(.9rem, 3vh, 1.6rem);
+    left: 0; right: 0;
+    z-index: 5;
+    text-align: center;
+    font-size: clamp(1.05rem, 2.6vw, 1.3rem);
+    font-style: italic;
+    letter-spacing: .04em;
+    color: rgba(255, 241, 204, .72);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 2s ease 1.2s;
+  }
+  body.abierto .titulo { opacity: 1; }
 
   .tarjeta {
-    max-width: min(34rem, 90vw);
-    padding: clamp(1rem, 2.6vw, 1.6rem) clamp(1.2rem, 3.4vw, 2.2rem);
-    border-radius: 26px;
-    background: rgba(255, 251, 240, .58);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, .75);
-    box-shadow: 0 12px 40px rgba(184, 120, 12, .16);
+    position: fixed;
+    left: 50%;
+    bottom: clamp(3.6rem, 10vh, 6rem);
+    z-index: 6;
+    width: min(34rem, 90vw);
+    padding: clamp(1rem, 2.6vw, 1.5rem) clamp(1.2rem, 3.4vw, 2rem);
+    text-align: center;
+    border-radius: 24px;
+    background: rgba(26, 18, 11, .66);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(242, 194, 75, .25);
+    box-shadow: 0 12px 44px rgba(0, 0, 0, .5);
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, 14px);
+    transition: opacity .5s ease, transform .5s ease, visibility 0s .5s;
+    pointer-events: none;
   }
+  .tarjeta.visible { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
 
-  .contenido { transition: opacity .3s ease, transform .3s ease; }
-  .contenido.oculto { opacity: 0; transform: translateY(8px); }
+  .contenido { transition: opacity .28s ease, transform .28s ease; }
+  .contenido.oculto { opacity: 0; transform: translateY(6px); }
 
   .etiqueta {
     font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
-    font-size: .7rem;
+    font-size: .68rem;
     font-weight: 600;
-    letter-spacing: .24em;
+    letter-spacing: .26em;
     text-transform: uppercase;
     color: var(--oro);
     margin-bottom: .55rem;
@@ -104,132 +185,130 @@
   .frase {
     font-style: italic;
     font-weight: 500;
-    font-size: clamp(1.3rem, 3.5vw, 1.95rem);
+    font-size: clamp(1.25rem, 3.3vw, 1.8rem);
     line-height: 1.32;
   }
-
-  /* ── Jardín ── */
-  #jardin { position: fixed; inset: 0; z-index: 2; overflow: hidden; }
-
-  .flor {
-    position: absolute;
-    bottom: 0;
-    transform-origin: 50% 100%;
-    pointer-events: none;
-    outline: none;
-    animation: crecer 1.6s cubic-bezier(.2, .9, .3, 1.12) var(--d, 0s) backwards;
-  }
-  @keyframes crecer {
-    from { transform: scale(.02); opacity: 0; }
-    35%  { opacity: 1; }
-  }
-
-  .flor svg {
-    display: block;
-    width: 100%;
-    height: 100%;
-    transform-origin: 50% 100%;
-    animation: mecer var(--dur, 6s) ease-in-out var(--dl, 0s) infinite alternate;
-    pointer-events: none;
-  }
-  @keyframes mecer {
-    from { transform: rotate(calc(var(--lean, 0deg) - var(--amp, 2deg))); }
-    to   { transform: rotate(calc(var(--lean, 0deg) + var(--amp, 2deg))); }
-  }
-
-  .flor .tallo, .flor .hoja, .flor .cabeza { pointer-events: auto; cursor: pointer; }
-
-  .flor .cabeza {
-    transform-origin: 100px 100px;
-    transform-box: view-box;
-    transition: transform .35s cubic-bezier(.3, 1.4, .5, 1);
-    animation: florecer 1.2s calc(var(--d, 0s) + .8s) cubic-bezier(.2, .9, .3, 1.25) backwards;
-  }
-  @keyframes florecer { from { transform: scale(.1) rotate(-40deg); opacity: 0; } 30% { opacity: 1; } }
-
-  @media (hover: hover) { .flor .cabeza:hover { transform: scale(1.07); } }
-
-  .flor:focus-visible svg { filter: drop-shadow(0 0 5px #fff) drop-shadow(0 0 10px #d99a10); }
-
-  /* ── Colinas y efectos ── */
-  .colinas {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: clamp(70px, 13vh, 140px);
-    z-index: 3;
-    pointer-events: none;
-  }
-
-  #fx { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 4; pointer-events: none; }
+  .frase.larga { font-size: clamp(1.05rem, 2.7vw, 1.4rem); line-height: 1.4; }
 
   .pista {
     position: fixed;
-    left: 0;
-    right: 0;
-    bottom: max(.9rem, env(safe-area-inset-bottom));
-    z-index: 6;
+    left: 0; right: 0;
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    z-index: 5;
     padding: 0 1rem;
     text-align: center;
-    pointer-events: none;
-  }
-  .pista span {
-    display: inline-block;
-    padding: .45rem 1.1rem;
-    border-radius: 999px;
-    background: rgba(255, 250, 238, .78);
-    -webkit-backdrop-filter: blur(6px);
-    backdrop-filter: blur(6px);
+    font-size: clamp(.95rem, 2.4vw, 1.1rem);
     font-style: italic;
-    font-weight: 500;
-    font-size: clamp(.95rem, 2.4vw, 1.12rem);
+    color: rgba(255, 241, 204, .55);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.2s ease;
   }
+  .pista.visible { opacity: 1; }
 
   @media (max-height: 520px) {
-    .cabecera h1 { font-size: 1.8rem; }
-    .frase { font-size: 1.15rem; }
     .pista { display: none; }
+    .titulo { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .sol, .flor, .flor svg, .flor .cabeza, .cabecera { animation: none; }
-    .contenido { transition: none; }
+    .intro-flor, .intro-flor svg, .subir { animation: none; }
+    .contenido, .tarjeta, #intro { transition-duration: .01s; }
   }
 </style>
 </head>
 <body>
 
-<div class="sol" aria-hidden="true"></div>
+<canvas id="galaxia" role="img" aria-label="Galaxia de flores amarillas, tulipanes y lirios que gira lentamente"></canvas>
 
-<header class="cabecera">
-  <h1>Para usted</h1>
-  <div class="tarjeta" role="status" aria-live="polite">
-    <div class="contenido" id="contenido">
-      <p class="etiqueta" id="etiqueta">Bienvenida</p>
-      <p class="frase" id="frase">Cada flor de este jardín guarda un mensaje para usted.</p>
-    </div>
+<div id="intro">
+  <div class="intro-flor" id="introFlor" aria-hidden="true"></div>
+  <p class="fecha subir" id="fecha" style="--r:.9s"></p>
+  <h1 class="subir" id="tituloIntro" style="--r:1.5s"></h1>
+  <p class="sub subir" id="subtitulo" style="--r:2.3s"></p>
+  <button id="abrir" class="subir" style="--r:3.1s" type="button">Abrir</button>
+</div>
+
+<p class="titulo" id="titulo"></p>
+
+<div class="tarjeta" id="tarjeta" role="status" aria-live="polite">
+  <div class="contenido" id="contenido">
+    <p class="etiqueta" id="etiqueta"></p>
+    <p class="frase" id="frase"></p>
   </div>
-</header>
+</div>
 
-<main id="jardin"></main>
-
-<svg class="colinas" viewBox="0 0 1440 140" preserveAspectRatio="none" aria-hidden="true">
-  <path d="M0 60 C 240 20, 480 30, 720 55 S 1200 80, 1440 40 L1440 140 L0 140 Z" fill="#A7D083"/>
-  <path d="M0 95 C 300 60, 560 85, 800 90 S 1250 70, 1440 85 L1440 140 L0 140 Z" fill="#86B964"/>
-</svg>
-
-<canvas id="fx" aria-hidden="true"></canvas>
-
-<p class="pista"><span>Toque una flor para leer su mensaje · Toque cualquier lugar para sembrar otra</span></p>
+<p class="pista" id="pista"></p>
 
 <script>
 (() => {
   'use strict';
 
+  /* ═════════════ PERSONALIZAR ═════════════ */
+  const TITULO    = 'Para mi doctora favorita';
+  const FECHA     = '21 de septiembre';
+  const SUBTITULO = 'Preparé algo pequeño para usted';
+
+  // Carta que se abre al tocar la flor del centro
+  const CARTA =
+    'Doctora: gracias por su dedicación, por su paciencia y por esa forma tan suya ' +
+    'de hacer que todo se sienta mejor. Este pequeño jardín es un detalle para ' +
+    'agradecerle, y para recordarle lo valiosa que es. Con mucho cariño.';
+
+  // Palabras que giran alrededor
+  const PALABRAS = [
+    'Mi doctora favorita', 'Gracias', 'Luz', 'Calidez', 'Vocación', 'Sonrisa', 'Ternura',
+    'Alegría', 'Primavera', 'Admiración', 'Serenidad', 'Sol', 'Bondad',
+  ];
+
+  // Mensajes al tocar cada tipo de flor
+  const FLORES = {
+    amarilla: {
+      nombre: 'Flor amarilla',
+      frases: [
+        'Usted tiene la costumbre de iluminar los días sin darse cuenta.',
+        'Si la alegría tuviera un rostro, se parecería mucho a su sonrisa.',
+        'Hay personas que son como el sol: con solo llegar, todo se ve mejor. Usted es una de ellas.',
+        'Que hoy la vida le devuelva, multiplicada, toda la luz que usted regala.',
+        'Ojalá cada mañana le recuerde lo valiosa que es.',
+        'Donde usted está, siempre parece primavera.',
+        'Cuidar a otros cansa. Que hoy alguien cuide de usted, aunque sea con una flor.',
+        'Su vocación se nota en cada gesto, y eso no se aprende en ningún libro.',
+      ],
+    },
+    tulipan: {
+      nombre: 'Tulipán',
+      frases: [
+        'Los tulipanes anuncian la primavera. Usted, con solo llegar, hace lo mismo.',
+        'Hay flores que se admiran, y hay personas, como usted, que se recuerdan.',
+        'Delicadeza, fuerza y calidez: así la describiría un tulipán, si supiera hablar.',
+        'Que nunca le falte quien la cuide como se cuida a una flor delicada.',
+        'Con usted, hasta los días grises se pintan de color.',
+        'Merece que la vida le regale cosas bonitas, y no solo en primavera.',
+        'Las manos que cuidan también merecen flores.',
+        'Hay quien estudia medicina, y hay quien, como usted, además sabe cuidar.',
+      ],
+    },
+    lirio: {
+      nombre: 'Lirio',
+      frases: [
+        'Los lirios simbolizan la elegancia, y usted la lleva con una naturalidad admirable.',
+        'Su ternura es de esas que no hacen ruido, pero se sienten.',
+        'Que la paz de un lirio al amanecer la acompañe hoy y siempre.',
+        'Un lirio no presume su belleza, simplemente es. Igual que usted.',
+        'La bondad también tiene perfume, y el suyo se nota a la distancia.',
+        'Gracias por ser una persona tan especial.',
+        'Ojalá cada persona que usted cuida sepa la suerte que tiene.',
+        'Usted florece incluso cuando no se da cuenta, y eso la hace admirable.',
+      ],
+    },
+  };
+  /* ═════════════ FIN DE PERSONALIZAR ═════════════ */
+
   const REDUCIR = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const $ = (s) => document.querySelector(s);
   const rnd = (a, b) => a + Math.random() * (b - a);
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
   const elegir = (arr) => arr[Math.floor(Math.random() * arr.length)];
   const barajar = (arr) => {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -239,64 +318,19 @@
     return arr;
   };
 
-  /* ───────────── Mensajes ───────────── */
-  const FLORES = {
-    amarilla: {
-      nombre: 'Flor amarilla',
-      frases: [
-        'Usted tiene la costumbre de iluminar los días sin darse cuenta.',
-        'Si la alegría tuviera un rostro, se parecería mucho a su sonrisa.',
-        'Hay personas que son como el sol: con solo llegar, todo se ve mejor. Usted es una de ellas.',
-        'Que hoy la vida le devuelva, multiplicada, toda la luz que usted regala.',
-        'Sus días merecen ser tan cálidos y luminosos como esta flor.',
-        'Una sonrisa suya vale más que un jardín entero.',
-        'Ojalá cada mañana le recuerde lo valiosa que es.',
-        'Donde usted está, siempre parece primavera.',
-      ],
-    },
-    tulipan: {
-      nombre: 'Tulipán',
-      frases: [
-        'Los tulipanes anuncian la primavera. Usted, con solo llegar, hace lo mismo.',
-        'Hay flores que se admiran, y hay personas, como usted, que se recuerdan.',
-        'Si pudiera, le regalaría un campo entero de tulipanes, uno por cada motivo que hay para admirarla.',
-        'Delicadeza, fuerza y calidez: así la describiría un tulipán, si supiera hablar.',
-        'Que nunca le falte quien la cuide como se cuida a una flor delicada.',
-        'Cada pétalo guarda un buen deseo para usted.',
-        'Con usted, hasta los días grises se pintan de color.',
-        'Merece que la vida le regale cosas bonitas, y no solo en primavera.',
-      ],
-    },
-    lirio: {
-      nombre: 'Lirio',
-      frases: [
-        'Los lirios simbolizan la elegancia, y usted la lleva con una naturalidad admirable.',
-        'Su ternura es de esas que no hacen ruido, pero se sienten.',
-        'Usted ilumina el ánimo de quien tiene la fortuna de conocerla.',
-        'Que la paz de un lirio al amanecer la acompañe hoy y siempre.',
-        'Un lirio no presume su belleza, simplemente es. Igual que usted.',
-        'La bondad también tiene perfume, y el suyo se nota a la distancia.',
-        'Gracias por ser una persona tan especial.',
-        'Usted florece incluso cuando no se da cuenta, y eso la hace admirable.',
-      ],
-    },
-  };
+  document.title = TITULO;
+  $('#fecha').textContent = FECHA;
+  $('#tituloIntro').textContent = TITULO;
+  $('#subtitulo').textContent = SUBTITULO;
+  $('#titulo').textContent = TITULO;
 
-  /* ───────────── Colores ─────────────
-     [base, medio, punta] de cada pétalo */
+  /* ───────────── Colores: [base, medio, punta] ───────────── */
   const PALETAS = {
     girasol: ['#F0A000', '#FFC91F', '#FFE873'],
     sol:     ['#F4A300', '#FFCB2E', '#FFE066'],
-    rosa:    ['#E8608C', '#FF8FB0', '#FFC2D6'],
     durazno: ['#EE6A2C', '#FF9A57', '#FFCBA0'],
     dorado:  ['#F08A00', '#FFC93A', '#FFF0A0'],
     crema:   ['#F2B44A', '#FFEFC2', '#FFFFFF'],
-  };
-
-  const paletaPara = (tipo) => {
-    if (tipo === 'amarilla') return 'girasol';
-    if (tipo === 'tulipan') return elegir(['sol', 'sol', 'rosa', 'durazno']);
-    return elegir(['dorado', 'dorado', 'crema']);
   };
 
   // Oscurece hacia un naranja tostado (no hacia negro, que ensucia el amarillo)
@@ -306,41 +340,17 @@
       .map((c, i) => Math.round(parseInt(c, 16) * (1 - k) + TOSTADO[i] * k).toString(16).padStart(2, '0'))
       .join('');
 
-  /* ───────────── Dibujo de flores (SVG) ───────────── */
-  const gradientes = () => {
+  /* ───────────── Flores en SVG ───────────── */
+  const degradados = (pal) => {
+    const [a, b, c] = PALETAS[pal];
     let s = '';
-    for (const [n, [a, b, c]] of Object.entries(PALETAS)) {
-      for (const [suf, f] of [['', (x) => x], ['-d', oscurecer]]) {
-        s += `<linearGradient id="g-${n}${suf}" x1="0" y1="1" x2="0" y2="0">` +
-             `<stop offset="0" stop-color="${f(a)}"/><stop offset=".55" stop-color="${f(b)}"/>` +
-             `<stop offset="1" stop-color="${f(c)}"/></linearGradient>`;
-      }
+    for (const [suf, f] of [['', (x) => x], ['-d', oscurecer]]) {
+      s += `<linearGradient id="g-${pal}${suf}" x1="0" y1="1" x2="0" y2="0">` +
+           `<stop offset="0" stop-color="${f(a)}"/><stop offset=".55" stop-color="${f(b)}"/>` +
+           `<stop offset="1" stop-color="${f(c)}"/></linearGradient>`;
     }
-    s += `<radialGradient id="g-centro"><stop offset="0" stop-color="#6E3610"/>` +
-         `<stop offset=".65" stop-color="#A65A14"/><stop offset="1" stop-color="#D08A2A"/></radialGradient>`;
-    s += `<linearGradient id="g-hoja" x1="0" y1="1" x2="1" y2="0">` +
-         `<stop offset="0" stop-color="#4C8E3D"/><stop offset="1" stop-color="#86C167"/></linearGradient>`;
-    return `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>${s}</defs></svg>`;
-  };
-
-  // Hoja en forma de lente, de (x,y) a (x+dx,y+dy); w = grosor
-  const hoja = (x, y, dx, dy, w) => {
-    const mx = x + dx / 2, my = y + dy / 2, len = Math.hypot(dx, dy);
-    const nx = (-dy / len) * w, ny = (dx / len) * w;
-    return `<path class="hoja" fill="url(#g-hoja)" d="M${x} ${y} Q${(mx + nx).toFixed(1)} ${(my + ny).toFixed(1)} ` +
-           `${x + dx} ${y + dy} Q${(mx - nx).toFixed(1)} ${(my - ny).toFixed(1)} ${x} ${y}Z"/>`;
-  };
-
-  const TALLO = 'M100 125 C 93 210, 108 320, 100 430';
-  const tallo =
-    `<path class="tallo" d="${TALLO}" fill="none" stroke="#5B9A47" stroke-width="5" stroke-linecap="round"/>` +
-    `<path class="tallo" d="${TALLO}" fill="none" stroke="rgba(0,0,0,0)" stroke-width="26"/>`;
-
-  const HOJAS = {
-    amarilla: () => hoja(100, 335, -74, -30, 34) + hoja(100, 285, 76, -34, 34),
-    tulipan:  () => hoja(100, 425, -54, -180, 30) + hoja(100, 425, 58, -160, 30),
-    lirio:    () => hoja(100, 345, -64, -44, 14) + hoja(100, 305, 66, -40, 14) +
-                    hoja(100, 262, -58, -38, 13) + hoja(100, 228, 52, -34, 12),
+    return s + `<radialGradient id="g-centro"><stop offset="0" stop-color="#6E3610"/>` +
+               `<stop offset=".65" stop-color="#A65A14"/><stop offset="1" stop-color="#D08A2A"/></radialGradient>`;
   };
 
   const CABEZAS = {
@@ -377,21 +387,20 @@
     lirio(p) {
       const g = `url(#g-${p})`, gd = `url(#g-${p}-d)`;
       const petalo = 'M100 100 C 82 80, 80 46, 100 16 C 120 46, 118 80, 100 100Z';
-      const vena = 'M100 94 L100 32';
       let s = '';
       for (const [a, f] of [[0, gd], [120, gd], [240, gd], [60, g], [180, g], [300, g]]) {
         s += `<g transform="rotate(${a} 100 100)"><path d="${petalo}" fill="${f}" stroke="rgba(120,60,10,.2)" stroke-width=".8"/>` +
-             `<path d="${vena}" stroke="rgba(150,70,0,.25)" stroke-width="1.2" fill="none"/>` +
-             `<circle cx="${(100 - 5).toFixed(1)}" cy="74" r="1.6" fill="rgba(160,70,10,.35)"/>` +
-             `<circle cx="${(100 + 4).toFixed(1)}" cy="62" r="1.6" fill="rgba(160,70,10,.35)"/>` +
-             `<circle cx="${(100 - 3).toFixed(1)}" cy="50" r="1.4" fill="rgba(160,70,10,.3)"/></g>`;
+             `<path d="M100 94 L100 32" stroke="rgba(150,70,0,.25)" stroke-width="1.2" fill="none"/>` +
+             `<circle cx="95" cy="74" r="1.6" fill="rgba(160,70,10,.35)"/>` +
+             `<circle cx="104" cy="62" r="1.6" fill="rgba(160,70,10,.35)"/>` +
+             `<circle cx="97" cy="50" r="1.4" fill="rgba(160,70,10,.3)"/></g>`;
       }
       s += `<circle cx="100" cy="100" r="9" fill="#C9D65A" opacity=".85"/>`;
       for (let k = 0; k < 6; k++) {
         const a = (15 + k * 60) * Math.PI / 180, L = 30 + (k % 2) * 6;
         const ex = 100 + L * Math.sin(a), ey = 100 - L * Math.cos(a);
         s += `<line x1="100" y1="100" x2="${ex.toFixed(1)}" y2="${ey.toFixed(1)}" stroke="#D9902B" stroke-width="1.6" stroke-linecap="round"/>` +
-             `<ellipse cx="${ex.toFixed(1)}" cy="${ey.toFixed(1)}" rx="2.6" ry="6" fill="#A5471A" transform="rotate(${(15 + k * 60)} ${ex.toFixed(1)} ${ey.toFixed(1)})"/>`;
+             `<ellipse cx="${ex.toFixed(1)}" cy="${ey.toFixed(1)}" rx="2.6" ry="6" fill="#A5471A" transform="rotate(${15 + k * 60} ${ex.toFixed(1)} ${ey.toFixed(1)})"/>`;
       }
       const pa = -12 * Math.PI / 180, px = 100 + 46 * Math.sin(pa), py = 100 - 46 * Math.cos(pa);
       s += `<line x1="100" y1="100" x2="${px.toFixed(1)}" y2="${py.toFixed(1)}" stroke="#8FB03C" stroke-width="2" stroke-linecap="round"/>` +
@@ -400,71 +409,51 @@
     },
   };
 
-  const svgFlor = (tipo, pal) =>
-    `<svg viewBox="0 0 200 420" aria-hidden="true" focusable="false">` +
-    `${HOJAS[tipo]()}${tallo}` +
-    `<g class="cabeza">${CABEZAS[tipo](pal)}<circle class="toque" cx="100" cy="100" r="72" fill="rgba(0,0,0,0)"/></g></svg>`;
+  const svgCabeza = (tipo, pal, px) =>
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="${px}" height="${px}">` +
+    `<defs>${degradados(pal)}</defs>${CABEZAS[tipo](pal)}</svg>`;
 
-  /* ───────────── Jardín ───────────── */
-  const jardin = $('#jardin');
-  const plantas = [];
-  const MAX_FLORES = 28;
-  const CABEZA_Y = 100 / 420; // posición de la cabeza dentro del dibujo
+  $('#introFlor').innerHTML = svgCabeza('amarilla', 'girasol', 160);
 
-  document.body.insertAdjacentHTML('afterbegin', gradientes());
+  /* ───────────── Sprites para el canvas ───────────── */
+  const CATALOGO = [
+    { tipo: 'amarilla', pal: 'girasol', peso: 4 },
+    { tipo: 'tulipan',  pal: 'sol',     peso: 2 },
+    { tipo: 'tulipan',  pal: 'durazno', peso: 1 },
+    { tipo: 'lirio',    pal: 'dorado',  peso: 2 },
+    { tipo: 'lirio',    pal: 'crema',   peso: 1 },
+  ];
+  const PESO_TOTAL = CATALOGO.reduce((s, c) => s + c.peso, 0);
+  const elegirCat = () => {
+    let r = Math.random() * PESO_TOTAL;
+    for (let i = 0; i < CATALOGO.length; i++) { r -= CATALOGO[i].peso; if (r <= 0) return i; }
+    return 0;
+  };
 
-  // Coloca la flor para que su cabeza quede en (xr, yr), en fracción de pantalla
-  function colocar(el) {
-    const vw = innerWidth, vh = innerHeight;
-    const ideal = (vh - el._yr * vh) / (1 - CABEZA_Y);
-    const h = Math.max(180, Math.min(ideal, vh * 0.92, 720));
-    const w = h * 200 / 420;
-    el.style.height = h + 'px';
-    el.style.width = w + 'px';
-    el.style.left = (el._xr * vw - w / 2) + 'px';
-    el.style.zIndex = Math.round(el._yr * 1000);
-  }
+  const cargarSprite = ({ tipo, pal }) => new Promise((res) => {
+    const S = 256, img = new Image();
+    img.onload = () => {
+      const c = document.createElement('canvas');
+      c.width = c.height = S;
+      c.getContext('2d').drawImage(img, 0, 0, S, S);
+      res(c);
+    };
+    img.onerror = () => res(null);
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgCabeza(tipo, pal, S));
+  });
 
-  function retirar(el) {
-    if (REDUCIR) return el.remove();
-    el.style.pointerEvents = 'none';
-    el.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 700, fill: 'forwards' }).onfinish = () => el.remove();
-  }
+  const crearBrillo = () => {
+    const S = 128, c = document.createElement('canvas');
+    c.width = c.height = S;
+    const x = c.getContext('2d'), g = x.createRadialGradient(S / 2, S / 2, 0, S / 2, S / 2, S / 2);
+    g.addColorStop(0, 'rgba(255,214,110,.6)');
+    g.addColorStop(.4, 'rgba(255,190,70,.18)');
+    g.addColorStop(1, 'rgba(255,190,70,0)');
+    x.fillStyle = g; x.fillRect(0, 0, S, S);
+    return c;
+  };
 
-  function plantar(xr, yr, tipo, retraso = 0) {
-    tipo = tipo || elegir(Object.keys(FLORES));
-    const pal = paletaPara(tipo);
-    const el = document.createElement('div');
-    el.className = 'flor';
-    el.dataset.tipo = tipo;
-    el.tabIndex = 0;
-    el.setAttribute('role', 'button');
-    el.setAttribute('aria-label', `${FLORES[tipo].nombre}: leer mensaje`);
-    el.style.cssText =
-      `--d:${retraso.toFixed(2)}s;--lean:${rnd(-3, 3).toFixed(1)}deg;--amp:${rnd(1.2, 2.8).toFixed(1)}deg;` +
-      `--dur:${rnd(4.5, 7.5).toFixed(1)}s;--dl:${rnd(-6, 0).toFixed(1)}s`;
-    el.innerHTML = svgFlor(tipo, pal);
-    el._pal = pal;
-    el._xr = xr;
-    el._yr = yr;
-    jardin.appendChild(el);
-    plantas.push(el);
-    colocar(el);
-    if (plantas.length > MAX_FLORES) retirar(plantas.shift());
-    return el;
-  }
-
-  function sembrarInicial() {
-    const orden = ['amarilla', 'tulipan', 'lirio'];
-    const n = Math.max(5, Math.min(12, Math.round(innerWidth / 130)));
-    const inicio = Math.floor(Math.random() * 3);
-    for (let i = 0; i < n; i++) {
-      const xr = Math.min(.94, Math.max(.06, (i + .5) / n + rnd(-.25, .25) / n));
-      plantar(xr, rnd(.54, .76), orden[(i + inicio) % 3], .15 + i * .16 + rnd(0, .1));
-    }
-  }
-
-  /* ───────────── Mensajes al tocar ───────────── */
+  /* ───────────── Mensajes ───────────── */
   const mazos = {};
   let ultima = '';
   function siguienteFrase(tipo) {
@@ -476,70 +465,108 @@
     return (ultima = m.pop());
   }
 
-  const contenido = $('#contenido');
+  const tarjeta = $('#tarjeta'), contenido = $('#contenido'), pista = $('#pista');
   let temporizador;
-  function mostrar(tipo) {
+  function mostrar(etiqueta, texto, larga = false) {
     clearTimeout(temporizador);
-    contenido.classList.add('oculto');
+    const yaVisible = tarjeta.classList.contains('visible');
+    if (yaVisible) contenido.classList.add('oculto');
     temporizador = setTimeout(() => {
-      $('#etiqueta').textContent = FLORES[tipo].nombre;
-      $('#frase').textContent = siguienteFrase(tipo);
+      $('#etiqueta').textContent = etiqueta;
+      const f = $('#frase');
+      f.textContent = texto;
+      f.classList.toggle('larga', larga);
       contenido.classList.remove('oculto');
-    }, REDUCIR ? 0 : 280);
+      tarjeta.classList.add('visible');
+    }, yaVisible && !REDUCIR ? 260 : 0);
+  }
+  function cerrarMensaje() {
+    clearTimeout(temporizador);
+    tarjeta.classList.remove('visible');
   }
 
-  function revelar(el) {
-    const cab = el.querySelector('.cabeza');
-    if (!REDUCIR) {
-      cab.animate(
-        [{ transform: 'scale(1) rotate(0)' }, { transform: 'scale(1.22) rotate(7deg)' },
-         { transform: 'scale(.96) rotate(-3deg)' }, { transform: 'scale(1) rotate(0)' }],
-        { duration: 800, easing: 'ease-out' }
-      );
-      const r = cab.querySelector('.toque').getBoundingClientRect();
-      petalos(r.left + r.width / 2, r.top + r.height / 2, PALETAS[el._pal], 16);
-    }
-    mostrar(el.dataset.tipo);
+  let pasoPista = 0; // 0: girar · 1: carta · 2: nada
+  function ponerPista(txt) {
+    pista.classList.remove('visible');
+    setTimeout(() => {
+      if (!txt) return;
+      pista.textContent = txt;
+      pista.classList.add('visible');
+    }, 700);
   }
 
-  document.addEventListener('click', (e) => {
-    const flor = e.target.closest && e.target.closest('.flor');
-    if (flor) return revelar(flor);
-    const xr = e.clientX / innerWidth, yr = e.clientY / innerHeight;
-    plantar(xr, yr);
-    petalos(e.clientX, e.clientY, ['#FFD93B', '#FFE873', '#FFF3B0'], 6);
-  });
-
-  document.addEventListener('keydown', (e) => {
-    if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('flor')) {
-      e.preventDefault();
-      revelar(e.target);
-    }
-  });
-
-  /* ───────────── Efectos: polen y pétalos ───────────── */
-  const cv = $('#fx'), ctx = cv.getContext('2d');
-  let W = 0, H = 0, motas = [];
+  /* ───────────── Galaxia ───────────── */
+  const cv = $('#galaxia'), ctx = cv.getContext('2d');
+  const SERIF = '"Cormorant Garamond", Georgia, serif';
+  let W = 0, H = 0, Rpx = 0, base = 40, fsBase = 16;
+  let SPR = [], BRILLO = null;
+  let estrellas = [], polvo = [], items = [];
+  // En pantallas verticales se ve más "desde arriba" para aprovechar el alto
+  const cam = { yaw: 0, vel: 0, tilt: innerHeight > innerWidth * 1.1 ? 1.15 : .95, zoom: 1, zoomObj: 1 };
+  const AUTO = REDUCIR ? 0 : .06;
+  const NUCLEO = { pulse: 0, rot: 0 };
+  let abierto = false, tAbierto = 0;
+  const visibles = [];
   const petalosFx = [];
-  const puntero = { x: -999, y: -999 };
-
-  function crearMotas() {
-    const n = REDUCIR ? 0 : Math.max(18, Math.min(60, Math.round(W * H / 26000)));
-    motas = Array.from({ length: n }, () => ({
-      x: rnd(0, W), y: rnd(0, H), r: rnd(1.2, 3.2), v: rnd(.12, .4),
-      f: rnd(0, 6.28), a: rnd(.35, .8), vx: 0, vy: 0,
-    }));
-  }
 
   function ajustar() {
     const dpr = Math.min(devicePixelRatio || 1, 2);
     W = innerWidth; H = innerHeight;
     cv.width = W * dpr; cv.height = H * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    crearMotas();
-    plantas.forEach(colocar);
+    const vertical = H > W * 1.1;
+    Rpx = vertical ? W * .68 : Math.min(W * .44, H * .44);
+    base = clamp(Math.min(W, H) * .085, 30, 80);
+    fsBase = clamp(Math.min(W, H) * (vertical ? .042 : .032), 14, 22);
+    estrellas = Array.from({ length: Math.round(W * H / 9000) }, () => ({
+      x: rnd(0, W), y: rnd(0, H), r: rnd(.6, 1.6), a: rnd(.25, .7), v: rnd(.6, 1.8), f: rnd(0, 6.28),
+    }));
   }
 
+  function crearPolvo() {
+    const n = 520;
+    polvo = Array.from({ length: n }, (_, i) => {
+      const u = Math.pow(Math.random(), .8), brazo = i % 2;
+      const g = () => (Math.random() + Math.random() + Math.random() - 1.5) / 1.5;
+      return {
+        r: .12 + u * 1.05,
+        th: brazo * Math.PI + u * 3.4 + g() * .42,
+        h: g() * .05,
+        w: .03 / (.25 + u),
+        sz: rnd(.8, 1.9), a: rnd(.18, .55),
+        c: Math.random() < .7 ? '#FFD98A' : '#FFF1CC',
+      };
+    });
+  }
+
+  function crearItems() {
+    const NF = 30;
+    const tipos = [...Array(NF).fill('f'), ...Array(PALABRAS.length).fill('p')];
+    barajar(tipos);
+    const palabras = barajar([...PALABRAS]);
+    const N = tipos.length;
+    items = tipos.map((k, i) => {
+      const t = (i + .5) / N;
+      const it = {
+        k, r: .3 + .7 * Math.sqrt(t), th: i * 2.39996 + rnd(-.2, .2),
+        h: rnd(-.06, .06), bob: rnd(0, 6.28), pulse: 0,
+      };
+      it.w = .045 / (it.r + .25);
+      if (k === 'f') {
+        it.cat = elegirCat();
+        it.tipo = CATALOGO[it.cat].tipo;
+        it.sz = rnd(.75, 1.25);
+        it.rot = it.tipo === 'tulipan' ? rnd(-.5, .5) : rnd(0, 6.28);
+        it.spin = it.tipo === 'tulipan' ? 0 : rnd(-.2, .2);
+      } else {
+        it.texto = palabras.pop();
+        it.fs = rnd(.9, 1.2);
+      }
+      return it;
+    });
+  }
+
+  /* ───────────── Pétalos al tocar ───────────── */
   function petalos(x, y, cols, n) {
     if (REDUCIR) return;
     for (let i = 0; i < n; i++) {
@@ -552,35 +579,135 @@
     }
   }
 
-  let ultimo = 0;
-  function bucle(t) {
-    const dt = Math.min((t - ultimo) / 16.67 || 1, 3);
-    ultimo = t;
-    ctx.clearRect(0, 0, W, H);
+  /* ───────────── Dibujo ───────────── */
+  let tPrev = 0;
+  function bucle(ms) {
+    const t = ms / 1000, dt = Math.min(t - tPrev || .016, .05);
+    tPrev = t;
 
-    for (const m of motas) {
-      m.f += .01 * dt;
-      m.vx *= .95; m.vy *= .95;
-      const dx = m.x - puntero.x, dy = m.y - puntero.y, d2 = dx * dx + dy * dy;
-      if (d2 < 14400) {
-        const d = Math.sqrt(d2) || 1, fz = (120 - d) / 120 * .18;
-        m.vx += dx / d * fz; m.vy += dy / d * fz;
-      }
-      m.x += (Math.sin(m.f) * .3 + m.vx) * dt;
-      m.y += (-m.v + m.vy) * dt;
-      if (m.y < -10) { m.y = H + 10; m.x = rnd(0, W); }
-      if (m.x < -10) m.x = W + 10; else if (m.x > W + 10) m.x = -10;
-      ctx.globalAlpha = m.a * .18; ctx.fillStyle = '#FFD54A';
-      ctx.beginPath(); ctx.arc(m.x, m.y, m.r * 3, 0, 6.283); ctx.fill();
-      ctx.globalAlpha = m.a; ctx.fillStyle = '#FFF3B0';
-      ctx.beginPath(); ctx.arc(m.x, m.y, m.r, 0, 6.283); ctx.fill();
+    // cámara
+    if (!arr.activo) { cam.yaw += (AUTO + cam.vel) * dt; cam.vel *= Math.exp(-1.8 * dt); }
+    let zEnt = .55;
+    if (abierto) {
+      tAbierto += dt;
+      const e = REDUCIR ? 1 : Math.min(1, tAbierto / 3.4);
+      zEnt = .45 + .55 * (1 - Math.pow(1 - e, 3));
+      if (!REDUCIR) cam.yaw += 2.2 * Math.pow(1 - e, 2) * dt;
+    }
+    cam.zoom += (cam.zoomObj - cam.zoom) * Math.min(1, dt * 6);
+
+    const Z = zEnt * cam.zoom, R = Rpx * Z;
+    const cx = W / 2, cy = H * .5;
+    const st = Math.sin(cam.tilt), ct = Math.cos(cam.tilt);
+
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalCompositeOperation = 'source-over';
+
+    // estrellas
+    ctx.fillStyle = '#FFF1CC';
+    for (const s of estrellas) {
+      ctx.globalAlpha = s.a * (.6 + .4 * Math.sin(t * s.v + s.f));
+      ctx.fillRect(s.x, s.y, s.r, s.r);
     }
 
+    // resplandor del disco y del núcleo
+    ctx.globalCompositeOperation = 'lighter';
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(1, Math.max(.25, st));
+    let g = ctx.createRadialGradient(0, 0, 0, 0, 0, R * 1.15);
+    g.addColorStop(0, 'rgba(255,196,80,.2)');
+    g.addColorStop(.5, 'rgba(255,170,60,.06)');
+    g.addColorStop(1, 'rgba(255,170,60,0)');
+    ctx.globalAlpha = 1; ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(0, 0, R * 1.15, 0, 6.283); ctx.fill();
+    ctx.restore();
+    g = ctx.createRadialGradient(cx, cy, 0, cx, cy, R * .45);
+    g.addColorStop(0, 'rgba(255,214,120,.5)');
+    g.addColorStop(.5, 'rgba(255,180,70,.14)');
+    g.addColorStop(1, 'rgba(255,180,70,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath(); ctx.arc(cx, cy, R * .45, 0, 6.283); ctx.fill();
+
+    // polvo dorado (brazos de la galaxia)
+    for (const d of polvo) {
+      d.th += d.w * dt;
+      const a = d.th + cam.yaw, x = d.r * Math.cos(a), z = d.r * Math.sin(a);
+      const y1 = d.h * ct + z * st, z1 = z * ct - d.h * st, s = 1 / (1 - z1 * .4);
+      ctx.globalAlpha = d.a * clamp(.6 + z1 * .8, .3, 1);
+      ctx.fillStyle = d.c;
+      const z2 = d.sz * s;
+      ctx.fillRect(cx + x * s * R - z2 / 2, cy + y1 * s * R - z2 / 2, z2, z2);
+    }
+    ctx.globalCompositeOperation = 'source-over';
+
+    // flores y palabras, de lejos a cerca
+    const lista = [{ nucleo: true, z1: 0, x: cx, y: cy, s: 1 }];
+    for (const it of items) {
+      it.th += it.w * dt;
+      if (it.k === 'f') it.rot += it.spin * dt;
+      if (it.pulse > 0) it.pulse = Math.max(0, it.pulse - dt * 1.4);
+      const a = it.th + cam.yaw, x = it.r * Math.cos(a), z = it.r * Math.sin(a);
+      const h = it.h + Math.sin(t * .6 + it.bob) * .015;
+      const y1 = h * ct + z * st, z1 = z * ct - h * st, s = 1 / (1 - z1 * .4);
+      lista.push({ it, z1, s, x: cx + x * s * R, y: cy + y1 * s * R });
+    }
+    lista.sort((p, q) => p.z1 - q.z1);
+
+    visibles.length = 0;
+    for (const o of lista) {
+      const a = clamp(.55 + o.z1 * .9, .4, 1);
+      if (o.nucleo) {
+        if (NUCLEO.pulse > 0) NUCLEO.pulse = Math.max(0, NUCLEO.pulse - dt * 1.4);
+        NUCLEO.rot += dt * .05;
+        const w = base * 2.7 * Z * (1 + .025 * Math.sin(t * 1.3) + .2 * NUCLEO.pulse);
+        if (SPR[0]) {
+          ctx.globalCompositeOperation = 'lighter';
+          ctx.globalAlpha = .7; ctx.drawImage(BRILLO, cx - w * .95, cy - w * .95, w * 1.9, w * 1.9);
+          ctx.globalCompositeOperation = 'source-over';
+          ctx.save(); ctx.translate(cx, cy); ctx.rotate(NUCLEO.rot);
+          ctx.globalAlpha = 1; ctx.drawImage(SPR[0], -w / 2, -w / 2, w, w);
+          ctx.restore();
+        }
+        visibles.push({ nucleo: true, x: cx, y: cy, r: Math.max(w * .45, 28) });
+        continue;
+      }
+      const it = o.it;
+      if (it.k === 'f') {
+        const spr = SPR[it.cat];
+        if (!spr) continue;
+        const w = base * it.sz * o.s * Z * (1 + .3 * it.pulse);
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.globalAlpha = a * .5;
+        ctx.drawImage(BRILLO, o.x - w * 1.1, o.y - w * 1.1, w * 2.2, w * 2.2);
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.save(); ctx.translate(o.x, o.y); ctx.rotate(it.rot);
+        ctx.globalAlpha = a;
+        ctx.drawImage(spr, -w / 2, -w / 2, w, w);
+        ctx.restore();
+        visibles.push({ it, x: o.x, y: o.y, r: Math.max(w * .55, 24) });
+      } else {
+        ctx.font = `italic 500 ${(fsBase * it.fs * o.s * Z).toFixed(1)}px ${SERIF}`;
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        // halo oscuro para que se lea sobre las flores, y brillo dorado suave
+        ctx.globalAlpha = a * .7;
+        ctx.lineJoin = 'round'; ctx.lineWidth = 4;
+        ctx.strokeStyle = 'rgba(12,8,6,.85)';
+        ctx.strokeText(it.texto, o.x, o.y);
+        ctx.shadowColor = 'rgba(255,190,70,.55)'; ctx.shadowBlur = 10;
+        ctx.globalAlpha = a * .85;
+        ctx.fillStyle = '#FFEBB8';
+        ctx.fillText(it.texto, o.x, o.y);
+        ctx.shadowBlur = 0;
+      }
+    }
+
+    // pétalos que caen
     for (let i = petalosFx.length - 1; i >= 0; i--) {
       const p = petalosFx[i];
       p.vx *= .97; p.vy = (p.vy + .035) * .97;
-      p.fl += .08; p.r += p.vr; p.life -= .004 * dt;
-      p.x += (p.vx + Math.sin(p.fl) * .5) * dt; p.y += p.vy * dt;
+      p.fl += .08; p.r += p.vr; p.life -= .004 * dt * 60;
+      p.x += (p.vx + Math.sin(p.fl) * .5) * dt * 60; p.y += p.vy * dt * 60;
       if (p.life <= 0 || p.y > H + 20) { petalosFx.splice(i, 1); continue; }
       ctx.save();
       ctx.translate(p.x, p.y); ctx.rotate(p.r);
@@ -590,25 +717,93 @@
       ctx.beginPath(); ctx.ellipse(0, 0, p.s * .55, p.s, 0, 0, 6.283); ctx.fill();
       ctx.restore();
     }
-
     ctx.globalAlpha = 1;
     requestAnimationFrame(bucle);
   }
 
-  addEventListener('pointermove', (e) => { puntero.x = e.clientX; puntero.y = e.clientY; });
-  const soltar = () => { puntero.x = puntero.y = -999; };
-  addEventListener('pointerup', (e) => { if (e.pointerType === 'touch') soltar(); });
-  addEventListener('pointercancel', soltar);
-  document.documentElement.addEventListener('pointerleave', soltar);
+  /* ───────────── Interacción ───────────── */
+  const arr = { activo: false, x: 0, y: 0, x0: 0, y0: 0, ult: 0, movido: false };
 
-  let pendiente = 0;
-  addEventListener('resize', () => {
-    cancelAnimationFrame(pendiente);
-    pendiente = requestAnimationFrame(ajustar);
+  const golpe = (x, y) => {
+    for (let i = visibles.length - 1; i >= 0; i--) {
+      const v = visibles[i];
+      if (v.nucleo || v.it.k === 'f') {
+        if (Math.hypot(x - v.x, y - v.y) <= v.r) return v;
+      }
+    }
+    return null;
+  };
+
+  function tocar(x, y) {
+    const v = golpe(x, y);
+    if (!v) return cerrarMensaje();
+    if (v.nucleo) {
+      NUCLEO.pulse = 1;
+      petalos(v.x, v.y, PALETAS.girasol, 18);
+      mostrar('Una carta para usted', CARTA, true);
+      if (pasoPista < 2) { pasoPista = 2; ponerPista(''); }
+      return;
+    }
+    const it = v.it, cat = CATALOGO[it.cat];
+    it.pulse = 1;
+    petalos(v.x, v.y, PALETAS[cat.pal], 14);
+    mostrar(FLORES[it.tipo].nombre, siguienteFrase(it.tipo));
+    if (pasoPista === 0) { pasoPista = 1; ponerPista('Toque la flor grande del centro para leer una carta'); }
+  }
+
+  cv.addEventListener('pointerdown', (e) => {
+    cv.setPointerCapture(e.pointerId);
+    Object.assign(arr, { activo: true, x: e.clientX, y: e.clientY, x0: e.clientX, y0: e.clientY, ult: performance.now(), movido: false });
   });
 
+  cv.addEventListener('pointermove', (e) => {
+    if (!arr.activo) {
+      cv.style.cursor = golpe(e.clientX, e.clientY) ? 'pointer' : '';
+      return;
+    }
+    if (!arr.movido && Math.hypot(e.clientX - arr.x0, e.clientY - arr.y0) > 6) arr.movido = true;
+    if (arr.movido) {
+      const dx = e.clientX - arr.x, dy = e.clientY - arr.y;
+      const now = performance.now(), dt = Math.max(.008, (now - arr.ult) / 1000);
+      cam.yaw += dx * .006;
+      cam.tilt = clamp(cam.tilt - dy * .004, .35, 1.2);
+      cam.vel = .7 * cam.vel + .3 * (dx * .006 / dt);
+      arr.ult = now;
+    }
+    arr.x = e.clientX; arr.y = e.clientY;
+  });
+
+  const soltar = (e) => {
+    if (!arr.activo) return;
+    arr.activo = false;
+    if (!arr.movido) tocar(e.clientX, e.clientY);
+    else if (performance.now() - arr.ult > 80) cam.vel = 0;
+    else cam.vel = clamp(cam.vel, -3, 3);
+  };
+  cv.addEventListener('pointerup', soltar);
+  cv.addEventListener('pointercancel', () => { arr.activo = false; });
+
+  cv.addEventListener('wheel', (e) => {
+    cam.zoomObj = clamp(cam.zoomObj * (e.deltaY > 0 ? .93 : 1.07), .7, 1.6);
+  }, { passive: true });
+
+  addEventListener('resize', ajustar);
+
+  /* ───────────── Inicio ───────────── */
+  function abrir() {
+    if (abierto) return;
+    abierto = true;
+    $('#intro').classList.add('fuera');
+    document.body.classList.add('abierto');
+    setTimeout(() => ponerPista('Deslice para girar la galaxia · Toque una flor'), 2600);
+  }
+  $('#abrir').addEventListener('click', abrir);
+
   ajustar();
-  sembrarInicial();
+  crearPolvo();
+  crearItems();
+  BRILLO = crearBrillo();
+  Promise.all(CATALOGO.map(cargarSprite)).then((s) => { SPR = s; });
   requestAnimationFrame(bucle);
 })();
 </script>
