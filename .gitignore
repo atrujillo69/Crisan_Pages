@@ -1,0 +1,10 @@
+# Archivos del IDE (WebStorm / JetBrains)
+.idea/
+*.iml
+
+# Carpeta antigua del proyecto (solo contenía configuración del IDE)
+Flores Amarillas/
+
+# Basura del sistema
+.DS_Store
+Thumbs.db
