@@ -63,16 +63,16 @@
   #intro.fuera { opacity: 0; visibility: hidden; pointer-events: none; }
 
   .intro-flor {
-    width: clamp(110px, 26vw, 160px);
-    margin-bottom: 1.3rem;
+    width: clamp(140px, 34vw, 200px);
+    margin-bottom: .2rem;
     filter: drop-shadow(0 0 24px rgba(255, 200, 60, .42));
     transition: transform 1.6s ease;
     animation: brotar 2.8s cubic-bezier(.2, .9, .3, 1.08) backwards;
   }
   #intro.fuera .intro-flor { transform: scale(1.7); }
-  .intro-flor svg { display: block; width: 100%; height: auto; animation: girar 60s linear infinite; }
-  @keyframes brotar { from { transform: scale(.05) rotate(-120deg); opacity: 0; } 40% { opacity: 1; } }
-  @keyframes girar { to { transform: rotate(360deg); } }
+  .intro-flor svg { display: block; width: 100%; height: auto; transform-origin: 50% 85%; animation: mecerTulipan 6s ease-in-out infinite alternate; }
+  @keyframes brotar { from { transform: scale(.05) translateY(50px); opacity: 0; } 40% { opacity: 1; } }
+  @keyframes mecerTulipan { from { transform: rotate(-4deg); } to { transform: rotate(4deg); } }
 
   .subir { animation: subir 1.6s ease-out var(--r, 0s) backwards; }
   @keyframes subir { from { opacity: 0; transform: translateY(14px); } }
@@ -188,7 +188,58 @@
     font-size: clamp(1.25rem, 3.3vw, 1.8rem);
     line-height: 1.32;
   }
-  .frase.larga { font-size: clamp(1.05rem, 2.7vw, 1.4rem); line-height: 1.4; }
+  .frase.larga {
+    font-size: clamp(1rem, 2.4vw, 1.3rem);
+    line-height: 1.4;
+    white-space: pre-line;
+  }
+  .tarjeta.carta { width: min(40rem, 92vw); max-height: calc(100vh - 7rem); max-height: calc(100dvh - 7rem); overflow: auto; }
+
+  .contador {
+    position: fixed;
+    top: calc(clamp(.9rem, 3vh, 1.6rem) + 2rem);
+    left: 0; right: 0;
+    z-index: 5;
+    text-align: center;
+    font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-size: .66rem;
+    font-weight: 600;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: rgba(242, 194, 75, .7);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 2s ease 1.6s;
+  }
+  body.abierto .contador { opacity: 1; }
+
+  .musica {
+    position: fixed;
+    top: clamp(.7rem, 2.5vh, 1.2rem);
+    right: clamp(.7rem, 2.5vw, 1.2rem);
+    z-index: 8;
+    width: 42px; height: 42px;
+    display: grid; place-items: center;
+    border: 1px solid rgba(242, 194, 75, .35);
+    border-radius: 50%;
+    background: rgba(26, 18, 11, .55);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    color: var(--crema);
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.6s ease 1.2s, background .3s, box-shadow .3s;
+  }
+  /* reproductor de YouTube: solo se usa su sonido, así que no se ve */
+  #ytwrap { position: fixed; left: 0; bottom: 0; width: 200px; height: 200px; opacity: .01; pointer-events: none; z-index: -1; overflow: hidden; }
+  .musica[hidden] { display: none; }
+  body.abierto .musica { opacity: 1; pointer-events: auto; }
+  .musica:hover, .musica:focus-visible { outline: none; background: rgba(242, 194, 75, .16); box-shadow: 0 0 18px rgba(242, 194, 75, .3); }
+  .musica svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  .musica .tacha { display: none; }
+  .musica.silencio .tacha { display: block; }
+  .musica.silencio .ondas { display: none; }
 
   .pista {
     position: fixed;
@@ -208,7 +259,7 @@
 
   @media (max-height: 520px) {
     .pista { display: none; }
-    .titulo { display: none; }
+    .titulo, .contador { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -230,6 +281,17 @@
 </div>
 
 <p class="titulo" id="titulo"></p>
+<p class="contador" id="contador"></p>
+
+<div id="ytwrap" aria-hidden="true"><div id="ytplayer"></div></div>
+
+<button class="musica" id="musica" type="button" hidden aria-label="Silenciar o reanudar la música" aria-pressed="true">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M4 9v6h4l5 4V5L8 9H4z"/>
+    <g class="ondas"><path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a8.5 8.5 0 0 1 0 12"/></g>
+    <path class="tacha" d="M17 9l5 6M22 9l-5 6"/>
+  </svg>
+</button>
 
 <div class="tarjeta" id="tarjeta" role="status" aria-live="polite">
   <div class="contenido" id="contenido">
@@ -249,60 +311,74 @@
   const FECHA     = '21 de septiembre';
   const SUBTITULO = 'Preparé algo pequeño para usted';
 
-  // Carta que se abre al tocar la flor del centro
+  // Carta que se abre al tocar la flor del centro (\n\n separa párrafos)
   const CARTA =
-    'Doctora: gracias por su dedicación, por su paciencia y por esa forma tan suya ' +
-    'de hacer que todo se sienta mejor. Este pequeño jardín es un detalle para ' +
-    'agradecerle, y para recordarle lo valiosa que es. Con mucho cariño.';
+    'Hoy quiero darle flores de una manera un poco diferente, más a mi manera. ' +
+    'Quise relacionarlo con algo que forma parte de mi día a día y convertirlo en un detalle especial para usted.\n\n' +
+    'Lo hice con mucho cariño, pensando en usted en cada detalle, y espero de corazón que le guste tanto como a mí me gustó prepararlo.\n\n' +
+    'La quiero mucho.';
+
+  // Una sola flor del jardín lleva este mensaje (se escoge al azar cada vez)
+  const ESPECIAL = {
+    etiqueta: 'Flor especial',
+    texto: 'Esta flor también es para la más funada y más salada de la rotación.',
+  };
+
+  // Canción de fondo. Use UNA de las dos opciones (si pone las dos, gana YouTube):
+  //  · YouTube: el código del video, lo que va después de "v=" en su enlace. No necesita ningún archivo.
+  //  · Archivo: audio junto a este index.html (mp3, m4a, ogg o wav). Ejemplo: 'musica.m4a'.
+  // Si no hay nada o falla, simplemente no aparece el botón de música.
+  const MUSICA_YOUTUBE = 'yWkQbrfSvfs';   // Juanes - Para Tu Amor (video oficial)
+  const MUSICA = '';
 
   // Palabras que giran alrededor
   const PALABRAS = [
-    'Mi doctora favorita', 'Gracias', 'Luz', 'Calidez', 'Vocación', 'Sonrisa', 'Ternura',
-    'Alegría', 'Primavera', 'Admiración', 'Serenidad', 'Sol', 'Bondad',
+    'Mi doctora favorita', 'Gracias', 'Luz', 'Calidez', 'Sonrisa', 'Ternura', 'Alegría',
+    'Carisma', 'Risas', 'Ingenio', 'Crack', 'Encanto', 'Cariño', 'Brillo', 'Primavera',
   ];
 
-  // Mensajes al tocar cada tipo de flor
-  const FLORES = {
-    amarilla: {
-      nombre: 'Flor amarilla',
-      frases: [
-        'Usted tiene la costumbre de iluminar los días sin darse cuenta.',
-        'Si la alegría tuviera un rostro, se parecería mucho a su sonrisa.',
-        'Hay personas que son como el sol: con solo llegar, todo se ve mejor. Usted es una de ellas.',
-        'Que hoy la vida le devuelva, multiplicada, toda la luz que usted regala.',
-        'Ojalá cada mañana le recuerde lo valiosa que es.',
-        'Donde usted está, siempre parece primavera.',
-        'Cuidar a otros cansa. Que hoy alguien cuide de usted, aunque sea con una flor.',
-        'Su vocación se nota en cada gesto, y eso no se aprende en ningún libro.',
-      ],
-    },
-    tulipan: {
-      nombre: 'Tulipán',
-      frases: [
-        'Los tulipanes anuncian la primavera. Usted, con solo llegar, hace lo mismo.',
-        'Hay flores que se admiran, y hay personas, como usted, que se recuerdan.',
-        'Delicadeza, fuerza y calidez: así la describiría un tulipán, si supiera hablar.',
-        'Que nunca le falte quien la cuide como se cuida a una flor delicada.',
-        'Con usted, hasta los días grises se pintan de color.',
-        'Merece que la vida le regale cosas bonitas, y no solo en primavera.',
-        'Las manos que cuidan también merecen flores.',
-        'Hay quien estudia medicina, y hay quien, como usted, además sabe cuidar.',
-      ],
-    },
-    lirio: {
-      nombre: 'Lirio',
-      frases: [
-        'Los lirios simbolizan la elegancia, y usted la lleva con una naturalidad admirable.',
-        'Su ternura es de esas que no hacen ruido, pero se sienten.',
-        'Que la paz de un lirio al amanecer la acompañe hoy y siempre.',
-        'Un lirio no presume su belleza, simplemente es. Igual que usted.',
-        'La bondad también tiene perfume, y el suyo se nota a la distancia.',
-        'Gracias por ser una persona tan especial.',
-        'Ojalá cada persona que usted cuida sepa la suerte que tiene.',
-        'Usted florece incluso cuando no se da cuenta, y eso la hace admirable.',
-      ],
-    },
-  };
+  // Mensajes: cada uno va en una flor distinta (más la flor especial de arriba).
+  // Puede agregar o quitar líneas y la cantidad de flores se ajusta sola.
+  const MENSAJES = [
+    'Solo quería recordarle que me encanta verla sonreír.',
+    'Espero que hoy tenga un bonito día, al igual que usted.',
+    'No sé cómo lo hace, pero siempre consigue mejorarme el día.',
+    'Su sonrisa es de esas cosas que podría ver mil veces y no cansarme.',
+    'Podría escucharla hablar de cualquier cosa y aun así quedarme con ganas de seguir escuchándola.',
+    'Me encanta lo inteligente que es y que siempre tenga algo nuevo que enseñarme.',
+    'Tiene una forma de ser que me gusta cada día un poquito más.',
+    'A veces basta con verla para que mi día cambie por completo.',
+    'Quiero que nunca dude de lo especial que es para mí.',
+    'Me encanta verla emocionarse cada vez que le doy flores.',
+    'Me gusta mucho la forma en la que usted es.',
+    'Es hermosa, pero mientras más la conozco, más cosas encuentro que me gustan de usted.',
+    'No sé si se lo digo lo suficiente, pero admiro muchísimo lo inteligente que es.',
+    'Sus ojos tienen algo que hace que me pierda completamente cuando la miro.',
+    'A veces me quedo viéndola y se me olvida hasta lo que le iba a decir.',
+    'Me encanta escuchar sus anécdotas, especialmente de las cosas tan random que le pasan.',
+    'Entre su forma de ser, su inteligencia y lo hermosa que es, cada día me gusta un poquito más.',
+    'Me encanta que con usted puedo hablar de cualquier cosa y siempre termino queriendo seguir la conversación.',
+    'Hay muchas cosas que me gustan de usted, pero su mirada definitivamente tiene algo especial.',
+    'Mientras más la conozco, más entiendo por qué me enamoré de usted.',
+    'Si alguna vez me quedo callado mientras la miro, probablemente solo estoy pensando en lo bonita que es.',
+    'No sé si se lo digo seguido, pero amo escucharla.',
+    'Me gusta poder compartir hasta los momentos más simples con usted.',
+    'Usted se ha convertido en una parte muy bonita de mis días.',
+    'Una de las cosas que más admiro de usted es lo entregada que es con sus pacientes y el cuidado que pone en cada cosa que hace.',
+    'Hay momentos en los que solo quiero quedarme viéndola y ya.',
+    'Me gusta saber que además de lo hermosa que es, también es una mujer que admiro muchísimo.',
+    'Quiero seguir conociendo cada una de esas pequeñas cosas que la hacen ser usted.',
+    'No necesito una ocasión especial para querer tener un detalle con usted.',
+    'Espero que estas flores le recuerden aunque sea un poquito lo importante que es para mí.',
+    'Me gusta la tranquilidad que siento cuando estoy con usted.',
+    'Cada momento con usted, por simple que sea, termina siendo especial para mí.',
+    'Quiero que sepa que me siento muy orgulloso de usted y de todo lo que ha logrado.',
+    'Conmigo siempre va a tener a alguien que la apoye, incluso en esos días en los que usted misma dude de lo que puede hacer.',
+    'Quiero ser esa persona que se alegre de verdad por cada uno de sus logros, desde los más pequeños hasta los que todavía le faltan por cumplir.',
+  ];
+
+  // Nombre que aparece sobre el mensaje según la flor
+  const NOMBRES = { tulipan: 'Tulipán', lirio: 'Lirio' };
   /* ═════════════ FIN DE PERSONALIZAR ═════════════ */
 
   const REDUCIR = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -326,9 +402,9 @@
 
   /* ───────────── Colores: [base, medio, punta] ───────────── */
   const PALETAS = {
-    girasol: ['#F0A000', '#FFC91F', '#FFE873'],
     sol:     ['#F4A300', '#FFCB2E', '#FFE066'],
     durazno: ['#EE6A2C', '#FF9A57', '#FFCBA0'],
+    rosa:    ['#E8608C', '#FF8FB0', '#FFC2D6'],
     dorado:  ['#F08A00', '#FFC93A', '#FFF0A0'],
     crema:   ['#F2B44A', '#FFEFC2', '#FFFFFF'],
   };
@@ -349,30 +425,10 @@
            `<stop offset="0" stop-color="${f(a)}"/><stop offset=".55" stop-color="${f(b)}"/>` +
            `<stop offset="1" stop-color="${f(c)}"/></linearGradient>`;
     }
-    return s + `<radialGradient id="g-centro"><stop offset="0" stop-color="#6E3610"/>` +
-               `<stop offset=".65" stop-color="#A65A14"/><stop offset="1" stop-color="#D08A2A"/></radialGradient>`;
+    return s;
   };
 
   const CABEZAS = {
-    // Flor amarilla, de frente: pétalos en dos capas y centro con semillas
-    amarilla(p) {
-      const g = `url(#g-${p})`, gd = `url(#g-${p}-d)`, N = 16;
-      let s = '';
-      for (let i = 0; i < N; i++) {
-        s += `<ellipse cx="100" cy="60" rx="9" ry="31" fill="${gd}" transform="rotate(${(i * 360 / N + 11).toFixed(1)} 100 100)"/>`;
-      }
-      for (let i = 0; i < N; i++) {
-        s += `<ellipse cx="100" cy="62" rx="9" ry="31" fill="${g}" stroke="rgba(120,70,10,.16)" stroke-width=".7" ` +
-             `transform="rotate(${(i * 360 / N).toFixed(1)} 100 100)"/>`;
-      }
-      s += `<circle cx="100" cy="100" r="21" fill="url(#g-centro)"/>`;
-      for (let k = 1; k <= 42; k++) {
-        const r = 2.55 * Math.sqrt(k), a = k * 2.39996;
-        s += `<circle cx="${(100 + r * Math.cos(a)).toFixed(1)}" cy="${(100 + r * Math.sin(a)).toFixed(1)}" r="1.25" fill="#4E2508" opacity=".45"/>`;
-      }
-      return s;
-    },
-
     // Tulipán, de lado: tres pétalos formando la copa
     tulipan(p) {
       const g = `url(#g-${p})`, gd = `url(#g-${p}-d)`;
@@ -413,21 +469,23 @@
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="${px}" height="${px}">` +
     `<defs>${degradados(pal)}</defs>${CABEZAS[tipo](pal)}</svg>`;
 
-  $('#introFlor').innerHTML = svgCabeza('amarilla', 'girasol', 160);
+  $('#introFlor').innerHTML = svgCabeza('tulipan', 'sol', 200);
 
   /* ───────────── Sprites para el canvas ───────────── */
   const CATALOGO = [
-    { tipo: 'amarilla', pal: 'girasol', peso: 4 },
-    { tipo: 'tulipan',  pal: 'sol',     peso: 2 },
-    { tipo: 'tulipan',  pal: 'durazno', peso: 1 },
+    { tipo: 'tulipan',  pal: 'sol',     peso: 4 },
+    { tipo: 'tulipan',  pal: 'durazno', peso: 2 },
+    { tipo: 'tulipan',  pal: 'rosa',    peso: 1 },
     { tipo: 'lirio',    pal: 'dorado',  peso: 2 },
     { tipo: 'lirio',    pal: 'crema',   peso: 1 },
   ];
-  const PESO_TOTAL = CATALOGO.reduce((s, c) => s + c.peso, 0);
-  const elegirCat = () => {
-    let r = Math.random() * PESO_TOTAL;
-    for (let i = 0; i < CATALOGO.length; i++) { r -= CATALOGO[i].peso; if (r <= 0) return i; }
-    return 0;
+  const NUCLEO_CAT = CATALOGO.findIndex((c) => c.tipo === 'tulipan' && c.pal === 'sol');
+  // Escoge al azar (con pesos) una variante de color dentro de un tipo de flor
+  const elegirCat = (tipo) => {
+    const op = CATALOGO.map((c, i) => [c, i]).filter(([c]) => c.tipo === tipo);
+    let r = Math.random() * op.reduce((t, [c]) => t + c.peso, 0);
+    for (const [c, i] of op) { r -= c.peso; if (r <= 0) return i; }
+    return op[0][1];
   };
 
   const cargarSprite = ({ tipo, pal }) => new Promise((res) => {
@@ -454,21 +512,11 @@
   };
 
   /* ───────────── Mensajes ───────────── */
-  const mazos = {};
-  let ultima = '';
-  function siguienteFrase(tipo) {
-    let m = mazos[tipo];
-    if (!m || !m.length) {
-      m = mazos[tipo] = barajar([...FLORES[tipo].frases]);
-      if (m[m.length - 1] === ultima) m.unshift(m.pop());
-    }
-    return (ultima = m.pop());
-  }
-
   const tarjeta = $('#tarjeta'), contenido = $('#contenido'), pista = $('#pista');
   let temporizador;
   function mostrar(etiqueta, texto, larga = false) {
     clearTimeout(temporizador);
+    if (!larga) deshacerCorazon();
     const yaVisible = tarjeta.classList.contains('visible');
     if (yaVisible) contenido.classList.add('oculto');
     temporizador = setTimeout(() => {
@@ -476,23 +524,39 @@
       const f = $('#frase');
       f.textContent = texto;
       f.classList.toggle('larga', larga);
+      tarjeta.classList.toggle('carta', larga);
       contenido.classList.remove('oculto');
       tarjeta.classList.add('visible');
     }, yaVisible && !REDUCIR ? 260 : 0);
   }
   function cerrarMensaje() {
     clearTimeout(temporizador);
+    deshacerCorazon();
     tarjeta.classList.remove('visible');
   }
 
-  let pasoPista = 0; // 0: girar · 1: carta · 2: nada
-  function ponerPista(txt) {
+  // Progreso: cuántas flores ha leído y si ya abrió la carta
+  let leidas = 0, TOTAL = 0, cartaLeida = false;
+
+  let tPista, textoPista = '';
+  function verPista(txt) {
+    clearTimeout(tPista);
     pista.classList.remove('visible');
-    setTimeout(() => {
+    tPista = setTimeout(() => {
       if (!txt) return;
       pista.textContent = txt;
       pista.classList.add('visible');
-    }, 700);
+    }, 400);
+  }
+  function ponerPista(txt) { textoPista = txt; verPista(txt); }
+  function pistaSiguiente() {
+    if (cartaLeida) return '';
+    if (leidas === 0) return 'Deslice para girar la galaxia · Toque una flor';
+    if (leidas >= TOTAL) return 'Ya leyó todas las flores · Falta la carta del centro';
+    return 'Toque la flor grande del centro para leer una carta';
+  }
+  function actualizarContador() {
+    $('#contador').textContent = `${leidas} de ${TOTAL} mensajes`;
   }
 
   /* ───────────── Galaxia ───────────── */
@@ -504,16 +568,76 @@
   // En pantallas verticales se ve más "desde arriba" para aprovechar el alto
   const cam = { yaw: 0, vel: 0, tilt: innerHeight > innerWidth * 1.1 ? 1.15 : .95, zoom: 1, zoomObj: 1 };
   const AUTO = REDUCIR ? 0 : .06;
-  const NUCLEO = { pulse: 0, rot: 0 };
+  const NUCLEO = { pulse: 0 };
   let abierto = false, tAbierto = 0;
   const visibles = [];
   const petalosFx = [];
+
+  // Corazón de polvo dorado que se forma al abrir la carta
+  const corazon = { on: false, fin: 0, t0: 0, cx: 0, cy: 0, parts: [] };
+  let tAhora = 0;
+  const COLORES_POLVO = ['#FFD54A', '#FFC93A', '#FFF1B0', '#FFE27A'];
+
+  function hacerCorazon() {
+    if (corazon.on && !corazon.fin) return;
+    if (!tarjeta.classList.contains('visible') || !tarjeta.classList.contains('carta')) return;
+    const libre = tarjeta.getBoundingClientRect().top - 92;   // espacio bajo el título
+    if (libre < 110) return;                                  // pantalla muy baja
+    const alto = Math.min(libre * .92, H * .36, 300);
+    const esc = Math.min(alto / 29, W * .8 / 32);
+    const cx = W / 2, cy = 92 + libre / 2;
+    const n = Math.round(clamp(alto * 1.8, 260, 540));
+    corazon.parts = Array.from({ length: n }, () => {
+      const t = rnd(0, 6.2832), borde = Math.random() < .6;
+      let hx = 16 * Math.pow(Math.sin(t), 3);
+      let hy = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
+      if (borde) { hx += rnd(-.5, .5); hy += rnd(-.5, .5); }
+      else { const k = Math.sqrt(Math.random()) * .96; hx *= k; hy = (hy + 2.5) * k - 2.5; }
+      const a0 = rnd(0, 6.2832), r0 = rnd(0, 40);
+      return {
+        x0: W / 2 + Math.cos(a0) * r0, y0: H * .5 + Math.sin(a0) * r0,   // sale de la flor del centro
+        tx: cx + hx * esc, ty: cy - (hy + 2.5) * esc,
+        d: REDUCIR ? 0 : rnd(0, .9), dur: REDUCIR ? .01 : rnd(1.3, 2),
+        arc: rnd(-60, 60), sz: rnd(.9, 2.4), a: rnd(.6, 1),
+        c: elegir(COLORES_POLVO), f: rnd(0, 6.28), sp: rnd(1.5, 3.5),
+      };
+    });
+    Object.assign(corazon, { on: true, fin: 0, t0: tAhora, cx, cy });
+  }
+
+  function deshacerCorazon() {
+    if (corazon.on && !corazon.fin) corazon.fin = tAhora;
+  }
+
+  function dibujarCorazon(t) {
+    if (!corazon.on) return;
+    const tt = t - corazon.t0, fin = corazon.fin ? t - corazon.fin : 0;
+    if (fin > 1.5) { corazon.on = false; corazon.fin = 0; corazon.parts = []; return; }
+    const latido = 1 + .03 * Math.sin(t * 3.4);
+    ctx.globalCompositeOperation = 'lighter';
+    for (const p of corazon.parts) {
+      const k = clamp((tt - p.d) / p.dur, 0, 1), e = 1 - Math.pow(1 - k, 3), curva = Math.sin(k * Math.PI);
+      let x = p.x0 + (p.tx - p.x0) * e + curva * p.arc;
+      let y = p.y0 + (p.ty - p.y0) * e - curva * p.arc * .6;
+      x = corazon.cx + (x - corazon.cx) * latido;
+      y = corazon.cy + (y - corazon.cy) * latido;
+      if (k >= 1) { x += Math.sin(t * p.sp + p.f) * 1.3; y += Math.cos(t * p.sp * .8 + p.f) * 1.3; }
+      let a = p.a * (.6 + .4 * Math.sin(t * p.sp * 1.7 + p.f)) * Math.min(1, k * 5);
+      if (fin) { a *= Math.max(0, 1 - fin / 1.4); y -= fin * 28; }
+      if (a <= .01) continue;
+      ctx.fillStyle = p.c;
+      ctx.globalAlpha = a * .13; ctx.beginPath(); ctx.arc(x, y, p.sz * 2.3, 0, 6.2832); ctx.fill();
+      ctx.globalAlpha = a;       ctx.beginPath(); ctx.arc(x, y, p.sz, 0, 6.2832); ctx.fill();
+    }
+    ctx.globalCompositeOperation = 'source-over';
+  }
 
   function ajustar() {
     const dpr = Math.min(devicePixelRatio || 1, 2);
     W = innerWidth; H = innerHeight;
     cv.width = W * dpr; cv.height = H * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    deshacerCorazon();
     const vertical = H > W * 1.1;
     Rpx = vertical ? W * .68 : Math.min(W * .44, H * .44);
     base = clamp(Math.min(W, H) * .085, 30, 80);
@@ -540,8 +664,14 @@
   }
 
   function crearItems() {
-    const NF = 30;
-    const tipos = [...Array(NF).fill('f'), ...Array(PALABRAS.length).fill('p')];
+    // Una flor por mensaje, más la flor especial. Dos de cada tres son tulipanes.
+    const flores = [...MENSAJES.map((msg) => ({ msg })), { msg: ESPECIAL.texto, esp: true }];
+    barajar(flores);
+    flores.forEach((f, i) => { f.tipo = i % 3 === 2 ? 'lirio' : 'tulipan'; });
+    TOTAL = flores.length;
+    actualizarContador();
+
+    const tipos = [...Array(flores.length).fill('f'), ...Array(PALABRAS.length).fill('p')];
     barajar(tipos);
     const palabras = barajar([...PALABRAS]);
     const N = tipos.length;
@@ -553,9 +683,14 @@
       };
       it.w = .045 / (it.r + .25);
       if (k === 'f') {
-        it.cat = elegirCat();
-        it.tipo = CATALOGO[it.cat].tipo;
-        it.sz = rnd(.75, 1.25);
+        const fl = flores.pop();
+        it.cat = elegirCat(fl.tipo);
+        it.tipo = fl.tipo;
+        it.msg = fl.msg;
+        it.esp = !!fl.esp;
+        it.etiqueta = fl.esp ? ESPECIAL.etiqueta : NOMBRES[fl.tipo];
+        it.leida = false;
+        it.sz = rnd(.7, 1.1);
         it.rot = it.tipo === 'tulipan' ? rnd(-.5, .5) : rnd(0, 6.28);
         it.spin = it.tipo === 'tulipan' ? 0 : rnd(-.2, .2);
       } else {
@@ -583,7 +718,7 @@
   let tPrev = 0;
   function bucle(ms) {
     const t = ms / 1000, dt = Math.min(t - tPrev || .016, .05);
-    tPrev = t;
+    tPrev = t; tAhora = t;
 
     // cámara
     if (!arr.activo) { cam.yaw += (AUTO + cam.vel) * dt; cam.vel *= Math.exp(-1.8 * dt); }
@@ -659,14 +794,15 @@
       const a = clamp(.55 + o.z1 * .9, .4, 1);
       if (o.nucleo) {
         if (NUCLEO.pulse > 0) NUCLEO.pulse = Math.max(0, NUCLEO.pulse - dt * 1.4);
-        NUCLEO.rot += dt * .05;
-        const w = base * 2.7 * Z * (1 + .025 * Math.sin(t * 1.3) + .2 * NUCLEO.pulse);
-        if (SPR[0]) {
+        const w = base * 3.3 * Z * (1 + .025 * Math.sin(t * 1.3) + .2 * NUCLEO.pulse);
+        if (SPR[NUCLEO_CAT]) {
           ctx.globalCompositeOperation = 'lighter';
-          ctx.globalAlpha = .7; ctx.drawImage(BRILLO, cx - w * .95, cy - w * .95, w * 1.9, w * 1.9);
+          const invita = leidas >= TOTAL && !cartaLeida;
+          ctx.globalAlpha = Math.min(1, .7 + (invita ? .2 + .2 * Math.sin(t * 3) : 0));
+          ctx.drawImage(BRILLO, cx - w * .95, cy - w * .95, w * 1.9, w * 1.9);
           ctx.globalCompositeOperation = 'source-over';
-          ctx.save(); ctx.translate(cx, cy); ctx.rotate(NUCLEO.rot);
-          ctx.globalAlpha = 1; ctx.drawImage(SPR[0], -w / 2, -w / 2, w, w);
+          ctx.save(); ctx.translate(cx, cy); ctx.rotate(Math.sin(t * .6) * .05);
+          ctx.globalAlpha = 1; ctx.drawImage(SPR[NUCLEO_CAT], -w / 2, -w / 2, w, w);
           ctx.restore();
         }
         visibles.push({ nucleo: true, x: cx, y: cy, r: Math.max(w * .45, 28) });
@@ -677,14 +813,23 @@
         const spr = SPR[it.cat];
         if (!spr) continue;
         const w = base * it.sz * o.s * Z * (1 + .3 * it.pulse);
-        ctx.globalCompositeOperation = 'lighter';
-        ctx.globalAlpha = a * .5;
-        ctx.drawImage(BRILLO, o.x - w * 1.1, o.y - w * 1.1, w * 2.2, w * 2.2);
-        ctx.globalCompositeOperation = 'source-over';
+        if (!it.leida) {
+          // sin leer: con resplandor
+          ctx.globalCompositeOperation = 'lighter';
+          ctx.globalAlpha = a * .5;
+          ctx.drawImage(BRILLO, o.x - w * 1.1, o.y - w * 1.1, w * 2.2, w * 2.2);
+          ctx.globalCompositeOperation = 'source-over';
+        }
         ctx.save(); ctx.translate(o.x, o.y); ctx.rotate(it.rot);
-        ctx.globalAlpha = a;
+        ctx.globalAlpha = a * (it.leida ? .72 : 1);
         ctx.drawImage(spr, -w / 2, -w / 2, w, w);
         ctx.restore();
+        if (it.leida) {
+          // leída: sin resplandor y con un anillo dorado
+          ctx.globalAlpha = a * .8;
+          ctx.strokeStyle = 'rgba(242,194,75,.85)'; ctx.lineWidth = 1.2;
+          ctx.beginPath(); ctx.arc(o.x, o.y, w * .6, 0, 6.283); ctx.stroke();
+        }
         visibles.push({ it, x: o.x, y: o.y, r: Math.max(w * .55, 24) });
       } else {
         ctx.font = `italic 500 ${(fsBase * it.fs * o.s * Z).toFixed(1)}px ${SERIF}`;
@@ -701,6 +846,8 @@
         ctx.shadowBlur = 0;
       }
     }
+
+    dibujarCorazon(t);
 
     // pétalos que caen
     for (let i = petalosFx.length - 1; i >= 0; i--) {
@@ -739,16 +886,25 @@
     if (!v) return cerrarMensaje();
     if (v.nucleo) {
       NUCLEO.pulse = 1;
-      petalos(v.x, v.y, PALETAS.girasol, 18);
+      petalos(v.x, v.y, PALETAS.sol, 12);
       mostrar('Una carta para usted', CARTA, true);
-      if (pasoPista < 2) { pasoPista = 2; ponerPista(''); }
+      setTimeout(hacerCorazon, REDUCIR ? 50 : 400);   // cuando la tarjeta ya está en su sitio
+      cartaLeida = true;
+      ponerPista(pistaSiguiente());
       return;
     }
     const it = v.it, cat = CATALOGO[it.cat];
     it.pulse = 1;
-    petalos(v.x, v.y, PALETAS[cat.pal], 14);
-    mostrar(FLORES[it.tipo].nombre, siguienteFrase(it.tipo));
-    if (pasoPista === 0) { pasoPista = 1; ponerPista('Toque la flor grande del centro para leer una carta'); }
+    // Una flor ya leída se puede volver a abrir: muestra su mismo mensaje y no suma al contador
+    const primera = !it.leida;
+    if (primera) {
+      it.leida = true;
+      leidas++;
+      actualizarContador();
+    }
+    petalos(v.x, v.y, PALETAS[cat.pal], it.esp ? 28 : primera ? 14 : 8);
+    mostrar(it.etiqueta, it.msg);
+    if (primera) ponerPista(pistaSiguiente());
   }
 
   cv.addEventListener('pointerdown', (e) => {
@@ -789,17 +945,111 @@
 
   addEventListener('resize', ajustar);
 
+  /* ───────────── Música ───────────── */
+  const btnMusica = $('#musica');
+  const VOLUMEN = .6;
+  let motor = null;   // { play(), pause(), sonando() }
+  let fadeMusica = 0;
+
+  const marcarBoton = (sonando) => {
+    btnMusica.classList.toggle('silencio', !sonando);
+    btnMusica.setAttribute('aria-pressed', String(sonando));
+  };
+  const sinMusica = () => { motor = null; btnMusica.hidden = true; };
+
+  // Sube el volumen poco a poco al empezar
+  function subirVolumen(poner) {
+    let v = 0;
+    clearInterval(fadeMusica);
+    poner(0);
+    fadeMusica = setInterval(() => {
+      v = Math.min(VOLUMEN, v + .03);
+      poner(v);
+      if (v >= VOLUMEN) clearInterval(fadeMusica);
+    }, 100);
+  }
+
+  // Opción 1: archivo de audio
+  function motorArchivo(src) {
+    const a = new Audio(src);
+    a.loop = true; a.preload = 'auto'; a.volume = 0;
+    a.addEventListener('error', sinMusica);   // si el archivo no existe, no hay botón
+    a.addEventListener('play', () => marcarBoton(true));
+    a.addEventListener('pause', () => marcarBoton(false));
+    return {
+      play: () => { subirVolumen((v) => { a.volume = v; }); return a.play().catch(() => marcarBoton(false)); },
+      pause: () => a.pause(),
+      sonando: () => !a.paused,
+    };
+  }
+
+  // Opción 2: video de YouTube (solo se usa el sonido)
+  function motorYoutube(idVideo) {
+    let yt = null, listo = false, quiere = false;
+    const arrancar = () => {
+      subirVolumen((v) => { if (yt && yt.setVolume) yt.setVolume(Math.round(v * 100)); });
+      yt.playVideo();
+    };
+    window.onYouTubeIframeAPIReady = () => {
+      yt = new YT.Player('ytplayer', {
+        width: 200, height: 200, videoId: idVideo,
+        playerVars: Object.assign(
+          { playsinline: 1, controls: 0, disablekb: 1, rel: 0, loop: 1, playlist: idVideo },
+          location.protocol.startsWith('http') ? { origin: location.origin } : {}
+        ),
+        events: {
+          onReady: () => { listo = true; yt.setVolume(0); if (quiere) arrancar(); },
+          onStateChange: (e) => {
+            if (e.data === 1) marcarBoton(true);                                          // sonando
+            else if (e.data === 2 || e.data === 5 || e.data === -1) marcarBoton(false);   // pausa o sin iniciar
+          },
+          onError: sinMusica,   // el video no se puede insertar, o no hay internet
+        },
+      });
+    };
+    const sc = document.createElement('script');
+    sc.src = 'https://www.youtube.com/iframe_api';
+    sc.onerror = sinMusica;
+    document.head.appendChild(sc);
+    return {
+      play: () => { quiere = true; if (listo) arrancar(); },
+      pause: () => { quiere = false; if (listo) yt.pauseVideo(); },
+      sonando: () => listo && yt.getPlayerState() === 1,
+    };
+  }
+
+  function prepararMusica() {
+    if (MUSICA_YOUTUBE) motor = motorYoutube(MUSICA_YOUTUBE);
+    else if (MUSICA) motor = motorArchivo(MUSICA);
+  }
+
+  function arrancarMusica() {
+    if (!motor) return;
+    btnMusica.hidden = false;
+    marcarBoton(true);
+    motor.play();
+    // si el navegador no dejó empezar sola, el botón queda listo para activarla
+    setTimeout(() => { if (motor && !motor.sonando()) marcarBoton(false); }, 4500);
+  }
+
+  btnMusica.addEventListener('click', () => {
+    if (!motor) return;
+    if (motor.sonando()) motor.pause(); else motor.play();
+  });
+
   /* ───────────── Inicio ───────────── */
   function abrir() {
     if (abierto) return;
     abierto = true;
     $('#intro').classList.add('fuera');
     document.body.classList.add('abierto');
-    setTimeout(() => ponerPista('Deslice para girar la galaxia · Toque una flor'), 2600);
+    arrancarMusica(); // debe ir dentro del toque del botón para que el navegador lo permita
+    setTimeout(() => ponerPista(pistaSiguiente()), 2600);
   }
   $('#abrir').addEventListener('click', abrir);
 
   ajustar();
+  prepararMusica();
   crearPolvo();
   crearItems();
   BRILLO = crearBrillo();
